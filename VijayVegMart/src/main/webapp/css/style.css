@@ -1,0 +1,119 @@
+/*** Button Start ***/
+.btn {
+    font-weight: 600;
+    transition: .5s;
+}
+
+.btn-square {
+    width: 32px;
+    height: 32px;
+}
+
+
+
+.btn-md-square {
+    width: 44px;
+    height: 44px;
+}
+
+
+
+.btn-square,
+.btn-md-square {
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: normal;
+}
+
+a {
+    color: #000000;
+    text-decoration: none;
+}
+
+
+.btn-primary {
+    color: #000;
+    background-color: #f9f9f9;
+    border-color: #0c0c0b;
+}
+
+
+/*** Navbar Start ***/
+.navbar .navbar-nav .nav-link {
+    padding: 10px 15px;
+    font-size: 16px;
+    transition: .5s;
+}
+
+.navbar {
+    height: 100px;
+    background-color: #dce8f5;
+}
+
+/*** Navbar End ***/
+
+
+
+/*** FOOTER START ***/
+html,
+body {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.content {
+    flex: 1;
+}
+
+.card-img-top {
+    height: 268px ;
+    object-fit: cover;
+    /* Ensures the image covers the card area */
+}
+
+.footer {
+    background-color: rgb(64 125 215 / 10%);
+    /* Footer background color */
+    padding: 40px 20px;
+ 
+    text-align: center;
+    border-top: 0px solid #96afc9;
+}
+
+.footer h5 {
+    margin-bottom: 20px;
+  
+}
+
+.footer p {
+    margin: 0;
+    
+}
+
+
+/*FONT AWSOME ICON */
+.fa-icon-colour , .danger-colour{
+
+  color: #0aad41;  
+}
+
+.fa-icon-colour:hover{
+     color: #d7ce1c; 
+    transition: color 0.5s;
+
+}
+
+.danger-colour:hover{
+	
+	 color: #ff0000; 
+    transition: color 0.5s;
+	
+}
+
+.search-hover:hover{
+   background: #d7ce1c;
+}
