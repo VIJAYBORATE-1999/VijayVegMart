@@ -1,9 +1,9 @@
         <!-- Navbar start -->
-            <div class="container-fluid fixed-top">
-        <div class="container px-0">
+      <div class="container-fluid fixed-top">
+        <div class="px-0">
             <nav class="navbar navbar-light bg-white navbar-expand-xl">
                 <a href="home.jsp" class="navbar-brand">
-                  <img src="./img/V_MartLogoNew2.png">
+                  <img src="${pageContext.request.contextPath}/img/V_MartLogoNew2.png">
                 </a>
                 <button class="navbar-toggler py-2 px-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                     <span class="fa fa-bars" style="color: black !important;"></span>
@@ -36,5 +36,6 @@
             </nav>
         </div>
     </div>
+
         
         <!-- Navbar End -->

@@ -9,4 +9,5 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"/>
 
     <!-- Bootstrap JavaScript Bundle -->
-       <link href="./css/style.css" rel="stylesheet">
+
+      <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css" type="text/css">

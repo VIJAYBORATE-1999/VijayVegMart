@@ -50,6 +50,7 @@
         <div class="grid" id="vegetables">
           <div class="product-card" data-vendor="vendor1" data-price="30">
             <span class="discount-tag">23% OFF</span>
+            <br><br>
             <h3>Hybrid Tomato</h3>
             <p class="vendor-name">Vendor: Vendor 1</p>
             <select>
@@ -58,12 +59,14 @@
             </select>
             <p class="price">
               <strong>₹30</strong> <span class="old-price">₹39</span>
+              <br><br>
             </p>
             <button>Add to Cart</button>
           </div>
 
           <div class="product-card" data-vendor="vendor2" data-price="51">
             <span class="discount-tag">27% OFF</span>
+            <br><br>
             <h3>Potato (Aloo)</h3>
             <p class="vendor-name">Vendor: Vendor 2</p>
             <select>
@@ -72,12 +75,14 @@
             </select>
             <p class="price">
               <strong>₹51</strong> <span class="old-price">₹70</span>
+              <br><br>
             </p>
             <button>Add to Cart</button>
           </div>
 
           <div class="product-card" data-vendor="vendor1" data-price="70">
             <span class="discount-tag">22% OFF</span>
+            <br><br>
             <h3>Onion (Pyaz)</h3>
             <p class="vendor-name">Vendor: Vendor 1</p>
             <select>
@@ -85,6 +90,7 @@
             </select>
             <p class="price">
               <strong>₹70</strong> <span class="old-price">₹90</span>
+              <br><br>
             </p>
             <button>Add to Cart</button>
           </div>
@@ -94,6 +100,7 @@
         <div class="grid" id="fruits" style="display: none">
           <div class="product-card" data-vendor="vendor2" data-price="100">
             <span class="discount-tag">15% OFF</span>
+            <br><br>
             <h3>Apple</h3>
             <p class="vendor-name">Vendor: Vendor 2</p>
             <select>
@@ -101,12 +108,14 @@
             </select>
             <p class="price">
               <strong>₹100</strong> <span class="old-price">₹120</span>
+              <br><br>
             </p>
             <button>Add to Cart</button>
           </div>
 
           <div class="product-card" data-vendor="vendor1" data-price="40">
             <span class="discount-tag">20% OFF</span>
+            <br><br>
             <h3>Banana</h3>
             <p class="vendor-name">Vendor: Vendor 1</p>
             <select>
@@ -114,6 +123,7 @@
             </select>
             <p class="price">
               <strong>₹40</strong> <span class="old-price">₹50</span>
+              <br><br>
             </p>
             <button>Add to Cart</button>
           </div>
