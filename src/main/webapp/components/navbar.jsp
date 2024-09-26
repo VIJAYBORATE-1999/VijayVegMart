@@ -8,7 +8,7 @@
         <div class="px-0">
             <nav class="navbar navbar-light bg-white navbar-expand-xl">
                 <a href="home.jsp" class="navbar-brand">
-                  <img src="${pageContext.request.contextPath}/img/V_MartLogoNew2.png">
+                  <img src="${pageContext.request.contextPath}/img/V_MartLogoNew2.png" alt="${pageContext.request.contextPath}/img/V_MartLogoNew2.png" >
                 </a>
                 <button class="navbar-toggler py-2 px-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                     <span class="fa fa-bars" style="color: black !important;"></span>

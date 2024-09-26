@@ -1,3 +1,6 @@
+<%@page import="java.util.List"%>
+<%@page import="com.yash.vijayvegmart.model.VegetablesDetails"%>
+<%@page import="com.yash.vijayvegmart.daoImpl.VegetablesDaoImpl"%>
 <%@page import="com.yash.vijayvegmart.model.Users"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -60,46 +63,37 @@
 
         <!-- Vegetables Products -->
         <div class="grid" id="vegetables">
+        
+        <% 
+        
+        VegetablesDaoImpl vdao = new VegetablesDaoImpl();
+        List<VegetablesDetails> list = vdao.getAllVegetables();
+        
+        for(VegetablesDetails veg_item : list)
+        {       
+        %>
+        
+        
           <div class="product-card" data-vendor="vendor1" data-price="30">
             <span class="discount-tag">23% OFF</span>
-            <h3>Hybrid Tomato</h3>
-            <p class="vendor-name">Vendor: Vendor 1</p>
+            <img src="${pageContext.request.contextPath}/img/<%=veg_item.getVegPicName()%>" alt="${pageContext.request.contextPath}/img/<%=veg_item.getVegPicName()%>" style="width:50px ; height:50px;">
+            <h3><%=veg_item.getVegName()%></h3>
+             <p class=""><%=veg_item.getDescription()%></p>
             <select>
-              <option value="500g">500g</option>
+              <option value="500gg">500</option>
               <option value="1kg">1kg</option>
             </select>
             <p class="price">
-              <strong>₹30</strong> <span class="old-price">₹39</span>
+              <strong><%=veg_item.getPricePerPiece() %></strong> <span class="old-price"><%=veg_item.getVegCategory() %></span>
             </p>
             <button>Add to Cart</button>
           </div>
 
-          <div class="product-card" data-vendor="vendor2" data-price="51">
-            <span class="discount-tag">27% OFF</span>
-            <h3>Potato (Aloo)</h3>
-            <p class="vendor-name">Vendor: Vendor 2</p>
-            <select>
-              <option value="1kg">1kg</option>
-              <option value="2kg">2kg</option>
-            </select>
-            <p class="price">
-              <strong>₹51</strong> <span class="old-price">₹70</span>
-            </p>
-            <button>Add to Cart</button>
-          </div>
+      <%}
 
-          <div class="product-card" data-vendor="vendor1" data-price="70">
-            <span class="discount-tag">22% OFF</span>
-            <h3>Onion (Pyaz)</h3>
-            <p class="vendor-name">Vendor: Vendor 1</p>
-            <select>
-              <option value="1kg">1kg</option>
-            </select>
-            <p class="price">
-              <strong>₹70</strong> <span class="old-price">₹90</span>
-            </p>
-            <button>Add to Cart</button>
-          </div>
+%>
+          
+          
         </div>
 
         <!-- Fruits Products -->

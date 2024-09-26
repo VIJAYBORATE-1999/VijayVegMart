@@ -42,9 +42,12 @@ public class VegetablesController extends HttpServlet {
 
             VegetablesDetails veg_details = new VegetablesDetails(vendorId, veg_name, quantity, description, price_per_piece, veg_pic_name, veg_category);
 
-            action_type = "add"; 
+            action_type = "add";
+            System.out.println("-");
+          String path = "C:\\Users\\VIJAY\\eclipse-workspace\\VijayVegMart\\src\\main\\webapp\\";
+            System.out.println("-");
             if ("add".equals(action_type)) {
-                veg_service.addVegetable(veg_details, part, getServletContext().getRealPath(""));
+                veg_service.addVegetable(veg_details, part, path);
 
                 session.setAttribute("sucessmessage", "Vegetable Added Successfully");
                 response.sendRedirect(request.getContextPath() + "/vendor/home.jsp");

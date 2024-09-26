@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import com.yash.vijayvegmart.dao.VegetablesDao;
@@ -82,5 +84,39 @@ public void saveVegetable(VegetablesDetails details) {
 }
 
 
+/*----------------------------FETCH ALL  VEGETBALE FROM  DATABASE --------------------------------------*/
+ 
+@Override
+	public List<VegetablesDetails> getAllVegetables() {
+	
+	 List<VegetablesDetails> vegetablesList = new ArrayList<VegetablesDetails>();
+	 VegetablesDetails details  =  null;
+     String query = "SELECT * FROM vegetables_details";  // SQL query to fetch all vegetables
+     
+     try (PreparedStatement ps = connection.prepareStatement(query)) {
+         ResultSet rs = ps.executeQuery();
+         while (rs.next()) {
+        	 details = new VegetablesDetails();
+             details.setVegId(rs.getInt(1));
+             details.setVendorId(rs.getInt(4));
+             details.setVegName(rs.getString(5));
+             details.setQuantity(rs.getInt(6));
+             details.setDescription(rs.getString(7));
+             details.setPricePerPiece(rs.getDouble(8));
+             details.setVegPicName(rs.getString(9));
+             details.setVegCategory(rs.getString(10));
+             details.setCreatedAt(rs.getTimestamp(2));
+             details.setUpdatedAt(rs.getTimestamp(3));
 
-}
+             vegetablesList.add(details);  // Add the details to the list
+         }
+     } catch (SQLException e) {
+         e.printStackTrace();
+     }
+
+     return vegetablesList;  // Return the list of vegetables
+ }
+
+
+	}
+

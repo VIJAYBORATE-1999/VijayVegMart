@@ -8,7 +8,6 @@ import javax.servlet.http.Part;
 
 import com.yash.vijayvegmart.dao.VegetablesDao;
 import com.yash.vijayvegmart.daoImpl.VegetablesDaoImpl;
-import com.yash.vijayvegmart.exception.UsersException;
 import com.yash.vijayvegmart.exception.VegetablesException;
 import com.yash.vijayvegmart.model.VegetablesDetails;
 import com.yash.vijayvegmart.service.VegetablesService;
@@ -22,7 +21,7 @@ public class VegetablesServiceImpl implements VegetablesService {
     }
 
     @Override
-    public void addVegetable(VegetablesDetails details, Part vegPicPart, String contextPath) throws Exception {
+    public void addVegetable(VegetablesDetails details, Part vegPicPart, String Path) throws Exception {
         
     	//bUSINESS LOGIC -> fIRST Check begetable is there or not ?
     	
@@ -39,8 +38,10 @@ public class VegetablesServiceImpl implements VegetablesService {
 
         // Ensure the img directory exists and handle file upload
         if (vegPicPart != null && vegPicPart.getSize() > 0) {
-            String path = contextPath + "img";
-            File imgDir = new File(path);
+            String path_final = Path + "\\img";
+            
+          System.out.println("HEYYYYY PATH ISSSSSS:::::::::::::"+path_final);
+            File imgDir = new File(path_final);
             if (!imgDir.exists()) {
                 boolean created = imgDir.mkdirs();
                 if (created) {
@@ -51,8 +52,8 @@ public class VegetablesServiceImpl implements VegetablesService {
             }
 
             String fileName = details.getVegPicName();
-            vegPicPart.write(path + File.separator + fileName);
-            System.out.println("Image saved at: " + path + File.separator + fileName);
+            vegPicPart.write(path_final + File.separator + fileName);
+            System.out.println("Image saved at: " + path_final + File.separator + fileName);
         } else {
             throw new VegetablesException("No file uploaded.");
         }
