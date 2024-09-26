@@ -54,6 +54,16 @@
         <div id="content">
             <div id="addUpdate" class="section active">
                 <h2>Add/Update Vegetables</h2>
+                
+ <c:if test="${not empty sucessmessage}">
+<p class="text-success">${sucessmessage}</p>
+ <c:remove var="sucessmessage" scope="session"/> 
+</c:if>
+
+ <c:if test="${not empty errormessage}">
+<p class="text-danger">${errormessage}</p>
+ <c:remove var="errormessage" scope="session"/> 
+</c:if>
                           <form action="${pageContext.request.contextPath}/Vegetable" method="post" id="vegetableForm" enctype="multipart/form-data" >
 
   <input type="text"  name="veg_name" placeholder="Vegetable Name" required>

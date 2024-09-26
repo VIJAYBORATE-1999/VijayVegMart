@@ -61,7 +61,7 @@ public Optional<VegetablesDetails> checkVegetableExistsByVendor(int vendor_id, S
 public void saveVegetable(VegetablesDetails details) {
 	
 	
-	System.out.print("The data here is ");
+	
 	
 	  String query = "INSERT INTO vegetables_details (vendor_id, veg_name , quantity , description , price_per_piece , veg_pic_name, veg_category) VALUES (?, ?, ?, ?, ?, ?, ?)";
       try (PreparedStatement ps = connection.prepareStatement(query)) {
@@ -73,6 +73,7 @@ public void saveVegetable(VegetablesDetails details) {
           ps.setString(6, details.getVegPicName());
           ps.setString(7, details.getVegCategory());
           ps.executeUpdate();
+          System.out.print("SAVED VEGETABLE IN DATABASE ");
       } catch (SQLException e) {
           e.printStackTrace();
       }
