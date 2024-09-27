@@ -1,6 +1,6 @@
+<%@page import="com.yash.vijayvegmart.serviceImpl.VegetablesServiceImpl"%>
 <%@page import="java.util.List"%>
 <%@page import="com.yash.vijayvegmart.model.VegetablesDetails"%>
-<%@page import="com.yash.vijayvegmart.daoImpl.VegetablesDaoImpl"%>
 <%@page import="com.yash.vijayvegmart.model.Users"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -66,8 +66,8 @@
         
         <% 
         
-        VegetablesDaoImpl vdao = new VegetablesDaoImpl();
-        List<VegetablesDetails> list = vdao.getAllVegetables();
+        VegetablesServiceImpl vserviceImpl = new  VegetablesServiceImpl();
+        List<VegetablesDetails> list = vserviceImpl.fetchAllVegetables();
         
         for(VegetablesDetails veg_item : list)
         {       

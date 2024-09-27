@@ -21,8 +21,8 @@ public VegetablesDaoImpl() {
 
 
 
-
-/*------------------------ FIND VEGETABLE BY VENDOR ID AND VEGETBALE NAME --------------------------------*/
+//To upload a vegetable we will do => checkVegetableExistsByVendor()  & then saveVegetable()
+/*-PART 1----------------------- FIND VEGETABLE BY VENDOR ID AND VEGETBALE NAME --------------------------------*/
 
 @Override
 public Optional<VegetablesDetails> checkVegetableExistsByVendor(int vendor_id, String veg_name) {
@@ -57,7 +57,7 @@ public Optional<VegetablesDetails> checkVegetableExistsByVendor(int vendor_id, S
 
 
 
-/*----------------------------INSERT(ADD) VEGETBALE INTO DATABASE --------------------------------------*/
+/*-PART 2 ---------------------------INSERT(ADD) VEGETBALE INTO DATABASE --------------------------------------*/
 
 @Override
 public void saveVegetable(VegetablesDetails details) {
@@ -65,7 +65,7 @@ public void saveVegetable(VegetablesDetails details) {
 	
 	
 	
-	  String query = "INSERT INTO vegetables_details (vendor_id, veg_name , quantity , description , price_per_piece , veg_pic_name, veg_category) VALUES (?, ?, ?, ?, ?, ?, ?)";
+	  String query = "INSERT INTO vegetables_details (vendor_id, veg_name , quantity , description , price_per_piece , veg_pic_name, veg_category , discount_per_piece , net_price ) VALUES (?, ?, ?, ?, ?, ?, ?,?,?)";
       try (PreparedStatement ps = connection.prepareStatement(query)) {
           ps.setInt(1, details.getVendorId());
           ps.setString(2, details.getVegName());
@@ -74,6 +74,9 @@ public void saveVegetable(VegetablesDetails details) {
           ps.setDouble(5,details.getPricePerPiece() );
           ps.setString(6, details.getVegPicName());
           ps.setString(7, details.getVegCategory());
+          ps.setDouble(8, details.getDiscount_per_piece());
+          ps.setDouble(9, details.getNet_price());
+         //net_price
           ps.executeUpdate();
           System.out.print("SAVED VEGETABLE IN DATABASE ");
       } catch (SQLException e) {
@@ -82,6 +85,7 @@ public void saveVegetable(VegetablesDetails details) {
 
 	
 }
+
 
 
 /*----------------------------FETCH ALL  VEGETBALE FROM  DATABASE --------------------------------------*/
@@ -118,5 +122,50 @@ public void saveVegetable(VegetablesDetails details) {
  }
 
 
+
+/*----------------------------FETCH  VEGETBALE FOR A PARTICULAR  VENDOR FROM DATABASE --------------------------------------*/
+//WE WILL FETCH VEEGTABLES UPLOADED BY PARTICULAR VENDOR 
+
+@Override
+public List<VegetablesDetails> getAllVegetablesByVendorId(int vendor_id) {
+	
+	 List<VegetablesDetails> vegetablesList = new ArrayList<VegetablesDetails>();
+	 VegetablesDetails details  =  null;
+    String query = "SELECT * FROM vegetables_details WHERE vendor_id = ?";  // SQL query to fetch all vegetables by a vendor id
+    
+    try (PreparedStatement ps = connection.prepareStatement(query)) {
+    	ps.setInt(1,vendor_id);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+       	 details = new VegetablesDetails();
+            details.setVegId(rs.getInt(1));
+            details.setVendorId(rs.getInt(4));
+            details.setVegName(rs.getString(5));
+            details.setQuantity(rs.getInt(6));
+            details.setDescription(rs.getString(7));
+            details.setPricePerPiece(rs.getDouble(8));
+            details.setVegPicName(rs.getString(9));
+            details.setVegCategory(rs.getString(10));
+            details.setDiscount_per_piece(rs.getDouble(11));
+            details.setNet_price(rs.getDouble(12));
+            details.setCreatedAt(rs.getTimestamp(2));
+            details.setUpdatedAt(rs.getTimestamp(3));
+
+            vegetablesList.add(details);  // Add the details to the list
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+
+    return vegetablesList;  // Return the list of vegetables
+}
+
+
 	}
+
+
+
+
+
+
 

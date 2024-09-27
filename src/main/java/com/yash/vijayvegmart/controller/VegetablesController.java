@@ -34,15 +34,18 @@ public class VegetablesController extends HttpServlet {
             int quantity = Integer.parseInt(request.getParameter("quantity"));
             double price_per_piece = Double.parseDouble(request.getParameter("price_per_piece"));
             Part part = request.getPart("veg_pic_name");
+
             String veg_pic_name = part.getSubmittedFileName();
             String action_type = request.getParameter("action_type");
+            double discount_per_piece = Double.parseDouble(request.getParameter("discount_per_piece"));
+            double net_price = Double.parseDouble(request.getParameter("net_price"));
             HttpSession session = request.getSession(false);
             Users user = (Users) session.getAttribute("user");
             int vendorId = user.getId();
 
-            VegetablesDetails veg_details = new VegetablesDetails(vendorId, veg_name, quantity, description, price_per_piece, veg_pic_name, veg_category);
+            VegetablesDetails veg_details = new VegetablesDetails(vendorId, veg_name, quantity, description, price_per_piece, veg_pic_name, veg_category , discount_per_piece, net_price);
 
-            action_type = "add";
+       //     action_type = "add";
             System.out.println("-");
           String path = "C:\\Users\\VIJAY\\eclipse-workspace\\VijayVegMart\\src\\main\\webapp\\";
             System.out.println("-");
@@ -52,6 +55,13 @@ public class VegetablesController extends HttpServlet {
                 session.setAttribute("sucessmessage", "Vegetable Added Successfully");
                 response.sendRedirect(request.getContextPath() + "/vendor/home.jsp");
             } else if ("update".equals(action_type)) {
+            	
+            	System.out.println("	UPDATE TRIGGERED ");
+            	
+            	  System.out.println(veg_name+"="+ description+""+veg_category+"="+quantity+""+price_per_piece+"="+veg_pic_name+""+action_type+"="+discount_per_piece+"="+net_price);
+            	
+            	  int veg_id =  Integer.parseInt(request.getParameter("veg_id"));
+            	  System.out.println("Vegetbale id is ===> "+veg_id);
                 // Update logic here
             } else if ("delete".equals(action_type)) {
                 // Delete logic here

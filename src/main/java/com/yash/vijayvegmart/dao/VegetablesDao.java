@@ -11,6 +11,8 @@ public interface VegetablesDao {
     
     void saveVegetable(VegetablesDetails details);
     
-    List<VegetablesDetails> getAllVegetables();  // New method to get all vegetables
+    List<VegetablesDetails> getAllVegetables();  // method to get all vegetables for home page of customer 
+    
+    List<VegetablesDetails> getAllVegetablesByVendorId(int vendor_id); // get all vegetables for particlar vendor  
 
 }

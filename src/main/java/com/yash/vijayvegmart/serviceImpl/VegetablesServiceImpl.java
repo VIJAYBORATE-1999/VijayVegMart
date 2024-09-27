@@ -2,6 +2,7 @@ package com.yash.vijayvegmart.serviceImpl;
 
 
 import java.io.File;
+import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.Part;
@@ -21,6 +22,11 @@ public class VegetablesServiceImpl implements VegetablesService {
     }
 
     @Override
+   
+    
+ /* --------------------------------- SAVE VEGETBALE INTO DB  ------------------------------------*/ 
+    
+    
     public void addVegetable(VegetablesDetails details, Part vegPicPart, String Path) throws Exception {
         
     	//bUSINESS LOGIC -> fIRST Check begetable is there or not ?
@@ -57,6 +63,29 @@ public class VegetablesServiceImpl implements VegetablesService {
         } else {
             throw new VegetablesException("No file uploaded.");
         }
+    }
+    
+    
+    
+    /* --------------------------------- FTECH ALL VEGETBALE FROM  DB  ------------------------------------*/ 
+    
+    
+    // we will fetch all vegtables for home page 
+    
+    public List<VegetablesDetails> fetchAllVegetables() {
+    	
+    	return vegDao.getAllVegetables();
+    }
+    
+    
+    
+   
+    /* --------------------------------- FTECH ALL VEGETBALE FROM  DB VIA SPECIFIC VENDOR   ------------------------------------*/   
+    
+    // we will fetch all veegtbales uploded by partticular vendor 
+    @Override
+    public List<VegetablesDetails> fetchAllVegetablesByVendorId(int vendor_id) throws Exception {
+    	return vegDao.getAllVegetablesByVendorId(vendor_id);
     }
 }
 

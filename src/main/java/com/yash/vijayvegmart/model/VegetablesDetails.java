@@ -12,8 +12,11 @@ public class VegetablesDetails {
     private int quantity;
     private String description;
     private double pricePerPiece;
+    private double discount_per_piece;
+    private double net_price;
     private String vegPicName;
     private String vegCategory;
+    
     
 	public VegetablesDetails() {
 		super();
@@ -22,7 +25,7 @@ public class VegetablesDetails {
 
 	
 	public VegetablesDetails(int vendorId, String vegName, int quantity,
-			String description, double pricePerPiece, String vegPicName, String vegCategory) {
+			String description, double pricePerPiece, String vegPicName, String vegCategory ,double discount_per_piece, double net_price) {
 		super();
 
 		this.vendorId = vendorId;
@@ -32,6 +35,8 @@ public class VegetablesDetails {
 		this.pricePerPiece = pricePerPiece;
 		this.vegPicName = vegPicName;
 		this.vegCategory = vegCategory;
+		this.discount_per_piece=discount_per_piece;
+		this. net_price= net_price;
 	}
 
 
@@ -132,6 +137,26 @@ public class VegetablesDetails {
 
 	public void setVegCategory(String vegCategory) {
 		this.vegCategory = vegCategory;
+	}
+
+
+	public double getDiscount_per_piece() {
+		return discount_per_piece;
+	}
+
+
+	public void setDiscount_per_piece(double discount_per_piece) {
+		this.discount_per_piece = discount_per_piece;
+	}
+
+
+	public double getNet_price() {
+		return net_price;
+	}
+
+
+	public void setNet_price(double net_price) {
+		this.net_price = net_price;
 	}
     
     

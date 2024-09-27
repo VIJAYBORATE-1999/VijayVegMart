@@ -61,19 +61,19 @@
 
         .button {
             margin-left: 12% !important;
-    padding: 4px 10px;
-    margin: 2px;
-    cursor: pointer;
+            padding: 4px 10px;
+            margin: 2px;
+            cursor: pointer;
         }
 
         form {
             margin-bottom: 20px;
-    display: grid;
-    max-width: 69% !important;
-    padding-left: 6%;
+            display: grid;
+            max-width: 69% !important;
+            padding-left: 6%;
         }
-        
-        input, select, button {
+
+        input, select, textarea, button {
             margin-bottom: 10px;
             padding: 5px;
             max-width: 50%;
@@ -98,3 +98,22 @@
                 padding: 20px;
             }
         }
+
+        /* Existing CSS */
+
+@media (min-width: 1024px) {
+    #profile form {
+        display: inline-block;
+        width: 48%;
+        vertical-align: top;
+        margin-right: 2%;
+    }
+}
+
+@media (max-width: 1023px) {
+    #profile form {
+        display: block;
+        width: 100%;
+        margin-bottom: 20px;
+    }
+}
