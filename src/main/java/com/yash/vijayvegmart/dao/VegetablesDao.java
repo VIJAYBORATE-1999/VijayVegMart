@@ -15,4 +15,9 @@ public interface VegetablesDao {
     
     List<VegetablesDetails> getAllVegetablesByVendorId(int vendor_id); // get all vegetables for particlar vendor  
 
+    List<VegetablesDetails> getAllInStockVegetablesByVendorId(int vendor_id);  // get all in stock  vegetables for particlar vendor  
+
+    List<VegetablesDetails> getAllOutOfStockVegetablesByVendorId(int vendor_id); // get all out of  vegetables for particlar vendor  
+
+    
 }

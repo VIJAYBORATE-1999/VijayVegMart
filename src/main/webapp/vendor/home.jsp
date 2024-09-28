@@ -123,6 +123,7 @@
                     <button type="submit" class="button" id="submitButton">Add Vegetables</button> <!-- Button initially for adding -->
                 </form>
                 
+                <div class="table-responsive">
                 <table>
                     <tr>
                         <th>Vegetable</th>
@@ -155,12 +156,18 @@
                         <td><%=veg_item.getDiscount_per_piece() %></td>
                         <td><%=veg_item.getNet_price() %></td>
                         <td><img src="${pageContext.request.contextPath}/img/<%=veg_item.getVegPicName()%>" alt="<%=veg_item.getVegPicName() %>" width="50"></td>
-                        <td><button class="button" onclick="populateForm(<%=veg_item.getVegId()%>,'<%=veg_item.getVegName() %>', '<%=veg_item.getVegCategory() %>', <%=veg_item.getQuantity() %>, '<%=veg_item.getDescription() %>', <%=veg_item.getPricePerPiece() %> , <%=veg_item.getDiscount_per_piece() %>)">Update</button></td>
+                        <td><button class="button" onclick="populateForm(<%=veg_item.getVegId()%>,'<%=veg_item.getVegName() %>', '<%=veg_item.getVegCategory() %>', <%=veg_item.getQuantity() %>, '<%=veg_item.getDescription() %>', <%=veg_item.getPricePerPiece() %> , <%=veg_item.getDiscount_per_piece() %>)">Update</button>
+                         <form style="display: contents;" action="${pageContext.request.contextPath}/Vegetable" method="post">
+  <input type="hidden" id="vegetable_id" name="vegetable_id" value="<%=veg_item.getVegId()%>">
+  <input type="submit"  name="action_type2" value="delete" style="max-width: 100%; background-color: #28a745; margin-left: 12% !important; padding: 4px 10px; margin: 2px;color: white; border: none; border-radius: 4px;">
+</form> 
+                        </td>
                     </tr>
                        <%}
 
 %>       
                 </table>
+                 </div>
             </div>
 
 
@@ -208,22 +215,27 @@
                         <th>Last Updated</th>
                         <th>Action</th>
                     </tr>
-                    <tr>
-                        <td>Tomatoes</td>
-                        <td>100</td>
-                        <td>2024-09-19</td>
+                    
+                    
+                    <% 
+        
+        VegetablesServiceImpl vserviceImpl2 = new  VegetablesServiceImpl();
+        List<VegetablesDetails> list2 = vserviceImpl2.fetchAllVegetablesInStockByVendorId(user.getId());
+        
+        for(VegetablesDetails veg_item : list2)
+        {       
+        %>
+        				<tr>
+                        <td><%=veg_item.getVegName() %></td>
+                        <td><%=veg_item.getQuantity() %></td>
+                        <td><%=veg_item.getUpdatedAt() %></td>
                         <td>
-                            <button class="button" onclick="openDialog('update', 'Tomatoes', 100)">Update</button>
+                            <button class="button" onclick="openDialog('update', '<%=veg_item.getVegName() %>', <%=veg_item.getQuantity() %>)">Update</button>
                         </td>
                     </tr>
-                    <tr>
-                        <td>Potatoes</td>
-                        <td>150</td>
-                        <td>2024-09-19</td>
-                        <td>
-                            <button class="button" onclick="openDialog('update', 'Potatoes', 150)">Update</button>
-                        </td>
-                    </tr>
+                    
+  <%}
+%>       
                 </table>
             
                 <!-- Out of Stock Table -->
@@ -235,15 +247,26 @@
                         <th>Last Updated</th>
                         <th>Action</th>
                     </tr>
-                    <tr>
-                        <td>Carrots</td>
-                        <td>0</td>
-                        <td>2024-09-19</td>
+                    <% 
+        
+        VegetablesServiceImpl vserviceImpl3 = new  VegetablesServiceImpl();
+        List<VegetablesDetails> list3 = vserviceImpl.fetchAllVegetablesOutOfStockByVendorId(user.getId());
+        
+        for(VegetablesDetails veg_item : list3)
+        {       
+        %>
+        				<tr>
+                        <td><%=veg_item.getVegName() %></td>
+                        <td><%=veg_item.getQuantity() %></td>
+                        <td><%=veg_item.getUpdatedAt() %></td>
                         <td>
-                            <button class="button" onclick="openDialog('refill', 'Carrots', 0)">Refill</button>
+                            <button class="button" onclick="openDialog('refill', '<%=veg_item.getVegName() %>', 0)">Refill</button>
                         </td>
                     </tr>
                 </table>
+                                    
+  <%}
+%>  
             
                 <!-- Dialog Box -->
                 <div id="dialog" style="display: none;">

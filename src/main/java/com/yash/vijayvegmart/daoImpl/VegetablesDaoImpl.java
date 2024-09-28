@@ -123,9 +123,9 @@ public void saveVegetable(VegetablesDetails details) {
 
 
 
-/*----------------------------FETCH  VEGETBALE FOR A PARTICULAR  VENDOR FROM DATABASE --------------------------------------*/
-//WE WILL FETCH VEEGTABLES UPLOADED BY PARTICULAR VENDOR 
+/*----------------------------FETCH ALL VEGETBALE FOR A PARTICULAR  VENDOR FROM DATABASE --------------------------------------*/
 
+//WE WILL FETCH VEEGTABLES UPLOADED BY PARTICULAR VENDOR 
 @Override
 public List<VegetablesDetails> getAllVegetablesByVendorId(int vendor_id) {
 	
@@ -161,6 +161,79 @@ public List<VegetablesDetails> getAllVegetablesByVendorId(int vendor_id) {
 }
 
 
+
+/*----------------------------FETCH IN STOCK  VEGETBALE FOR A PARTICULAR  VENDOR FROM DATABASE --------------------------------------*/
+
+
+@Override
+	public List<VegetablesDetails> getAllInStockVegetablesByVendorId(int vendor_id) {
+	 List<VegetablesDetails> vegetablesList = new ArrayList<VegetablesDetails>();
+	 VegetablesDetails details  =  null;
+    String query = "SELECT * FROM vegetables_details WHERE vendor_id = ? AND quantity > 0 ";  // SQL query to fetch all vegetables by a vendor id
+    
+    try (PreparedStatement ps = connection.prepareStatement(query)) {
+    	ps.setInt(1,vendor_id);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+       	 details = new VegetablesDetails();
+            details.setVegId(rs.getInt(1));
+            details.setVendorId(rs.getInt(4));
+            details.setVegName(rs.getString(5));
+            details.setQuantity(rs.getInt(6));
+            details.setDescription(rs.getString(7));
+            details.setPricePerPiece(rs.getDouble(8));
+            details.setVegPicName(rs.getString(9));
+            details.setVegCategory(rs.getString(10));
+            details.setDiscount_per_piece(rs.getDouble(11));
+            details.setNet_price(rs.getDouble(12));
+            details.setCreatedAt(rs.getTimestamp(2));
+            details.setUpdatedAt(rs.getTimestamp(3));
+
+            vegetablesList.add(details);  // Add the details to the list
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+
+    return vegetablesList;  // Return the list of vegetables
+	}
+
+
+
+/*----------------------------FETCH OUT OF STOCK  VEGETBALE FOR A PARTICULAR  VENDOR FROM DATABASE --------------------------------------*/
+
+@Override
+	public List<VegetablesDetails> getAllOutOfStockVegetablesByVendorId(int vendor_id) {
+	 List<VegetablesDetails> vegetablesList = new ArrayList<VegetablesDetails>();
+	 VegetablesDetails details  =  null;
+    String query = "SELECT * FROM vegetables_details WHERE vendor_id = ? AND quantity =0";  // SQL query to fetch all vegetables by a vendor id
+    
+    try (PreparedStatement ps = connection.prepareStatement(query)) {
+    	ps.setInt(1,vendor_id);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+       	 details = new VegetablesDetails();
+            details.setVegId(rs.getInt(1));
+            details.setVendorId(rs.getInt(4));
+            details.setVegName(rs.getString(5));
+            details.setQuantity(rs.getInt(6));
+            details.setDescription(rs.getString(7));
+            details.setPricePerPiece(rs.getDouble(8));
+            details.setVegPicName(rs.getString(9));
+            details.setVegCategory(rs.getString(10));
+            details.setDiscount_per_piece(rs.getDouble(11));
+            details.setNet_price(rs.getDouble(12));
+            details.setCreatedAt(rs.getTimestamp(2));
+            details.setUpdatedAt(rs.getTimestamp(3));
+
+            vegetablesList.add(details);  // Add the details to the list
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+
+    return vegetablesList;  // Return the list of vegetables
+	}
 	}
 
 

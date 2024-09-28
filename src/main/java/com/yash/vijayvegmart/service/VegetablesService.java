@@ -11,4 +11,9 @@ public interface VegetablesService {
 	 public List<VegetablesDetails> fetchAllVegetables() throws Exception ; 
 	    
 	 public List<VegetablesDetails> fetchAllVegetablesByVendorId(int vendor_id) throws Exception ; 
+
+	 public List<VegetablesDetails> fetchAllVegetablesInStockByVendorId(int vendor_id) throws Exception ; 
+
+	 public List<VegetablesDetails> fetchAllVegetablesOutOfStockByVendorId(int vendor_id) throws Exception ; 
+
 }

@@ -24,7 +24,7 @@ public class VegetablesServiceImpl implements VegetablesService {
     @Override
    
     
- /* --------------------------------- SAVE VEGETBALE INTO DB  ------------------------------------*/ 
+/* --------------------------------- SAVE VEGETBALE INTO DB  ------------------------------------*/ 
     
     
     public void addVegetable(VegetablesDetails details, Part vegPicPart, String Path) throws Exception {
@@ -67,7 +67,7 @@ public class VegetablesServiceImpl implements VegetablesService {
     
     
     
-    /* --------------------------------- FTECH ALL VEGETBALE FROM  DB  ------------------------------------*/ 
+ /* --------------------------------- FTECH ALL VEGETBALE FROM  DB  ------------------------------------*/ 
     
     
     // we will fetch all vegtables for home page 
@@ -80,12 +80,32 @@ public class VegetablesServiceImpl implements VegetablesService {
     
     
    
-    /* --------------------------------- FTECH ALL VEGETBALE FROM  DB VIA SPECIFIC VENDOR   ------------------------------------*/   
+/* --------------------------------- FTECH ALL VEGETBALE FROM  DB VIA SPECIFIC VENDOR   ------------------------------------*/   
     
     // we will fetch all veegtbales uploded by partticular vendor 
     @Override
     public List<VegetablesDetails> fetchAllVegetablesByVendorId(int vendor_id) throws Exception {
     	return vegDao.getAllVegetablesByVendorId(vendor_id);
+    }
+    
+    
+/* --------------------------------- FTECH IN STOCK VEGETBALE FROM  DB VIA SPECIFIC VENDOR   ------------------------------------*/   
+    
+    @Override
+    public List<VegetablesDetails> fetchAllVegetablesInStockByVendorId(int vendor_id) throws Exception {
+   
+    	
+    	
+    	return vegDao.getAllInStockVegetablesByVendorId(vendor_id);
+    }
+    
+ /* --------------------------------- FTECH OUT OF  STOCK VEGETBALE FROM  DB VIA SPECIFIC VENDOR   ------------------------------------*/   
+    
+    @Override
+    public List<VegetablesDetails> fetchAllVegetablesOutOfStockByVendorId(int vendor_id) throws Exception {
+    	
+    	
+    	return vegDao.getAllOutOfStockVegetablesByVendorId(vendor_id);
     }
 }
 
