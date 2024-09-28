@@ -107,5 +107,22 @@ public class VegetablesServiceImpl implements VegetablesService {
     	
     	return vegDao.getAllOutOfStockVegetablesByVendorId(vendor_id);
     }
+    
+    
+    /* ----------------------------------------FETCH A VEGETBALES DETAIL BASED ON VEG ID -----------------------------*/
+    // WE NEED THIS FUNCTION IN CART MODULE 
+    
+  @Override
+public VegetablesDetails fetchVegetableById(int veg_id) throws Exception {
+	// TODO Auto-generated method stub
+	  
+	  Optional<VegetablesDetails>  veg_details = vegDao.getVegetableById(veg_id);
+		  return veg_details.get();
+	  
+}
+    
+    
+    
+    
 }
 
