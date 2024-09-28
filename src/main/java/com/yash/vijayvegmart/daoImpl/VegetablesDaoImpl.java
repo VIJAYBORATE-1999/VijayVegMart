@@ -109,6 +109,8 @@ public void saveVegetable(VegetablesDetails details) {
              details.setPricePerPiece(rs.getDouble(8));
              details.setVegPicName(rs.getString(9));
              details.setVegCategory(rs.getString(10));
+             details.setDiscount_per_piece(rs.getDouble(11));
+             details.setNet_price(rs.getDouble(12));
              details.setCreatedAt(rs.getTimestamp(2));
              details.setUpdatedAt(rs.getTimestamp(3));
 

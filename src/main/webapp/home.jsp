@@ -75,18 +75,42 @@
         
         
           <div class="product-card" data-vendor="vendor1" data-price="30">
-            <span class="discount-tag">23% OFF</span>
+            <span class="discount-tag"><%=veg_item.getDiscount_per_piece()%> Rs OFF</span>
             <img src="${pageContext.request.contextPath}/img/<%=veg_item.getVegPicName()%>" alt="${pageContext.request.contextPath}/img/<%=veg_item.getVegPicName()%>" style="width:50px ; height:50px;">
             <h3><%=veg_item.getVegName()%></h3>
              <p class=""><%=veg_item.getDescription()%></p>
-            <select>
-              <option value="500gg">500</option>
-              <option value="1kg">1kg</option>
-            </select>
             <p class="price">
-              <strong><%=veg_item.getPricePerPiece() %></strong> <span class="old-price"><%=veg_item.getVegCategory() %></span>
+              <strong><%=veg_item.getNet_price()%></strong> <span class="old-price"><%=veg_item.getPricePerPiece() %></span>
             </p>
-            <button>Add to Cart</button>
+   <%   if (user != null) {
+%>
+                 <form style="display: contents;" action="${pageContext.request.contextPath}/CartsController" method="post">
+  <input type="hidden" id="vegetable_id" name="vegetable_id" value="<%=veg_item.getVegId()%>">
+   <input type="hidden" id="user_id" name="user_id" value="<%=user.getId()%>"> 
+               <select name="quantity_added">
+              <option value="1">1kg</option>
+              <option value="0.5">0.5kg</option>
+              <option value="2">2kg</option>
+                <option value="5">5kg</option>
+            </select>
+   
+  <input type="submit"  name="add_to_cart" value="Add to Cart" style="max-width: 100%; background-color: #28a745; margin-left: 12% !important; padding: 4px 10px; margin: 2px;color: white; border: none; border-radius: 4px;">
+</form> 
+<%
+    } else { 
+%>    	
+    	
+    	<select name="quantity_added">
+              <option value="1">1kg</option>
+              <option value="0.5">0.5kg</option>
+              <option value="2">2kg</option>
+                <option value="5">5kg</option>
+            </select>
+            <button> Add to Cart </button>
+<%     	
+    }
+%>           
+
           </div>
 
       <%}
