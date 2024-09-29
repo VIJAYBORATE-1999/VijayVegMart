@@ -24,7 +24,7 @@
     <h1 class="text-center">Your Vegetable Cart</h1>
 
     <!-- Form to submit updated cart data to OrderServlet -->
-    <form id="cart-form" action="${pageContext.request.contextPath}/Orders" method="POST">
+    <form id="cart-form" action="${pageContext.request.contextPath}/Checkout" method="POST">
         <div id="cart-items">
             <%
             Users user = (Users) session.getAttribute("user");

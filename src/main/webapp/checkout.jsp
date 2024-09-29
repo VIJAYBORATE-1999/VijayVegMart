@@ -1,3 +1,9 @@
+
+<%@page import="com.yash.vijayvegmart.model.VegetablesDetails"%>
+<%@page import="com.yash.vijayvegmart.serviceImpl.VegetablesServiceImpl"%>
+<%@page import="com.yash.vijayvegmart.model.Carts"%>
+<%@page import="java.util.List"%>
+<%@page import="com.yash.vijayvegmart.serviceImpl.CartsServiceImpl"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -6,7 +12,7 @@
     <title>Vijay Veg Mart</title>
     <%@include file="/components/links.jsp" %>
     <script src="${pageContext.request.contextPath}/js/main.js"></script>
-    <script src="${pageContext.request.contextPath}/js/checkout.js"></script>
+
   
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/checkout.css" type="text/css">
      <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css" type="text/css">
@@ -20,7 +26,7 @@
 
 <div class="container3">
         <h1 class="text-center mb-4">Checkout</h1>
-        <form id="checkout-form" action="OrderController" method="POST">
+        <form id="checkout-form" action="${pageContext.request.contextPath}/Orders" method="POST">
             <div class="row">
                 <div class="col-md-8">
                     <h2 class="mb-3">Shipping Information</h2>
@@ -71,27 +77,39 @@
                     <div class="order-summary">
                         <h2 class="mb-3">Order Summary</h2>
                         <div id="order-items">
+                        
+                         <% 
+                         Users user = (Users) session.getAttribute("user");
+             VegetablesServiceImpl vserviceImpl = new  VegetablesServiceImpl();
+      
+            CartsServiceImpl cserviceImpl = new CartsServiceImpl();
+                             		
+        List<Carts> list = cserviceImpl.fetchAllCartsByUserID(user.getId());
+        
+        for(Carts cart_item : list)
+        {       
+        	  VegetablesDetails veg_details= vserviceImpl.fetchVegetableById(cart_item.getVeg_id()) ;
+        %>
+                      
                             <div class="d-flex justify-content-between mb-2">
-                                <span>Carrots (2)</span>
-                                <span>$<span class="item-price">3.98</span></span>
+                                <span><%=veg_details.getVegName() %> (<%=cart_item.getQuantity_added() %>)</span>
+                                <span>$<span class="item-price"><%=cart_item.getTotal_Price() %></span></span>
                             </div>
-                            <div class="d-flex justify-content-between mb-2">
-                                <span>Tomatoes (1)</span>
-                                <span>$<span class="item-price">2.49</span></span>
-                            </div>
-                            <div class="d-flex justify-content-between mb-2">
-                                <span>Broccoli (3)</span>
-                                <span>$<span class="item-price">5.37</span></span>
-                            </div>
+                            
+                    <%} %>        
+                            
+                            
                         </div>
                         <hr>
                         <div class="d-flex justify-content-between">
                             <strong>Total:</strong>
                             <strong id="total-price">$<span id="total"></span></strong>
+                           
                         </div>
                     </div>
                 </div>
             </div>
+          <input type="hidden" id="totalInput" name="total">
             <button type="submit" class="btn btn-primary btn-lg mt-4">Place Order</button>
         </form>
     </div>
@@ -99,5 +117,7 @@
 <br><br>
 <%@include file="../components/footer.jsp" %>
 <%@include file="../components/jslibraries.jsp" %>
+   
 </body>
+ <script src="${pageContext.request.contextPath}/js/checkout.js"></script>
 </html>

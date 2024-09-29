@@ -33,17 +33,12 @@ public class CartsServiceImpl  implements CartsService{
 	}
 	
 	
-	// When user vists My carts Page 
+	// When user vists My carts Page and checkout page 
 	@Override
 	public List<Carts> fetchAllCartsByUserID(int user_id) {
 	return cart_dao.getAllCartsByUserID(user_id);
 	}
 	 
 
-	//When user clicks on Continue shopping 	
-	@Override
-	public void updateCartItem(int veg_id, int user_id, int cart_id, double quantity_added, double total_price) {
-	 cart_dao.updateCartItem(veg_id, user_id, cart_id, quantity_added, total_price);
-		
-	}
+	
 }
