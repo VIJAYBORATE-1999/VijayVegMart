@@ -71,7 +71,7 @@ public class OrdersController extends HttpServlet {
                  carts_service.updateCartItem(vegId, user.getId(), cartId, quantity, total_price);
                 // Add other necessary fields...
                 updatedCart.add(cartItem);
-
+              
                 
                 System.out.print("");
                 
@@ -83,7 +83,9 @@ public class OrdersController extends HttpServlet {
         // Add updated cart to the session or forward it to the next page
 //        session.setAttribute("updatedCart", updatedCart);
 //        response.sendRedirect(request.getContextPath() + "/orderSummary.jsp");  // Redirect to an order summary page
-    }
+        response.sendRedirect("checkout.jsp");
+	
+	}
 		
 	}
 
