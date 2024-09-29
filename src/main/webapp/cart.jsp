@@ -54,6 +54,7 @@
                                 <!-- Hidden fields to store vegetable data -->
                                 <input type="hidden" name="veg_id-<%=cartItem.getCart_Id()%>" value="<%=vegItem.getVegId()%>">
                                 <input type="hidden" name="price-<%=cartItem.getCart_Id()%>" value="<%=vegItem.getNet_price()%>">
+                            	<input type="hidden" name="unit_price-<%=cartItem.getCart_Id()%>" value="<%=vegItem.getNet_price()%>">
                             </div>
                         </div>
                     </div>
