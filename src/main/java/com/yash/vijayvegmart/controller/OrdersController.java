@@ -22,8 +22,8 @@ import com.yash.vijayvegmart.serviceImpl.VegetablesServiceImpl;
 /**
  * Servlet implementation class Orders
  */
-@WebServlet("/OrderServlet")
-public class Orders extends HttpServlet {
+@WebServlet("/Orders")
+public class OrdersController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	    private CartsService carts_service;
 	    
