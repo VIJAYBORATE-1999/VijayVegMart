@@ -4,8 +4,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.yash.vijayvegmart.dao.CartsDao;
+import com.yash.vijayvegmart.model.Carts;
 import com.yash.vijayvegmart.util.DBUtil;
 
 public class CartDaoImpl implements CartsDao {
@@ -17,6 +20,8 @@ public class CartDaoImpl implements CartsDao {
 	
 
 
+	/**************When user Clicks Add to cart Button *********///////////////
+	
 	public void saveOrUpdateCart(int vegId, int userId, double quantityAdded, double totalPrice) {
         String checkQuery = "SELECT * FROM carts WHERE veg_id = ? AND user_id = ?";
         String insertQuery = "INSERT INTO carts (user_id, veg_id, quantity_added, total_price, created_at, updated_at) VALUES (?, ?, ?, ?, NOW(), NOW())";
@@ -54,6 +59,36 @@ public class CartDaoImpl implements CartsDao {
 	
 	
 	
+	/*  GET CART INFO AS USER LOGINS  */
+	
+	@Override
+	public List<Carts> getAllCartsByUserID(int user_id) {
+	    List<Carts> cartsList = new ArrayList<Carts>();
+	    String query = "SELECT * FROM carts WHERE user_id = ?";
+
+	    try (PreparedStatement ps = connection.prepareStatement(query)) {
+	        ps.setInt(1, user_id);
+	        ResultSet rs = ps.executeQuery();
+
+	        while (rs.next()) {
+	            Carts carts = new Carts();
+	            carts.setCart_Id(rs.getInt("cart_id"));
+	            carts.setCreatedAt(rs.getTimestamp("created_at"));
+	            carts.setUpdatedAt(rs.getTimestamp("updated_at"));
+	            carts.setUser_Id(rs.getInt("user_id"));
+	            carts.setVeg_id(rs.getInt("veg_id"));
+	            carts.setQuantity_added(rs.getDouble("quantity_added"));
+	            carts.setTotal_Price(rs.getDouble("total_price"));
+
+	            cartsList.add(carts); // Add cart details to the list
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+
+	    return cartsList;  // Return the list of cart details
+	}
+
 	
 
 }

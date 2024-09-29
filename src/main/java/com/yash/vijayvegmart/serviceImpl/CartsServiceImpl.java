@@ -1,8 +1,11 @@
 package com.yash.vijayvegmart.serviceImpl;
 
+import java.util.List;
+
 import com.yash.vijayvegmart.dao.CartsDao;
 import com.yash.vijayvegmart.dao.VegetablesDao;
 import com.yash.vijayvegmart.daoImpl.CartDaoImpl;
+import com.yash.vijayvegmart.model.Carts;
 import com.yash.vijayvegmart.service.CartsService;
 
 public class CartsServiceImpl  implements CartsService{
@@ -27,5 +30,13 @@ public class CartsServiceImpl  implements CartsService{
 		
 		
 	}
+	
+	
+	
+	@Override
+	public List<Carts> fetchAllCartsByUserID(int user_id) {
+	return cart_dao.getAllCartsByUserID(user_id);
+	}
+	 
 
 }

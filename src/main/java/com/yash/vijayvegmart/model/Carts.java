@@ -29,6 +29,14 @@ public class Carts {
 		this.quantity_added = quantity_added;
 		this.total_Price = total_Price;
 	}
+	
+	
+	public int getCart_Id() {
+		return cart_Id;
+	}
+	public void setCart_Id(int cart_Id) {
+		this.cart_Id = cart_Id;
+	}
 	public Timestamp getCreatedAt() {
 		return createdAt;
 	}

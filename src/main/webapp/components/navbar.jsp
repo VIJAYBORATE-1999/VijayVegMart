@@ -24,7 +24,19 @@
 %>
    <a href="login.jsp" class="nav-item nav-link fa-icon-colour ">Login</a>
                         <a href="register.jsp" class="nav-item nav-link fa-icon-colour">Register</a>
+                        
+                        
 <%
+ } else if(user_1.getUsertype().equals("customer")) {
+	 %>	 
+	 
+	 <a href="cart.jsp" class="position-relative me-4 my-auto" aria-label="Shopping Cart">
+                            <i class="fa fa-shopping-cart fa-2x fa-icon-colour"></i>
+                            <!-- <span class="position-absolute bg-secondary rounded d-flex align-items-center justify-content-center text-dark px-1" style="top: -5px; left: 15px; height: 20px; min-width: 20px;">3</span> -->
+                        </a> 
+	 
+	 
+<%	 
  }
  %>
                      
@@ -40,10 +52,7 @@
                         
                 
                           
-                        <a href="search.jsp" class="position-relative me-4 my-auto" aria-label="Shopping Cart">
-                            <i class="fa fa-shopping-cart fa-2x fa-icon-colour"></i>
-                            <!-- <span class="position-absolute bg-secondary rounded d-flex align-items-center justify-content-center text-dark px-1" style="top: -5px; left: 15px; height: 20px; min-width: 20px;">3</span> -->
-                        </a>
+                       
                         <a href="${pageContext.request.contextPath}/logout" class="my-auto" aria-label="Log Out">
                             <i class="fas fa-power-off fa-2x danger-colour"></i>
                         </a>
