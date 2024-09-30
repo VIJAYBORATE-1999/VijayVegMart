@@ -47,7 +47,7 @@
 <br>
 <div id="container2">
         <div id="sidebar">
-            <h2>Vendor Dashboard</h2>
+            <h2>Admin Dashboard</h2>
             <div class="menu-item" onclick="showSection('addUpdate')">Add/Update Vegetables</div>
             <div class="menu-item" onclick="showSection('sales')">Sales</div>
             <div class="menu-item" onclick="showSection('profile')">Profile</div>

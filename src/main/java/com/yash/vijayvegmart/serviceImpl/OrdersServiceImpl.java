@@ -42,7 +42,7 @@ public class OrdersServiceImpl implements OrdersService {
 	
 	
 @Override
-public void placeOrder(String fullName, String address, String city, String state, int zip,
+public String placeOrder(String fullName, String address, String city, String state, int zip,
 		String cardName, String cardNumber, String expDate, int cvv, double total_order_cost , String [] cart_ids , int user_id) {
 
 	
@@ -89,6 +89,8 @@ public void placeOrder(String fullName, String address, String city, String stat
 	order_dao.insertRevenues(revenues);
 	
 	
+	
+	return order_id;
 }
 	
 	

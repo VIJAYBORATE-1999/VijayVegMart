@@ -71,9 +71,13 @@ String[] carts_ids = all_carts_ids.split(",");
 for(int i=0; i<carts_ids.length; i++)
 System.out.println("carts_ids :::"+carts_ids[i]);
 
-order_service.placeOrder(fullName, address , city ,state ,zip ,cardName ,cardNumber, expDate , cvv , total_order_cost, carts_ids, user_id  );
-														
-       // response.sendRedirect("payment.jsp");
+String order_id = order_service.placeOrder(fullName, address , city ,state ,zip ,cardName ,cardNumber, expDate , cvv , total_order_cost, carts_ids, user_id  );
+							
+
+
+        HttpSession session = request.getSession(false); // we dont want new session , continue old session  
+        session.setAttribute("order_id", order_id );
+       response.sendRedirect("order_confirmation.jsp");
 
 
 
