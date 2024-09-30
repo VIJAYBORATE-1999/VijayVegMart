@@ -15,7 +15,7 @@
         <title>Vijay Veg Mart</title>
 
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css" type="text/css">
-     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/vendor.css" type="text/css">
+     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/admin.css" type="text/css">
      
      
      
@@ -45,71 +45,35 @@
     }
 %>
 <br>
-<div id="container2">
+
+
+ <div id="container3">
         <div id="sidebar">
             <h2>Admin Dashboard</h2>
-            <div class="menu-item" onclick="showSection('addUpdate')">Add/Update Vegetables</div>
-            <div class="menu-item" onclick="showSection('sales')">Sales</div>
             <div class="menu-item" onclick="showSection('profile')">Profile</div>
-            <div class="menu-item" onclick="showSection('inventory')">Inventory</div>
+            <div class="menu-item" onclick="showSection('sales')">Sales</div>
+            <div class="menu-item" onclick="showSection('approveRequests')">Approve Users Requests</div>
             <div class="menu-item" onclick="showSection('feedback')">User Feedback</div>
         </div>
         <div id="content">
-            <div id="addUpdate" class="section active">
-                <h2>Add/Update Vegetables</h2>
-                
- <c:if test="${not empty sucessmessage}">
-<p class="text-success">${sucessmessage}</p>
- <c:remove var="sucessmessage" scope="session"/> 
-</c:if>
-
- <c:if test="${not empty errormessage}">
-<p class="text-danger">${errormessage}</p>
- <c:remove var="errormessage" scope="session"/> 
-</c:if>
-                          <form action="${pageContext.request.contextPath}/Vegetable" method="post" id="vegetableForm" enctype="multipart/form-data" >
-
-  <input type="text"  name="veg_name" placeholder="Vegetable Name" required>
-  <input type="text"  name="description"  placeholder="Description">
-  <select name="veg_category">
-                    <option selected>--Select Category--</option>
-                    <option value="Leafy Green">Leafy Green</option>
-                    <option value="Cruciferous">Cruciferous </option>
-                    <option value="Root">Root</option>
-                    <option value="Seasonal">Seasonal</option>
-                  </select>
-  <input type="number"  name="quantity" placeholder="Quantity" >
-  <input type="number"  name="price_per_piece" placeholder="Price Per Piece" >
-  <input type="file" name="veg_pic_name" />
-  <input type="submit" value="Submit">
-
-</form>
-                <table>
-                    <tr>
-                        <th>Vegetable</th>
-                        <th>Stock (kg)</th>
-                        <th>Price per kg</th>
-                        <th>Action</th>
-                    </tr>
-                     <% 
-        
-        VegetablesServiceImpl vserviceImpl = new  VegetablesServiceImpl();
-        List<VegetablesDetails> list = vserviceImpl.fetchAllVegetablesByVendorId(user.getId());
-        
-        for(VegetablesDetails veg_item : list)
-        {       
-        %>
-                    <tr>
-                 		 <td><%=veg_item.getVegName() %></td>
-                        <td><%=veg_item.getQuantity() %></td>
-                        <td><%=veg_item.getDescription() %></td>
-                        <td><button class="button">Update</button></td>
-                    </tr>
-        <%}
-
-%>            
-                </table>
+            <div id="profile" class="section active">
+                <h2>Profile</h2>
+                <form id="personalDetailsForm" onsubmit="updatePersonalDetails(event)">
+                    <h3>Edit Personal Details</h3>
+                    <div style="display: flex; align-items: center;">
+                        <img id="profilePic" src="default_profile_pic.jpg" alt="Profile Picture" style="width: 50px; height: 50px; border-radius: 50%; margin-right: 10px;">
+                        <input type="file" id="profilePictureInput" onchange="previewProfilePicture(event)" accept="image/*">
+                    </div>
+                    <input type="text" id="firstName" value="Admin" readonly required>
+                    <input type="text" id="lastName" value="User" readonly required>
+                    <textarea id="address" placeholder="Address" readonly required>123 Main St</textarea>
+                    <input type="text" id="state" value="California" readonly required>
+                    <input type="text" id="country" value="USA" readonly required>
+                    <input type="text" id="zipCode" value="90001" readonly required>
+                    <button type="button" class="button" id="updatePersonalButton" onclick="togglePersonalEdit()">UPDATE</button>
+                </form>
             </div>
+
             <div id="sales" class="section">
                 <h2>Sales</h2>
                 <table>
@@ -139,41 +103,76 @@
                     </tr>
                 </table>
             </div>
-            <div id="profile" class="section">
-                <h2>Profile</h2>
-                <form id="profileForm">
-                    <input type="text" id="vendorName" placeholder="Vendor Name" required>
-                    <input type="email" id="vendorEmail" placeholder="Email" required>
-                    <input type="tel" id="vendorPhone" placeholder="Phone" required>
-                    <textarea id="vendorAddress" placeholder="Address" required></textarea>
-                    <button type="submit" class="button">Update Profile</button>
-                </form>
-            </div>
-            <div id="inventory" class="section">
-                <h2>Inventory</h2>
+
+            <div id="approveRequests" class="section">
+                <h2>Approve User Requests</h2>
+                <h3>Pending Approvals</h3>
                 <table>
                     <tr>
-                        <th>Vegetable</th>
-                        <th>Stock (kg)</th>
-                        <th>Last Updated</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Action</th>
                     </tr>
                     <tr>
-                        <td>Tomatoes</td>
-                        <td>100</td>
-                        <td>2024-09-19</td>
+                        <td>user1</td>
+                        <td>user1@example.com</td>
+                        <td>
+                            <button class="button">Approve</button>
+                            <button class="button">Reject</button>
+                        </td>
                     </tr>
                     <tr>
-                        <td>Potatoes</td>
-                        <td>150</td>
-                        <td>2024-09-19</td>
+                        <td>user2</td>
+                        <td>user2@example.com</td>
+                        <td>
+                            <button class="button">Approve</button>
+                            <button class="button">Reject</button>
+                        </td>
+                    </tr>
+                </table>
+
+                <h3>Approved Users</h3>
+                <table>
+                    <tr>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Status</th>
                     </tr>
                     <tr>
-                        <td>Carrots</td>
-                        <td>80</td>
-                        <td>2024-09-19</td>
+                        <td>user3</td>
+                        <td>user3@example.com</td>
+                        <td>Approved</td>
+                    </tr>
+                    <tr>
+                        <td>user4</td>
+                        <td>user4@example.com</td>
+                        <td>Approved</td>
+                    </tr>
+                </table>
+
+                <h3>Rejected Users</h3>
+                <table>
+                    <tr>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                    <tr>
+                        <td>user5</td>
+                        <td>user5@example.com</td>
+                        <td>Rejected</td>
+                        <td><button class="button">Reapprove</button></td>
+                    </tr>
+                    <tr>
+                        <td>user6</td>
+                        <td>user6@example.com</td>
+                        <td>Rejected</td>
+                        <td><button class="button">Reapprove</button></td>
                     </tr>
                 </table>
             </div>
+
             <div id="feedback" class="section">
                 <h2>User Feedback</h2>
                 <table>
@@ -212,11 +211,13 @@
 
 
 
+
+
 <%@include file="../components/footer.jsp" %>
 
 
  </body>
-               <script src="${pageContext.request.contextPath}/js/vendor.js"></script>
+               <script src="${pageContext.request.contextPath}/js/admin.js"></script>
 
  
 </html>
