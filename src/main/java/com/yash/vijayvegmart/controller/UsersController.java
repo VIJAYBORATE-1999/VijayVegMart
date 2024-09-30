@@ -36,6 +36,8 @@ public class UsersController extends HttpServlet {
             user.setPassword(password);
             user.setEmail(email);
             user.setUsertype(usertype);
+            user.setIsapproved("notapproved"); // first time needed 
+            user.setIsactive("active"); // later admin can disable user 
 
             HttpSession session = request.getSession();
 
@@ -60,12 +62,34 @@ public class UsersController extends HttpServlet {
                 if (user.getUsertype().equals("admin")) {
                     // Admin user
                     response.sendRedirect("admin/home.jsp");
-                } else if (user.getUsertype().equals("vendor")) {
-                    // Vendor user
+                }
+                
+                else if (user.getUsertype().equals("vendor")) {
+                	
+                	if(user.getIsapproved().equals("approved") && user.getIsactive().equals("active"))
                     response.sendRedirect("vendor/home.jsp");
+                	else if(user.getIsapproved().equals("notapproved"))
+                	{
+                		// wait for admin approval 
+                		response.sendRedirect("login.jsp");
+                	}
+                	else {
+                		// admin susupended accunt =>  user.getIsactive().equals("inactive")
+                	}
                 } else {
                     // Normal user (Customer)
-                    response.sendRedirect("home.jsp");
+                	
+                	if(user.getIsapproved().equals("approved") && user.getIsactive().equals("active"))
+                        response.sendRedirect("home.jsp");
+                    	else if(user.getIsapproved().equals("notapproved"))
+                    	{
+                    		// wait for admin approval 
+                    		response.sendRedirect("login.jsp");
+                    	}
+                    	else {
+                    		// admin susupended accunt =>  user.getIsactive().equals("inactive")
+                    	}
+           
                 }
             } catch (Exception e) {
                 request.setAttribute("error", e.getMessage());

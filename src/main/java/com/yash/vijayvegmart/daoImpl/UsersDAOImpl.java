@@ -26,8 +26,8 @@ public class UsersDAOImpl implements UsersDao {
             ps.setString(1, user.getUsername());
             ps.setString(2, user.getPassword());
             ps.setString(3, user.getEmail());
-            ps.setString(4, "approved"); /// Is Approved 
-            ps.setString(5, "active");
+            ps.setString(4, user.getIsapproved());
+            ps.setString(5, user.getIsactive());
             ps.setString(6, user.getUsertype());
             ps.executeUpdate();
         } catch (SQLException e) {
