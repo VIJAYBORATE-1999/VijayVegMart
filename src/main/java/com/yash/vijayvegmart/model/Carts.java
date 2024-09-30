@@ -11,15 +11,17 @@ public class Carts {
     private int veg_id;
     private double quantity_added;
     private double total_Price;
-
+    private String order_status;
     
     
     public Carts() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+    
+    
 	public Carts(int cart_Id, Timestamp createdAt, Timestamp updatedAt, int user_Id, int veg_id, double quantity_added,
-			double total_Price) {
+			double total_Price , String order_status) {
 		super();
 		this.cart_Id = cart_Id;
 		this.createdAt = createdAt;
@@ -28,7 +30,9 @@ public class Carts {
 		this.veg_id = veg_id;
 		this.quantity_added = quantity_added;
 		this.total_Price = total_Price;
+		this.order_status = order_status;
 	}
+	
 	
 	
 	public int getCart_Id() {
@@ -72,6 +76,16 @@ public class Carts {
 	}
 	public void setTotal_Price(double total_Price) {
 		this.total_Price = total_Price;
+	}
+
+
+	public String getOrder_status() {
+		return order_status;
+	}
+
+
+	public void setOrder_status(String order_status) {
+		this.order_status = order_status;
 	}
 
     

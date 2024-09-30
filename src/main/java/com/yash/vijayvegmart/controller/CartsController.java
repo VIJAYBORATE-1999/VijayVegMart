@@ -46,6 +46,8 @@ public class CartsController extends HttpServlet {
 			//other wise just insert in tbale 
 			
 			int stock = veg_details.getQuantity();
+			
+			System.out.println("Stock "+stock);
 			if(quantity_added < stock)  //************* && check from cart upadted quantity also 
 			{
 				carts_service.saveOrUpdateCart(veg_id, user_id, quantity_added, total_price);

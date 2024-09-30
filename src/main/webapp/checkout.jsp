@@ -85,9 +85,13 @@
             CartsServiceImpl cserviceImpl = new CartsServiceImpl();
                              		
         List<Carts> list = cserviceImpl.fetchAllCartsByUserID(user.getId());
-        
+        String carts_ids[] = new String[list.size()]; // we will send this cart ids to order page 
+        int i=0;
         for(Carts cart_item : list)
-        {       
+        {      
+        	carts_ids[i] = ""+(cart_item.getCart_Id());
+        	
+        	i++;
         	  VegetablesDetails veg_details= vserviceImpl.fetchVegetableById(cart_item.getVeg_id()) ;
         %>
                       
@@ -97,7 +101,10 @@
                             </div>
                             
                     <%} %>        
-                            
+         <%
+         String all_carts_ids = String.join(",",carts_ids);
+         
+         %>                   
                             
                         </div>
                         <hr>
@@ -110,6 +117,9 @@
                 </div>
             </div>
           <input type="hidden" id="totalInput" name="total">
+            <input type="hidden" id="user_id" name="user_id" value="<%=user.getId() %>">
+             <input type="hidden" id="all_carts_ids" name="all_carts_ids" value="<%=all_carts_ids%>">
+           
             <button type="submit" class="btn btn-primary btn-lg mt-4">Place Order</button>
         </form>
     </div>
