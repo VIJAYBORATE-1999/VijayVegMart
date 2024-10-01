@@ -51,7 +51,7 @@
         <div id="sidebar">
             <h2>Admin Dashboard</h2>
             <div class="menu-item" onclick="showSection('profile')">Profile</div>
-            <div class="menu-item" onclick="showSection('sales')">Sales</div>
+            <div class="menu-item" onclick="showSection('sales')">Revenue Generated</div>
             <div class="menu-item" onclick="showSection('approveRequests')">Approve Users Requests</div>
             <div class="menu-item" onclick="showSection('feedback')">User Feedback</div>
         </div>
@@ -75,32 +75,21 @@
             </div>
 
             <div id="sales" class="section">
-                <h2>Sales</h2>
+                <h2>Revenue Generated</h2>
                 <table>
                     <tr>
-                        <th>Date</th>
-                        <th>Vegetable</th>
-                        <th>Quantity Sold (kg)</th>
-                        <th>Total Amount</th>
+                        <th>Order Date</th>
+                        <th>User ID : </th>
+                        <th>Total Order Cost </th>
+                        <th>Tax(Shop Revenue)</th>
                     </tr>
                     <tr>
                         <td>2024-09-20</td>
-                        <td>Tomatoes</td>
-                        <td>20</td>
+                        <td>Vinay</td>
+                        <td>2000 $</td>
                         <td>$50.00</td>
                     </tr>
-                    <tr>
-                        <td>2024-09-21</td>
-                        <td>Potatoes</td>
-                        <td>30</td>
-                        <td>$54.00</td>
-                    </tr>
-                    <tr>
-                        <td>2024-09-22</td>
-                        <td>Carrots</td>
-                        <td>15</td>
-                        <td>$22.50</td>
-                    </tr>
+
                 </table>
             </div>
 
@@ -171,6 +160,26 @@
                         <td><button class="button">Reapprove</button></td>
                     </tr>
                 </table>
+                
+                
+                <h3>Deleted  Users</h3>
+                <table>
+                    <tr>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                    <tr>
+                        <td>user5</td>
+                        <td>user5@example.com</td>
+                        <td>Inactive</td>
+                        <td><button class="button">Reactivate Account</button></td>
+                    </tr>
+
+                </table>
+                
+                
             </div>
 
             <div id="feedback" class="section">

@@ -13,6 +13,16 @@ public class Revenues {
 			this.tax = tax;
 		}
 
+	    
+	    
+
+		public Revenues() {
+			super();
+			// TODO Auto-generated constructor stub
+		}
+
+
+
 
 		public String getOrderId() {
 			return orderId;
