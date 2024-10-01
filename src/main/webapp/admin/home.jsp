@@ -1,3 +1,4 @@
+<%@page import="com.yash.vijayvegmart.serviceImpl.AdminServiceImpl"%>
 <%@page import="com.yash.vijayvegmart.serviceImpl.VegetablesServiceImpl"%>
 <%@page import="java.util.List"%>
 <%@page import="com.yash.vijayvegmart.model.VegetablesDetails"%>
@@ -95,6 +96,7 @@
 
             <div id="approveRequests" class="section">
                 <h2>Approve User Requests</h2>
+                <br>
                 <h3>Pending Approvals</h3>
                 <table>
                     <tr>
@@ -102,41 +104,78 @@
                         <th>Email</th>
                         <th>Action</th>
                     </tr>
+                    
+                    <%
+                    AdminServiceImpl aserviceImpl = new AdminServiceImpl();
+                    
+                    List<Users> user_list = aserviceImpl.fetchAllNotApprovedUsers();
+                    for(Users users_item : user_list)
+                    { 
+                    %>
+                    
+                    
                     <tr>
-                        <td>user1</td>
-                        <td>user1@example.com</td>
+                        <td><%=users_item.getUsername() %></td>
+                        <td><%=users_item.getEmail() %> </td>
                         <td>
-                            <button class="button">Approve</button>
-                            <button class="button">Reject</button>
+                        
+                        <form action="${pageContext.request.contextPath}/Admin" style="  display: contents;" method="post">
+                       <input type="hidden" id="approve" name="approve" value="approve">
+                        <input type="hidden" id="user_id" name="user_id" value="<%=users_item.getId()%>">
+                       <input type="submit" name="Approve" value="Approve" style=" background-color: #28a745; margin-left: 12% !important; padding: 4px 10px; margin: 2px;color: white; border: none; border-radius: 4px;">
+</form> 
+            
+                            
+                 <form action="${pageContext.request.contextPath}/Admin" style="
+    display: contents;" method="post">
+                       <input type="hidden" id="reject" name="reject" value="reject">
+                    <input type="hidden" id="user_id" name="user_id" value="<%=users_item.getId()%>">
+                       <input type="submit" name="Reject" value="Reject" style=" background-color: #28a745; margin-left: 12% !important; padding: 4px 10px; margin: 2px;color: white; border: none; border-radius: 4px;">
+</form>  
                         </td>
                     </tr>
-                    <tr>
-                        <td>user2</td>
-                        <td>user2@example.com</td>
-                        <td>
-                            <button class="button">Approve</button>
-                            <button class="button">Reject</button>
-                        </td>
-                    </tr>
+        <%}
+
+%>            
+                   
                 </table>
 
                 <h3>Approved Users</h3>
                 <table>
+                
                     <tr>
                         <th>Username</th>
                         <th>Email</th>
                         <th>Status</th>
+                        <th>Action</th>
                     </tr>
+                    
+                    <%
+                    List<Users> user_list2= aserviceImpl.fetchAllApprovedUsers();
+                    for(Users users_item : user_list2)
+                    { 
+                  
+                    %>
+                    
                     <tr>
-                        <td>user3</td>
-                        <td>user3@example.com</td>
-                        <td>Approved</td>
+                        <td><%=users_item.getUsername() %></td>
+                        <td><%=users_item.getEmail() %></td>
+                        <td><%=users_item.getIsapproved() %>&<%=users_item.getIsactive() %></td>
+                        <td>
+                        
+                        <form action="${pageContext.request.contextPath}/Admin" style="
+    display: contents;" method="post">
+                       <input type="hidden" id="deactivate" name="deactivate" value="deactivate">
+                        <input type="hidden" id="user_id" name="user_id" value="<%=users_item.getId()%>">
+                       <input type="submit" name="Delete User" value="DeleteUser" style=" background-color: #28a745; margin-left: 12% !important; padding: 4px 10px; margin: 2px;color: white; border: none; border-radius: 4px;">
+</form>  
+                        
+                         </td>
                     </tr>
-                    <tr>
-                        <td>user4</td>
-                        <td>user4@example.com</td>
-                        <td>Approved</td>
-                    </tr>
+                   
+                           <%}
+
+%>    
                 </table>
 
                 <h3>Rejected Users</h3>
@@ -147,18 +186,31 @@
                         <th>Status</th>
                         <th>Action</th>
                     </tr>
+                 
+                  <%
+                    List<Users> user_list3= aserviceImpl.fetchAllRejectedUsers();
+                    for(Users users_item : user_list3)
+                    { 
+                  
+                    %>
+                    
                     <tr>
-                        <td>user5</td>
-                        <td>user5@example.com</td>
-                        <td>Rejected</td>
-                        <td><button class="button">Reapprove</button></td>
+                         <td><%=users_item.getUsername() %></td>
+                        <td><%=users_item.getEmail() %></td>
+                        <td><%=users_item.getIsapproved() %></td>
+                        <td>
+                        
+                         <form action="${pageContext.request.contextPath}/Admin" style="
+    display: contents;" method="post" >
+                       <input type="hidden" id="reapprove" name="reapprove" value="reapprove">
+                        <input type="hidden" id="user_id" name="user_id" value="<%=users_item.getId()%>">
+                       <input type="submit" name="reapprove" value="Reapprove" style=" background-color: #28a745; margin-left: 12% !important; padding: 4px 10px; margin: 2px;color: white; border: none; border-radius: 4px;">
+</form>  
+                        </td>
                     </tr>
-                    <tr>
-                        <td>user6</td>
-                        <td>user6@example.com</td>
-                        <td>Rejected</td>
-                        <td><button class="button">Reapprove</button></td>
-                    </tr>
+        <%}
+
+%>    
                 </table>
                 
                 
@@ -170,12 +222,32 @@
                         <th>Status</th>
                         <th>Action</th>
                     </tr>
+                     
+                  <%
+                    List<Users> user_list4= aserviceImpl.fetchAllDeletedUsers();
+                    for(Users users_item : user_list4)
+                    { 
+                  
+                    %>
+                    
                     <tr>
-                        <td>user5</td>
-                        <td>user5@example.com</td>
-                        <td>Inactive</td>
-                        <td><button class="button">Reactivate Account</button></td>
+                        <td><%=users_item.getUsername() %></td>
+                        <td><%=users_item.getEmail() %></td>
+                       <td><%=users_item.getIsactive() %></td>
+                        <td>
+                        
+                                                 <form action="${pageContext.request.contextPath}/Admin" style="
+    display: contents;" method="post">
+                       <input type="hidden" id="reactivate" name="reactivate" value="reactivate">
+                        <input type="hidden" id="user_id" name="user_id" value="<%=users_item.getId()%>">
+                       <input type="submit" name="reactivate" value="Reactivate" style=" background-color: #28a745; margin-left: 12% !important; padding: 4px 10px; margin: 2px;color: white; border: none; border-radius: 4px;">
+</form>  
+                        
+                        </td>
                     </tr>
+                       <%}
+
+%>    
 
                 </table>
                 

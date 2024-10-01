@@ -28,6 +28,8 @@ public interface AdminDao {
 	  
 	  public void reactivateAccount(int id);
 	  
+	  public void deactivateAccount(int id);
+	  
 	  Revenues getRevenueByOrderId(String orderId) ;
 	  
 }

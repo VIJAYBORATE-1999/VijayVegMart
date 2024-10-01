@@ -28,5 +28,7 @@ public interface AdminService {
 
 	  public void reactivateService(int id);
 	  
+	  public void deactivateService(int id);
+	  
 	  public Revenues fetchRevenueByOrderId(String orderId);
 }

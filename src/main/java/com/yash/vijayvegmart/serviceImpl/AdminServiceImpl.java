@@ -12,10 +12,10 @@ public class AdminServiceImpl implements AdminService {
 
 private  AdminDao adminDao;
 
-public AdminServiceImpl(AdminDao adminDao) {
-	super();
+public AdminServiceImpl() {
 	this.adminDao = new AdminDaoImpl();
 }
+
 
 
 
@@ -74,7 +74,14 @@ public void rejectService(int id) {
 @Override
 public void reactivateService(int id) {
 	
-	adminDao.reapproveUser(id);
+	adminDao.reactivateAccount(id);
+	
+}
+
+
+public void deactivateService(int id) {
+	
+	adminDao.deactivateAccount(id);
 	
 }
 

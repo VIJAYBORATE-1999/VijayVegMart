@@ -28,16 +28,18 @@ public class AdminDaoImpl implements AdminDao {
 	
 	public List<Users> getAllApprovedUsers() {
         List<Users> approvedUsersList = new ArrayList<Users>();
-        String query = "SELECT username, email, isapproved FROM users WHERE isapproved = 'approved'";
+        String query = "SELECT id, username, email, isapproved , isactive FROM users WHERE isapproved = 'approved'";
 
         try (PreparedStatement ps = connection.prepareStatement(query)) {
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
                 Users user = new Users();
+                user.setId(rs.getInt("id"));
                 user.setUsername(rs.getString("username"));
                 user.setEmail(rs.getString("email"));
                 user.setIsapproved(rs.getString("isapproved"));
+                user.setIsactive(rs.getString("isactive"));
 
                 approvedUsersList.add(user); // Add user details to the list
             }
@@ -55,13 +57,14 @@ public class AdminDaoImpl implements AdminDao {
   
 	public List<Users> getAllNotApprovedUsers() {
         List<Users> notApprovedUsersList = new ArrayList<Users>();
-        String query = "SELECT username, email, isapproved FROM users WHERE isapproved = 'notapproved'";
+        String query = "SELECT id ,username, email, isapproved FROM users WHERE isapproved = 'notapproved'";
 
         try (PreparedStatement ps = connection.prepareStatement(query)) {
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
                 Users user = new Users();
+                user.setId(rs.getInt("id"));
                 user.setUsername(rs.getString("username"));
                 user.setEmail(rs.getString("email"));
                 user.setIsapproved(rs.getString("isapproved"));
@@ -83,13 +86,14 @@ public class AdminDaoImpl implements AdminDao {
   
 	public List<Users> getAllRejectedUsers() {
         List<Users> rejectedUsersList = new ArrayList<>();
-        String query = "SELECT username, email, isapproved FROM users WHERE isapproved = 'rejected'";
+        String query = "SELECT id, username, email, isapproved FROM users WHERE isapproved = 'rejected'";
 
         try (PreparedStatement ps = connection.prepareStatement(query)) {
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
                 Users user = new Users();
+                user.setId(rs.getInt("id"));
                 user.setUsername(rs.getString("username"));
                 user.setEmail(rs.getString("email"));
                 user.setIsapproved(rs.getString("isapproved"));
@@ -110,13 +114,14 @@ public class AdminDaoImpl implements AdminDao {
   
 	  public List<Users> getAllDeletedUsers() {
 	        List<Users> deletedUsersList = new ArrayList<>();
-	        String query = "SELECT username, email, isapproved, isactive FROM users WHERE isapproved = 'approved' AND isactive = 'inactive'";
+	        String query = "SELECT id, username, email, isapproved, isactive FROM users WHERE isapproved = 'approved' AND isactive = 'inactive'";
 
 	        try (PreparedStatement ps = connection.prepareStatement(query)) {
 	            ResultSet rs = ps.executeQuery();
 
 	            while (rs.next()) {
 	                Users user = new Users();
+	                user.setId(rs.getInt("id"));
 	                user.setUsername(rs.getString("username"));
 	                user.setEmail(rs.getString("email"));
 	                user.setIsapproved(rs.getString("isapproved"));
@@ -136,13 +141,14 @@ public class AdminDaoImpl implements AdminDao {
   
 	  public List<Users> getAllActive() {
 	        List<Users> activeUsersList = new ArrayList<>();
-	        String query = "SELECT username, email, isapproved, isactive FROM users WHERE isapproved = 'approved' AND isactive = 'active'";
+	        String query = "SELECT id , username, email, isapproved, isactive FROM users WHERE isapproved = 'approved' AND isactive = 'active'";
 
 	        try (PreparedStatement ps = connection.prepareStatement(query)) {
 	            ResultSet rs = ps.executeQuery();
 
 	            while (rs.next()) {
 	                Users user = new Users();
+	                user.setId(rs.getInt("id"));
 	                user.setUsername(rs.getString("username"));
 	                user.setEmail(rs.getString("email"));
 	                user.setIsapproved(rs.getString("isapproved"));
@@ -247,6 +253,29 @@ public class AdminDaoImpl implements AdminDao {
 	            e.printStackTrace();
 	        }
 	    }
+	  
+	  
+	  /* ----------------- Deactivate Account based on  id   set isactive="inactive" -----------------*/
+	  
+	  public void deactivateAccount(int id) {
+	        String query = "UPDATE users SET isactive = 'inactive', updated_at = NOW() WHERE id = ?";
+
+	        try (PreparedStatement ps = connection.prepareStatement(query)) {
+	            ps.setInt(1, id);  // Set the user id
+
+	            int rowsUpdated = ps.executeUpdate();  // Execute the update query
+
+	            if (rowsUpdated > 0) {
+	                System.out.println("Account with ID " + id + " has been deactivated.");
+	            } else {
+	                System.out.println("Account with ID " + id + " not found.");
+	            }
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        }
+	    }  
+	  
+	  
 	  
 	  
  /*------------------------ FETCH SALES REVENUE GENERATED ---------------------------*/
