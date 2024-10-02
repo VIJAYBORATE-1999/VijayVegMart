@@ -27,10 +27,34 @@ public class CartsController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	
 		try {
-		 int veg_id =  Integer.parseInt(request.getParameter("vegetable_id"));
-		 int user_id = Integer.parseInt(request.getParameter("user_id")); 
-		 double quantity_added = Double.parseDouble(request.getParameter("quantity_added"));
 		
+		 
+		 String action = request.getParameter("action");
+
+		 
+		 if(action!=null)
+		 {
+		 if(action.equals("delete"))
+		 {
+			 int veg_id_Delete =  Integer.parseInt(request.getParameter("veg_id_Delete"));
+			 int user_id_Delete = Integer.parseInt(request.getParameter("user_id_Delete")); 
+			 
+			 // we will delete the pending item from cart 
+			 
+			 carts_service.deletePendingCart(veg_id_Delete, user_id_Delete);
+			 
+			 System.out.println("VEG ID " + veg_id_Delete );
+			 System.out.println("user_id_Delete " +user_id_Delete );
+			 response.sendRedirect(request.getContextPath() + "/cart.jsp");
+			 
+			 
+		 }
+		 }
+		 else
+		 {
+			 int veg_id =  Integer.parseInt(request.getParameter("vegetable_id"));
+			 int user_id = Integer.parseInt(request.getParameter("user_id")); 
+			 double quantity_added = Double.parseDouble(request.getParameter("quantity_added"));
 		  
 		System.out.println("veg ID : "+veg_id );
 		System.out.println("user id " + user_id);
@@ -61,7 +85,7 @@ public class CartsController extends HttpServlet {
 			
 			
 		//	WE WILL FIEST FETCH THE VEGETBALE DETAILS BY VEG ID AND THEN FILL OTAL PRICE 
-			
+		 }	
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

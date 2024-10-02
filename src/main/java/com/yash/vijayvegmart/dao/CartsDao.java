@@ -11,4 +11,7 @@ public interface CartsDao {
 	public List<Carts> getAllCartsByUserID(int user_id);
 	
 	
+	public void removePendingCart(int vegId, int userId);
+	
+	
 }

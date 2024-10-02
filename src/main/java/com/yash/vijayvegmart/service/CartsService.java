@@ -11,5 +11,6 @@ public interface CartsService {
 
 	public List<Carts> fetchAllCartsByUserID(int user_id);
 	
+	public void deletePendingCart(int vegId, int userId);
 	
 }

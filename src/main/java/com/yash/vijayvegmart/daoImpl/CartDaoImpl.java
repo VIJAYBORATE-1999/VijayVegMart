@@ -101,5 +101,33 @@ public class CartDaoImpl implements CartsDao {
 	
 	
 	
+	/* deleet item from cart as user remove item from cart   */
+	
+	public void removePendingCart(int vegId, int userId)
+	{
+		 String query = "DELETE FROM carts WHERE veg_id = ? AND user_id = ? AND order_status = 'pending'";
+
+	        try (PreparedStatement ps = connection.prepareStatement(query)) {
+	            ps.setInt(1, vegId);  // Set veg_id parameter
+	            ps.setInt(2, userId);  // Set user_id parameter
+
+	            // Execute the delete operation
+	            int rowsDeleted = ps.executeUpdate();
+
+	            if (rowsDeleted > 0) {
+	                System.out.println("Cart record deleted successfully.");
+	            } else {
+	                System.out.println("No pending cart found for the given veg_id and user_id.");
+	            }
+
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        }
+	    }
+
+		
+		
+	
+	
 
 }

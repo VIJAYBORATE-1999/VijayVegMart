@@ -41,4 +41,12 @@ public class CartsServiceImpl  implements CartsService{
 	 
 
 	
+	// as user clciks on remove item in cart 
+	
+	@Override
+	public void deletePendingCart(int vegId, int userId) {
+		
+		cart_dao.removePendingCart(vegId, userId);
+	}
+	
 }

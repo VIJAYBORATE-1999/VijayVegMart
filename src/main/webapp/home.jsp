@@ -22,12 +22,6 @@
     
     <%
     Users user = (Users) session.getAttribute("user");
-    if (user != null) {
-%>
-        Welcome, Customer <%= user.getUsername() %>!<br>
-        Customer Email: <%= user.getEmail() %>
-<%
-    } 
 %>
       <!-- Sidebar Navigation -->
       <div class="sidebar">

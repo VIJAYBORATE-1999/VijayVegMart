@@ -23,8 +23,8 @@
 <div class="container3 mt-5">
     <h1 class="text-center">Your Vegetable Cart</h1>
 
-    <!-- Form to submit updated cart data to OrderServlet -->
-    <form id="cart-form" action="${pageContext.request.contextPath}/Checkout" method="POST">
+    <!-- Form to submit updated cart data -->
+    <form id="cart-form" method="POST" onsubmit="return false;"> <!-- Prevent default form submission -->
         <div id="cart-items">
             <%
             Users user = (Users) session.getAttribute("user");
@@ -49,12 +49,17 @@
                                 <button type="button" class="btn btn-sm btn-secondary me-2" onclick="updateQuantity('item-<%=cartItem.getCart_Id()%>', -1)">-</button>
                                 <input type="number" class="form-control quantity-input" name="quantity-<%=cartItem.getCart_Id()%>" id="quantity-item-<%=cartItem.getCart_Id()%>" value="<%=cartItem.getQuantity_added()%>" readonly>
                                 <button type="button" class="btn btn-sm btn-secondary ms-2" onclick="updateQuantity('item-<%=cartItem.getCart_Id()%>', 1)">+</button>
-                                <button type="button" class="btn btn-sm btn-danger ms-3" onclick="removeItem('item-<%=cartItem.getCart_Id()%>')">Remove</button>
-                                
+                                 <button type="button" class="btn btn-danger btn-custom" onclick="submitForm('${pageContext.request.contextPath}/CartsController')">Remove Item </button>
+            
                                 <!-- Hidden fields to store vegetable data -->
                                 <input type="hidden" name="veg_id-<%=cartItem.getCart_Id()%>" value="<%=vegItem.getVegId()%>">
                                 <input type="hidden" name="price-<%=cartItem.getCart_Id()%>" value="<%=vegItem.getNet_price()%>">
-                            	<input type="hidden" name="unit_price-<%=cartItem.getCart_Id()%>" value="<%=vegItem.getNet_price()%>">
+                                <input type="hidden" name="unit_price-<%=cartItem.getCart_Id()%>" value="<%=vegItem.getNet_price()%>">
+                               <!-- Hidden fields to delete item from cart   -->
+                            <input type="hidden" name="action" value="delete">
+                              <input type="hidden" name="veg_id_Delete" value="<%=cartItem.getVeg_id()%>">
+                             <input type="hidden" name="user_id_Delete" value="<%=user_1.getId() %>">
+                            
                             </div>
                         </div>
                     </div>
@@ -70,18 +75,27 @@
 
         <!-- Buttons section -->
         <div class="mt-3 d-flex justify-content-end">
-            <!-- 'Continue Shopping' submits form to OrderServlet -->
-            <button type="submit" class="btn btn-success btn-custom">Continue Shopping</button>
-            
+            <% if(list.size() == 0) { %>
+                <h3 class="text-danger">Add At Least 1 item</h3>
+            <% } else { %>
+                <button type="button" class="btn btn-success btn-custom me-2" onclick="submitForm('${pageContext.request.contextPath}/Checkout')">Continue Shopping</button>
+                <% } %>
         </div>
     </form>
-    
-    <a href="${pageContext.request.contextPath}/home.jsp" class="btn btn-primary btn-custom ">Add More Items</a>
+
+    <a href="${pageContext.request.contextPath}/home.jsp" class="btn btn-primary btn-custom">Add More Items</a>
 </div>
 
 <br><br>
 <%@include file="../components/footer.jsp" %>
 <%@include file="../components/jslibraries.jsp" %>
+
+<script>
+function submitForm(action) {
+    const form = document.getElementById('cart-form');
+    form.action = action; // Set the action of the form
+    form.submit(); // Submit the form
+}
+</script>
 </body>
 </html>
-
