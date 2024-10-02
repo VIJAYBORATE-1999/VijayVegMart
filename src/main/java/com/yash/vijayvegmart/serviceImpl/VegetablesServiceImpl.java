@@ -72,9 +72,9 @@ public class VegetablesServiceImpl implements VegetablesService {
     
     // we will fetch all vegtables for home page 
     
-    public List<VegetablesDetails> fetchAllVegetables() {
+    public List<VegetablesDetails> fetchAllVegetablesBycategory(String Category) {
     	
-    	return vegDao.getAllVegetables();
+    	return vegDao.getAllVegetablesByCategory(Category);
     }
     
     
@@ -121,7 +121,25 @@ public VegetablesDetails fetchVegetableById(int veg_id) throws Exception {
 	  
 }
     
+  
+  /*--------------FETCH ALL VENDORSas we need it on home page for sort by option ------------------------*/
     
+    public List<String> fetchAllVendorsNames() throws Exception
+    {
+    	
+    	return vegDao.getAllVendorsNames() ;
+    	
+    }  
+  
+  
+    /*----------------------------FETCH VENDOR NAME BASED ON VEG ID-----------------*/
+    
+    @Override
+    public String getVendorUsernameByVegId(int vegId) throws Exception {
+    	// TODO Auto-generated method stub
+    	return vegDao.getUsernameByVegId(vegId);
+    }
+
     
     
 }

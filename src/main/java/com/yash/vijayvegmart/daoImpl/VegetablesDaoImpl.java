@@ -91,13 +91,14 @@ public void saveVegetable(VegetablesDetails details) {
 /*----------------------------FETCH ALL  VEGETBALE FROM  DATABASE --------------------------------------*/
  
 @Override
-	public List<VegetablesDetails> getAllVegetables() {
+	public List<VegetablesDetails> getAllVegetablesByCategory(String Category) {
 	
 	 List<VegetablesDetails> vegetablesList = new ArrayList<VegetablesDetails>();
 	 VegetablesDetails details  =  null;
-     String query = "SELECT * FROM vegetables_details";  // SQL query to fetch all vegetables
+     String query = "SELECT * FROM vegetables_details WHERE veg_category= ?";  // SQL query to fetch all vegetables
      
      try (PreparedStatement ps = connection.prepareStatement(query)) {
+    	 ps.setString(1, Category);
          ResultSet rs = ps.executeQuery();
          while (rs.next()) {
         	 details = new VegetablesDetails();
@@ -277,9 +278,54 @@ public Optional<VegetablesDetails> getVegetableById(int vegId) {
 
 
 
+/*------------------------------------GET ALL VENDOR NAMES -------------------------------*/
+
+
+@Override
+	public List<String> getAllVendorsNames() {
+	 List<String> usernames = new ArrayList<>();
+     String query = "SELECT DISTINCT u.username FROM users u JOIN vegetables_details v ON u.id = v.vendor_id";
+
+     try (PreparedStatement ps = connection.prepareStatement(query)) {
+         ResultSet rs = ps.executeQuery();
+
+         // Iterate through the result set and add usernames to the list
+         while (rs.next()) {
+             usernames.add(rs.getString("username"));
+         }
+     } catch (SQLException e) {
+         e.printStackTrace();
+     }
+
+     return usernames;  // Return the list of usernames
+	
+	
+	
+	}
+
+
+
+
+/*----------GET Vendor Name Based on VEg id to know which vendor is selling which vegtable */
+
+public String getUsernameByVegId(int vegId) {
+    String username = null;
+    String query = "SELECT u.username FROM users u JOIN vegetables_details v ON u.id = v.vendor_id WHERE v.veg_id = ?";
+
+    try (PreparedStatement ps = connection.prepareStatement(query)) {
+        ps.setInt(1, vegId);  // Set the veg_id parameter in the query
+        ResultSet rs = ps.executeQuery();
+
+        if (rs.next()) {
+            // Retrieve the username from the result set
+            username = rs.getString("username");
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+
+    return username;  // Return the username or null if not found
 }
 
 
-
-
-
+}

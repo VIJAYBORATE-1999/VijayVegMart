@@ -11,7 +11,7 @@ public interface VegetablesDao {
     
     void saveVegetable(VegetablesDetails details);
     
-    List<VegetablesDetails> getAllVegetables();  // method to get all vegetables for home page of customer 
+    List<VegetablesDetails> getAllVegetablesByCategory(String Category);  // method to get all vegetables for home page of customer 
     
     List<VegetablesDetails> getAllVegetablesByVendorId(int vendor_id); // get all vegetables for particlar vendor  
 
@@ -20,5 +20,10 @@ public interface VegetablesDao {
     List<VegetablesDetails> getAllOutOfStockVegetablesByVendorId(int vendor_id); // get all out of  vegetables for particlar vendor  
   
     Optional<VegetablesDetails> getVegetableById(int veg_id) ;
+    
+    
+    public List<String> getAllVendorsNames();
+    
+    public String getUsernameByVegId(int vegId);
     
 }

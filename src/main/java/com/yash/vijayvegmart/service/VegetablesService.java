@@ -9,7 +9,7 @@ import com.yash.vijayvegmart.model.VegetablesDetails;
 public interface VegetablesService {
 	public void addVegetable(VegetablesDetails details, Part vegPicPart, String contextPath)throws Exception;
 	
-	 public List<VegetablesDetails> fetchAllVegetables() throws Exception ; 
+	 public List<VegetablesDetails> fetchAllVegetablesBycategory(String Category) throws Exception ; 
 	    
 	 public List<VegetablesDetails> fetchAllVegetablesByVendorId(int vendor_id) throws Exception ; 
 
@@ -19,5 +19,8 @@ public interface VegetablesService {
 
      public  VegetablesDetails fetchVegetableById(int veg_id) throws Exception ; 
 
-	 
+     public List<String> fetchAllVendorsNames() throws Exception ; 
+     
+     public String getVendorUsernameByVegId(int vegId) throws Exception;
+
 }
