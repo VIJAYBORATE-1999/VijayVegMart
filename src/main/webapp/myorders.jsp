@@ -1,3 +1,13 @@
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.HashSet"%>
+<%@page import="com.yash.vijayvegmart.model.Carts"%>
+<%@page import="com.yash.vijayvegmart.serviceImpl.CartsServiceImpl"%>
+<%@page import="com.yash.vijayvegmart.model.VegetablesDetails"%>
+<%@page import="com.yash.vijayvegmart.serviceImpl.VegetablesServiceImpl"%>
+<%@page import="com.yash.vijayvegmart.model.Revenues"%>
+<%@page import="com.yash.vijayvegmart.model.Orders"%>
+<%@page import="java.util.List"%>
+<%@page import="com.yash.vijayvegmart.serviceImpl.OrdersServiceImpl"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -18,29 +28,51 @@
         <div id="orders-container3">
           
           
-          
+<%
+        
+        Users user = (Users) session.getAttribute("user");
+
+OrdersServiceImpl order_Service_impl = new OrdersServiceImpl();
+List<Orders>  order_list = order_Service_impl.fetchAllOrdersByUserId(user.getId());
+
+HashSet<String> order_ids = new HashSet<String>();
+
+for(Orders order_item : order_list)
+{
+	order_ids.add(order_item.getOrderId());
+}
+
+ArrayList<String> order_ids_list= new ArrayList<String>(order_ids);
+%>
+
+<%
+            //for(Orders order_item : order_list)
+            for(String order_id : order_ids_list)
+            {
+            	  Revenues revenue =order_Service_impl.fetchRevenuesByIdAndUserId(order_id, user.getId());
+            	  String order_date = order_Service_impl.getOrderDateByOrderId(order_id) ;
+            	%>            	
+
             <!-- Order #VEG-123456 -->
             <div class="order-card">
                 <div class="order-header d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0">Order #VEG-123456</h5>
-                    <span class="badge bg-success">Delivered</span>
+                    <h5 class="mb-0">Order #VEG-<%=order_id %>></h5>
+                    
                 </div>
                 <div class="order-body">
-                    <p><strong>Date:</strong> 2023-09-15</p>
-                    <p><strong>Total:</strong> $15.25</p>
+                    <p><strong>Date:</strong> <%=order_date %></p>
+                    <p><strong>Total:</strong> <%=revenue.getTotalPayment() %></p>
+                    <p><strong>Tax:</strong> <%=revenue.getTax()%></p>
                 </div>
                 <div class="order-footer text-end">
-                    <button class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#orderDetailsModal1">View Details</button>
+                    <button class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#<%=order_id %>">View Details</button>
                 </div>
-
-
-
 
 
 
                 <!-- Modallllllllll-->
 
-                <div class="modal fade" id="orderDetailsModal1" tabindex="-1" aria-labelledby="orderDetailsModalLabel1" aria-hidden="true">
+                <div class="modal fade" id="<%=order_id %>" tabindex="-1" aria-labelledby="orderDetailsModalLabel1" aria-hidden="true">
                     <div class="modal-dialog modal-lg">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -48,14 +80,27 @@
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                <p><strong>Order Date:</strong> 2023-09-15</p>
-                                <p><strong>Status:</strong> Delivered</p>
-                                <p><strong>Total:</strong> $15.25</p>
+                                <p><strong>Order Date:</strong> <%= order_date %></p>
+                                
+                                <p><strong>Total:</strong> <%= revenue.getTotalPayment() %></p>
+                                <p><strong>Tax:</strong> <%= revenue.getTax()%></p>
                                 <h6>Items:</h6>
                                 <ul>
-                                    <li>Carrots - Quantity: 2, Price: $1.99</li>
-                                    <li>Tomatoes - Quantity: 1, Price: $2.49</li>
-                                    <li>Broccoli - Quantity: 3, Price: $1.79</li>
+                                <%
+                                VegetablesServiceImpl vserviceImpl = new  VegetablesServiceImpl();
+                               
+                              
+                                CartsServiceImpl cserviceImpl = new CartsServiceImpl();
+                                List<Carts> carts_items = cserviceImpl.getCartsByOrderId(order_id);
+                                for(Carts carts_item : carts_items)
+                                {
+                                	 VegetablesDetails veg_list = vserviceImpl.fetchVegetableById(carts_item.getVeg_id());
+                                	 Orders order =  order_Service_impl.getOrderDetailsByOrderIdAndCartId(order_id, carts_item.getCart_Id());
+                                %>
+                                    <li><%=veg_list.getVegName()%> - Quantity: <%=carts_item.getQuantity_added() %> , Price: <%= carts_item.getTotal_Price() %> ,  <span class="badge bg-success"><%=order.getVendorActionStatus() %></span>  </li>
+                               <% 
+                                }
+                                %>
                                 </ul>
                             </div>
                             <div class="modal-footer">
@@ -69,66 +114,18 @@
 
 <!-- Modallllllllll-->
 
-
-
-
-
-            </div>
-
-
-
-
-
-
-
-
-
-            <!-- Order #VEG-123457 -->
-            <div class="order-card">
-                <div class="order-header d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0">Order #VEG-123457</h5>
-                    <span class="badge bg-primary">In Transit</span>
-                </div>
-                <div class="order-body">
-                    <p><strong>Date:</strong> 2023-09-20</p>
-                    <p><strong>Total:</strong> $22.97</p>
-                </div>
-                <div class="order-footer text-end">
-                    <button class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#orderDetailsModal2">View Details</button>
-                </div>
-
-
-    <!-- Static Modal for Order #VEG-123457 -->
-    <div class="modal fade" id="orderDetailsModal2" tabindex="-1" aria-labelledby="orderDetailsModalLabel2" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="orderDetailsModalLabel2">Order Details for #VEG-123457</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p><strong>Order Date:</strong> 2023-09-20</p>
-                    <p><strong>Status:</strong> In Transit</p>
-                    <p><strong>Total:</strong> $22.97</p>
-                    <h6>Items:</h6>
-                    <ul>
-                        <li>Spinach - Quantity: 1, Price: $3.99</li>
-                        <li>Bell Peppers - Quantity: 2, Price: $2.99</li>
-                        <li>Cucumbers - Quantity: 3, Price: $1.49</li>
-                    </ul>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Static Modal for Order #VEG-123457 -->
+<%            	
+            	
+            }
+%>
+          
 
 
 
             </div>
+
+
+
 
 
         </div>

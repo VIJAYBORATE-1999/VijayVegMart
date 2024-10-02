@@ -369,4 +369,52 @@ public VegetablesDetails getVegetableDetailsByCartId(int cartId) {
 
 
 
+
+public List<VegetablesDetails> getVegetablesDetailsByOrderId(String orderId)  {
+    List<VegetablesDetails> vegetableList = new ArrayList<>();
+
+    // Query to join the orders, carts, and vegetables_details tables
+    String query = "SELECT v.veg_id, v.created_at, v.updated_at, v.vendor_id, v.veg_name, " +
+                   "v.quantity, v.description, v.price_per_piece, v.discount_per_piece, v.net_price, " +
+                   "v.veg_pic_name, v.veg_category " +
+                   "FROM orders o " +
+                   "JOIN carts c ON o.cart_id = c.cart_id " +
+                   "JOIN vegetables_details v ON c.veg_id = v.veg_id " +
+                   "WHERE o.order_id = ?";
+
+    try (PreparedStatement ps = connection.prepareStatement(query)) {
+        ps.setString(1, orderId);  // Set the order_id as a parameter
+
+        try (ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                VegetablesDetails vegDetail = new VegetablesDetails();
+
+                // Populate the VegetablesDetails object from the result set
+                vegDetail.setVegId(rs.getInt("veg_id"));
+                vegDetail.setCreatedAt(rs.getTimestamp("created_at"));
+                vegDetail.setUpdatedAt(rs.getTimestamp("updated_at"));
+                vegDetail.setVendorId(rs.getInt("vendor_id"));
+                vegDetail.setVegName(rs.getString("veg_name"));
+                vegDetail.setQuantity(rs.getInt("quantity"));
+                vegDetail.setDescription(rs.getString("description"));
+                vegDetail.setPricePerPiece(rs.getDouble("price_per_piece"));
+                vegDetail.setDiscount_per_piece(rs.getDouble("discount_per_piece"));
+                vegDetail.setNet_price(rs.getDouble("net_price"));
+                vegDetail.setVegPicName(rs.getString("veg_pic_name"));
+                vegDetail.setVegCategory(rs.getString("veg_category"));
+
+                // Add the populated VegetablesDetails object to the list
+                vegetableList.add(vegDetail);
+            }
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+
+    return vegetableList;  // Return the list of VegetablesDetails
+}
+
+
+
+
 }

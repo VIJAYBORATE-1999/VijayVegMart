@@ -287,7 +287,69 @@ public String getOrderDateByOrderId(String orderId) {
     return orderDateString;  // Return the formatted order_date as a String
 }
 	
+
+/* ------------GET ALL ORDERS BY USER ID ----------------------------*/
+public List<Orders> getAllOrdersByUserId(int userId) {
+    List<Orders> ordersList = new ArrayList<>();
+
+    String query = "SELECT * FROM orders WHERE user_id = ?";
+
+    try (PreparedStatement ps = connection.prepareStatement(query)) {
+        ps.setInt(1, userId);  // Set user_id as a parameter
+
+        try (ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                Orders order = new Orders();
+                
+                // Populate the Orders object from the result set
+                order.setOrderId(rs.getString("order_id"));
+                order.setUserId(rs.getInt("user_id"));
+                order.setCartId(rs.getInt("cart_id"));
+                order.setPaymentStatusByUser(rs.getString("payment_status_by_user"));
+                order.setVendorActionStatus(rs.getString("vendor_action_status"));
+                order.setOrder_date(rs.getTimestamp("order_date"));
+
+                // Add the populated Orders object to the list
+                ordersList.add(order);
+            }
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+
+    return ordersList;  // Return the list of Orders
+}
 	
+public Orders getOrderDetailsByOrderIdAndCartId(String orderId, int cartId) {
+    Orders order = null;
+
+    // Query to fetch order details from orders table
+    String query = "SELECT order_id, user_id, cart_id, order_date, payment_status_by_user, vendor_action_status " +
+                   "FROM orders " +
+                   "WHERE order_id = ? AND cart_id = ?";
+
+    try (PreparedStatement ps = connection.prepareStatement(query)) {
+        ps.setString(1, orderId);  // Set the order_id as a parameter
+        ps.setInt(2, cartId);      // Set the cart_id as a parameter
+
+        try (ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) {
+                // Create and populate Orders object
+                order = new Orders();
+                order.setOrderId(rs.getString("order_id"));
+                order.setUserId(rs.getInt("user_id"));
+                order.setCartId(rs.getInt("cart_id"));
+                order.setOrder_date(rs.getTimestamp("order_date"));
+                order.setPaymentStatusByUser(rs.getString("payment_status_by_user"));
+                order.setVendorActionStatus(rs.getString("vendor_action_status"));
+            }
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+
+    return order;  // Return the Orders object or null if not found
+}
 	
 		
 	}

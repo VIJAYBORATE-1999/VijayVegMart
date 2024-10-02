@@ -24,5 +24,7 @@ public interface VegetablesService {
      public String getVendorUsernameByVegId(int vegId) throws Exception;
      
      public VegetablesDetails fetchVegetableDetailsByCartId(int cartId) throws Exception ;
+     
+     public List<VegetablesDetails> getVegetablesDetailsByOrderId(String orderId) throws Exception;
 
 }

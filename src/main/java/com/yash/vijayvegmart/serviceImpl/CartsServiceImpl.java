@@ -57,4 +57,12 @@ public class CartsServiceImpl  implements CartsService{
 		// TODO Auto-generated method stub
 		return cart_dao.getCartDetailsByCartId(cartId);
 	}
+	
+	
+	
+	 public List<Carts> getCartsByOrderId(String orderId)
+	 {
+		 
+		 return cart_dao.getCartsByOrderId(orderId);
+	 }
 }

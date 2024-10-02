@@ -29,4 +29,5 @@ public interface VegetablesDao {
     
     public VegetablesDetails getVegetableDetailsByCartId(int cartId);
     
+    public List<VegetablesDetails> getVegetablesDetailsByOrderId(String orderId) ;
 }

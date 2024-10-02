@@ -29,4 +29,9 @@ public interface OrdersDao {
 	public Revenues getRevenuesByIdAndUserId(String orderId, int userId) throws SQLException;
 	
 	public String getOrderDateByOrderId(String orderId);
+	
+	public List<Orders> getAllOrdersByUserId(int userId) ;
+	
+	public Orders getOrderDetailsByOrderIdAndCartId(String orderId, int cartId) ;
+	
 }

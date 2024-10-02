@@ -159,8 +159,47 @@ public class CartDaoImpl implements CartsDao {
 
 	        return cart;  // Return the Carts object
 	    }
-		
 	
+	 /*-------------------*/
+	
+	 
+	 public List<Carts> getCartsByOrderId(String orderId) {
+	        List<Carts> cartsList = new ArrayList<>();
+
+	        // Query to join orders and carts tables
+	        String query = "SELECT c.cart_id, c.created_at, c.updated_at, c.user_id, c.veg_id, " +
+	                       "c.quantity_added, c.total_price, c.order_status " +
+	                       "FROM orders o " +
+	                       "JOIN carts c ON o.cart_id = c.cart_id " +
+	                       "WHERE o.order_id = ?";
+
+	        try (PreparedStatement ps = connection.prepareStatement(query)) {
+	            ps.setString(1, orderId);  // Set the order_id as a parameter
+
+	            try (ResultSet rs = ps.executeQuery()) {
+	                while (rs.next()) {
+	                    Carts cart = new Carts();
+
+	                    // Populate the Carts object from the result set
+	                    cart.setCart_Id(rs.getInt("cart_id"));
+	                    cart.setCreatedAt(rs.getTimestamp("created_at"));
+	                    cart.setUpdatedAt(rs.getTimestamp("updated_at"));
+	                    cart.setUser_Id(rs.getInt("user_id"));
+	                    cart.setVeg_id(rs.getInt("veg_id"));
+	                    cart.setQuantity_added(rs.getDouble("quantity_added"));
+	                    cart.setTotal_Price(rs.getDouble("total_price"));
+	                    cart.setOrder_status(rs.getString("order_status"));
+
+	                    // Add the populated Carts object to the list
+	                    cartsList.add(cart);
+	                }
+	            }
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        }
+
+	        return cartsList;  // Return the list of Carts objects
+	    }
 	
 
 }

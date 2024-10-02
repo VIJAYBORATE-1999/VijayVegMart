@@ -149,5 +149,14 @@ public VegetablesDetails fetchVegetableById(int veg_id) throws Exception {
     	return vegDao.getVegetableDetailsByCartId(cartId);
     }
     
+    
+    
+    public List<VegetablesDetails> getVegetablesDetailsByOrderId(String orderId) throws Exception
+    {
+       return vegDao.getVegetablesDetailsByOrderId(orderId);	
+    }
+    
 }
+
+
 

@@ -125,4 +125,19 @@ public String getOrderDateByOrderId(String orderId) {
 	return order_dao.getOrderDateByOrderId(orderId);
 }
 	
+
+public List<Orders> fetchAllOrdersByUserId(int userId) 
+{
+	return order_dao.getAllOrdersByUserId(userId);
+
+}
+
+
+
+@Override
+public Orders getOrderDetailsByOrderIdAndCartId(String orderId, int cartId) {
+	// TODO Auto-generated method stub
+	return order_dao.getOrderDetailsByOrderIdAndCartId(orderId, cartId);
+}
+
 }
