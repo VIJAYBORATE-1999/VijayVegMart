@@ -76,8 +76,10 @@
             <p>Greenville, VG 12345</p>
         </div>
         <div class="text-center mt-4 no-print">
-            <a href="#" class="btn btn-primary me-2">Return to Shop</a>
-            <button onclick="window.print()" class="btn btn-success">Download Bill</button>
+        
+            <a href="${pageContext.request.contextPath}/home.jsp" class="btn btn-success me-2">Return to Shop</a>
+          <br>
+            <button onclick="window.print()" class="btn btn-primary">Download Bill</button>
         </div>
     </div>
     

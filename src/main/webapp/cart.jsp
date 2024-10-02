@@ -72,9 +72,11 @@
         <div class="mt-3 d-flex justify-content-end">
             <!-- 'Continue Shopping' submits form to OrderServlet -->
             <button type="submit" class="btn btn-success btn-custom">Continue Shopping</button>
-            <button type="button" class="btn btn-primary btn-custom">Add More Items</button>
+            
         </div>
     </form>
+    
+    <a href="${pageContext.request.contextPath}/home.jsp" class="btn btn-primary btn-custom ">Add More Items</a>
 </div>
 
 <br><br>
