@@ -328,4 +328,45 @@ public String getUsernameByVegId(int vegId) {
 }
 
 
+/*---------------------------------FETCH VEGETBALE DETAILS BY CART ID ---------------------------------*/
+
+public VegetablesDetails getVegetableDetailsByCartId(int cartId) {
+    String query = "SELECT v.veg_id, v.created_at, v.updated_at, v.vendor_id, v.veg_name, v.quantity, "
+            + "v.description, v.price_per_piece, v.discount_per_piece, v.net_price, v.veg_pic_name, v.veg_category "
+            + "FROM carts c "
+            + "JOIN vegetables_details v ON c.veg_id = v.veg_id "
+            + "WHERE c.cart_id = ?";
+
+    VegetablesDetails vegetableDetails = null;
+
+    try (PreparedStatement ps = connection.prepareStatement(query)) {
+        ps.setInt(1, cartId);  // Set cart_id as a parameter
+
+        try (ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) {
+                // Create VegetablesDetails object and populate it with data from ResultSet
+                vegetableDetails = new VegetablesDetails();
+                vegetableDetails.setVegId(rs.getInt("veg_id"));
+                vegetableDetails.setCreatedAt(rs.getTimestamp("created_at"));
+                vegetableDetails.setUpdatedAt(rs.getTimestamp("updated_at"));
+                vegetableDetails.setVendorId(rs.getInt("vendor_id"));
+                vegetableDetails.setVegName(rs.getString("veg_name"));
+                vegetableDetails.setQuantity(rs.getInt("quantity"));
+                vegetableDetails.setDescription(rs.getString("description"));
+                vegetableDetails.setPricePerPiece(rs.getDouble("price_per_piece"));
+                vegetableDetails.setDiscount_per_piece(rs.getDouble("discount_per_piece"));
+                vegetableDetails.setNet_price(rs.getDouble("net_price"));
+                vegetableDetails.setVegPicName(rs.getString("veg_pic_name"));
+                vegetableDetails.setVegCategory(rs.getString("veg_category"));
+            }
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+
+    return vegetableDetails;  // Return the VegetablesDetails object
+}
+
+
+
 }

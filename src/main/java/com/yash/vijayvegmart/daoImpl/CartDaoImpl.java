@@ -126,6 +126,39 @@ public class CartDaoImpl implements CartsDao {
 	    }
 
 		
+	
+	/*  GET CART DETAIL BY CART_ID */
+	
+	
+	 public Carts getCartDetailsByCartId(int cartId) {
+	        String query = "SELECT cart_id, created_at, updated_at, user_id, veg_id, quantity_added, total_price, order_status "
+	                     + "FROM carts WHERE cart_id = ?";
+
+	        Carts cart = null;
+
+	        try (PreparedStatement ps = connection.prepareStatement(query)) {
+	            ps.setInt(1, cartId);  // Set cart_id as a parameter
+
+	            try (ResultSet rs = ps.executeQuery()) {
+	                if (rs.next()) {
+	                    // Create Carts object and populate it with data from ResultSet
+	                    cart = new Carts();
+	                    cart.setCart_Id(rs.getInt("cart_id"));
+	                    cart.setCreatedAt(rs.getTimestamp("created_at"));
+	                    cart.setUpdatedAt(rs.getTimestamp("updated_at"));
+	                    cart.setUser_Id(rs.getInt("user_id"));
+	                    cart.setVeg_id(rs.getInt("veg_id"));
+	                    cart.setQuantity_added(rs.getDouble("quantity_added"));
+	                    cart.setTotal_Price(rs.getDouble("total_price"));
+	                    cart.setOrder_status(rs.getString("order_status"));
+	                }
+	            }
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        }
+
+	        return cart;  // Return the Carts object
+	    }
 		
 	
 	

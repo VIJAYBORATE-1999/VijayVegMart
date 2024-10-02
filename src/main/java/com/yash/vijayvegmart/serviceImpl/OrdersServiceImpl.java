@@ -1,7 +1,9 @@
 package com.yash.vijayvegmart.serviceImpl;
 
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.UUID;
 
 import com.yash.vijayvegmart.dao.OrdersDao;
@@ -84,7 +86,7 @@ public String placeOrder(String fullName, String address, String city, String st
 	
 	// 4) Shop revenue Update 
 	double tax = 56;
-	Revenues revenues = new Revenues(order_id_generated, total_order_cost,tax);
+	Revenues revenues = new Revenues(order_id, total_order_cost,tax);
 	
 	order_dao.insertRevenues(revenues);
 	
@@ -94,5 +96,33 @@ public String placeOrder(String fullName, String address, String city, String st
 }
 	
 	
+
+
+/* As user go to order confimation page we need these 3 functions */
+
+@Override
+public List<Orders> fetchOrdersByIdAndUserId(String orderId, int userId) throws SQLException {
+	// TODO Auto-generated method stub
+	return order_dao.getOrdersByIdAndUserId(orderId, userId);
+}
+
+@Override
+public OrdersDetails fetchOrderDetailsByIdAndUserId(String orderId, int userId) throws SQLException {
+	// TODO Auto-generated method stub
+	return order_dao.getOrderDetailsByIdAndUserId(orderId, userId);
+}
+
+@Override
+public Revenues fetchRevenuesByIdAndUserId(String orderId, int userId) throws SQLException {
+	// TODO Auto-generated method stub
+	return order_dao.getRevenuesByIdAndUserId(orderId, userId);
+}
+
+
+@Override
+public String getOrderDateByOrderId(String orderId) {
+	// TODO Auto-generated method stub
+	return order_dao.getOrderDateByOrderId(orderId);
+}
 	
 }

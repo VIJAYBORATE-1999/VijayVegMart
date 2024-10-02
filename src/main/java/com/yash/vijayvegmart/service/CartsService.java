@@ -13,4 +13,6 @@ public interface CartsService {
 	
 	public void deletePendingCart(int vegId, int userId);
 	
+	 public Carts fetchCartDetailsByCartId(int cartId); 
+	
 }

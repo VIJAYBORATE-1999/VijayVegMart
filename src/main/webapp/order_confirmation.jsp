@@ -1,3 +1,12 @@
+<%@page import="com.yash.vijayvegmart.model.OrdersDetails"%>
+<%@page import="com.yash.vijayvegmart.model.Revenues"%>
+<%@page import="com.yash.vijayvegmart.model.Carts"%>
+<%@page import="com.yash.vijayvegmart.serviceImpl.CartsServiceImpl"%>
+<%@page import="com.yash.vijayvegmart.model.VegetablesDetails"%>
+<%@page import="com.yash.vijayvegmart.serviceImpl.VegetablesServiceImpl"%>
+<%@page import="java.util.List"%>
+<%@page import="com.yash.vijayvegmart.model.Orders"%>
+<%@page import="com.yash.vijayvegmart.serviceImpl.OrdersServiceImpl"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -24,13 +33,22 @@
         </div>
         <div class="order-details">
         <%
-    String order_id = (String) session.getAttribute("order_id");
+        
+        Users user = (Users) session.getAttribute("user");
+        String order_id = (String) session.getAttribute("order_id");
+         OrdersServiceImpl order_Service_impl = new OrdersServiceImpl(); 
+         String order_date = order_Service_impl.getOrderDateByOrderId(order_id) ;
+         VegetablesServiceImpl vserviceImpl = new  VegetablesServiceImpl();
+         CartsServiceImpl cserviceImpl = new CartsServiceImpl();
+            		
+        List<Orders> orders_list = order_Service_impl.fetchOrdersByIdAndUserId(order_id, user.getId());
+    
     
 %>
      <h2> Order Id : <%= order_id %> </h2>
            
-            <p>Order Date: 09/28/2024</p>
-            <p class="estimated-delivery">Estimated Delivery: 09/30/2024</p>
+            <p>Order Date: <%=order_date %> </p>
+            <p class="estimated-delivery">Estimated Delivery: Within 8 Hr</p>
         </div>
         <h2>Order Summary</h2>
         <table class="table">
@@ -43,37 +61,51 @@
                 </tr>
             </thead>
             <tbody>
+            <%
+            
+            for(Orders order_item : orders_list)
+            {
+            	 VegetablesDetails veg_detail = vserviceImpl.fetchVegetableDetailsByCartId(order_item.getCartId());
+            	 Carts  cart_detail = cserviceImpl.fetchCartDetailsByCartId(order_item.getCartId());
+            %>
+            
                 <tr>
-                    <td>Carrots</td>
-                    <td>2</td>
-                    <td>$1.99</td>
-                    <td>$3.98</td>
+                    <td><%=veg_detail.getVegName() %></td>
+                    <td><%=  cart_detail.getQuantity_added() %></td>
+                    <td><%= veg_detail.getNet_price() %></td>
+                    <td><%= cart_detail.getTotal_Price() %></td>
                 </tr>
-                <tr>
-                    <td>Tomatoes</td>
-                    <td>1</td>
-                    <td>$2.49</td>
-                    <td>$2.49</td>
-                </tr>
-                <tr>
-                    <td>Broccoli</td>
-                    <td>3</td>
-                    <td>$1.79</td>
-                    <td>$5.37</td>
-                </tr>
+        <% } %>    
+               
             </tbody>
             <tfoot>
                 <tr>
                     <td colspan="3" class="text-end"><strong>Total:</strong></td>
-                    <td><strong>$11.84</strong></td>
+                    <%
+                     Revenues revenue =order_Service_impl.fetchRevenuesByIdAndUserId(order_id, user.getId());
+                    %>
+                    <td><strong><%=revenue.getTotalPayment()%></strong></td>
                 </tr>
+                
+                   <tr>
+                    <td colspan="3" class="text-end"><strong>Tax(10%):</strong></td>
+
+                    <td><strong><%=revenue.getTax()%></strong></td>
+                </tr>
+                
             </tfoot>
         </table>
         <h2>Shipping Information</h2>
+        
+        <%
+        OrdersDetails order_details = order_Service_impl.fetchOrderDetailsByIdAndUserId(order_id, user.getId());
+        %>
         <div id="shipping-info">
-            <p>John Doe</p>
-            <p>123 Veggie Lane</p>
-            <p>Greenville, VG 12345</p>
+            <p>Name : <%=order_details.getFullName() %></p>
+            <p>Address : <%=order_details.getAddress() %></p>
+            <p>City :<%=order_details.getCity() %></p>
+            <p>State :<%=order_details.getState() %></p>
+            <p>ZIP : <%=order_details.getZip() %></p>
         </div>
         <div class="text-center mt-4 no-print">
         

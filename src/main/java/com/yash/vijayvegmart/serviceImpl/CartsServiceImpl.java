@@ -49,4 +49,12 @@ public class CartsServiceImpl  implements CartsService{
 		cart_dao.removePendingCart(vegId, userId);
 	}
 	
+	
+	
+	
+	@Override
+	public Carts fetchCartDetailsByCartId(int cartId) {
+		// TODO Auto-generated method stub
+		return cart_dao.getCartDetailsByCartId(cartId);
+	}
 }

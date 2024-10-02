@@ -1,13 +1,23 @@
 package com.yash.vijayvegmart.model;
 
+import java.sql.Timestamp;
+
 public class Orders {
     private String orderId;
     private int userId;
     private int cartId;
     private String paymentStatusByUser;
     private String vendorActionStatus;
+    private Timestamp order_date;
+    
+    
+    public Orders() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
-    public Orders(String orderId, int userId, int cartId, String paymentStatusByUser, String vendorActionStatus) {
+
+	public Orders(String orderId, int userId, int cartId, String paymentStatusByUser, String vendorActionStatus) {
         this.orderId = orderId;
         this.userId = userId;
         this.cartId = cartId;
@@ -54,6 +64,16 @@ public class Orders {
 
 	public void setVendorActionStatus(String vendorActionStatus) {
 		this.vendorActionStatus = vendorActionStatus;
+	}
+
+
+	public Timestamp getOrder_date() {
+		return order_date;
+	}
+
+
+	public void setOrder_date(Timestamp order_date) {
+		this.order_date = order_date;
 	}
 
     

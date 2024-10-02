@@ -26,4 +26,7 @@ public interface VegetablesDao {
     
     public String getUsernameByVegId(int vegId);
     
+    
+    public VegetablesDetails getVegetableDetailsByCartId(int cartId);
+    
 }

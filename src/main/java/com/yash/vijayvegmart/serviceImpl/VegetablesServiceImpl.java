@@ -141,6 +141,13 @@ public VegetablesDetails fetchVegetableById(int veg_id) throws Exception {
     }
 
     
+    /* ------------- FETCH VEGETBALE DETAILS BY CART ID ---*/
+    
+    @Override
+    public VegetablesDetails fetchVegetableDetailsByCartId(int cartId) throws Exception {
+    	// TODO Auto-generated method stub
+    	return vegDao.getVegetableDetailsByCartId(cartId);
+    }
     
 }
 

@@ -15,7 +15,15 @@ public class OrdersDetails {
     private int userId;
     private double totalOrderCost;
 	
-    public OrdersDetails(String orderId, String fullName, String address, String city, String state, int zip,
+    
+    
+    
+    public OrdersDetails() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public OrdersDetails(String orderId, String fullName, String address, String city, String state, int zip,
 			String cardName, String cardNumber, String expDate, int cvv, int userId, double totalOrderCost) {
 		super();
 		this.orderId = orderId;
