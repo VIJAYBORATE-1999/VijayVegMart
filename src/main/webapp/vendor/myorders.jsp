@@ -65,9 +65,20 @@ if (user != null) {
                         <td><%= vendor_order.getQuantity_added()%></td>
                         <td> <%= vendor_order.getOrder_date() %></td>
                         <td>
-                            <button class="button"> Approve</button>
-                             <button class="button"> Reject</button>
-                             
+                            <form action="${pageContext.request.contextPath}/VendorsController" method="post">
+                             <input type="hidden" id="vendor_action_status" name="vendor_action_status" value="approved">
+                             <input type="hidden" id="order_id" name="order_id" value="<%=vendor_order.getOrder_id() %>">
+                             <input type="hidden" id="user_id" name="user_id" value="<%=vendor_order.getUser_id() %>">
+                             <input type="hidden" id="cart_id" name="cart_id" value="<%=vendor_order.getCart_id() %>">
+                            <input type="submit" value="Approve">
+                            </form>
+    						  <form action="${pageContext.request.contextPath}/VendorsController" method="post">
+                             <input type="hidden" id="vendor_action_status" name="vendor_action_status" value="rejected">
+                             <input type="hidden" id="order_id" name="order_id" value="<%=vendor_order.getOrder_id() %>">
+                             <input type="hidden" id="user_id" name="user_id" value="<%=vendor_order.getUser_id() %>">
+                             <input type="hidden" id="cart_id" name="cart_id" value="<%=vendor_order.getCart_id() %>">
+                            <input type="submit" value="Reject">
+                            </form>
                              
                         </td>
                     </tr>

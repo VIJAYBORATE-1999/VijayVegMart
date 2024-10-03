@@ -10,13 +10,16 @@ double quantity_added ;
 int veg_id ; 
 String veg_name;
 double total_price;
+int cart_id; 
+
 public VendorOrdersVO() {
 	super();
 	// TODO Auto-generated constructor stub
 }
 public VendorOrdersVO(String order_id, int user_id, java.sql.Timestamp order_date, double quantity_added, int veg_id,
-		String veg_name, double total_price) {
+		String veg_name, double total_price , int cart_id) {
 	super();
+	this.cart_id = cart_id;
 	this.order_id = order_id;
 	this.user_id = user_id;
 	this.order_date = order_date;
@@ -66,6 +69,12 @@ public double getTotal_price() {
 }
 public void setTotal_price(double total_price) {
 	this.total_price = total_price;
+}
+public int getCart_id() {
+	return cart_id;
+}
+public void setCart_id(int cart_id) {
+	this.cart_id = cart_id;
 }
 
 

@@ -17,7 +17,7 @@
 
 <%@include file="components/navbar.jsp" %>
 
-
+<br><br>
 
   <!-- Content Section Start -->
     <div class="container mt-5 pt-5 content">
@@ -35,8 +35,8 @@
 </c:if>
 
                 <form action="${pageContext.request.contextPath}/users" method="post">
-                    <input type="text" class="w-100  border-0 py-3 mb-4" placeholder="Enter Your User Name" name="username" required="required">
-                    <input type="password" class="w-100  border-0 py-3 mb-4" placeholder="Enter Your Password" name="password" required="required" >
+               <input type="text" class="w-100  border-0 py-3 mb-4" placeholder="Enter Your User Name" name="username" required="required">
+                     <input type="password" class="w-100  border-0 py-3 mb-4" placeholder="Enter Your Password" name="password" required="required" >
                     <input type="hidden" value="login" name="action" />
                     <button class="w-100 btn  border-secondary py-3 bg-white text-primary " type="submit">Login</button>
                 </form>
@@ -44,7 +44,7 @@
         
 
         </div>
-        <br><br><br>
+        <br>
     </div>
     <!-- Content Section End -->
 

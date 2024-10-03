@@ -97,7 +97,27 @@ ArrayList<String> order_ids_list= new ArrayList<String>(order_ids);
                                 	 VegetablesDetails veg_list = vserviceImpl.fetchVegetableById(carts_item.getVeg_id());
                                 	 Orders order =  order_Service_impl.getOrderDetailsByOrderIdAndCartId(order_id, carts_item.getCart_Id());
                                 %>
-                                    <li><%=veg_list.getVegName()%> - Quantity: <%=carts_item.getQuantity_added() %> , Price: <%= carts_item.getTotal_Price() %> ,  <span class="badge bg-success"><%=order.getVendorActionStatus() %></span>  </li>
+                                    <li><%=veg_list.getVegName()%> - Quantity: <%=carts_item.getQuantity_added() %> , Price: <%= carts_item.getTotal_Price() %> , 
+                                    
+                                    <% String s =order.getVendorActionStatus();
+                                    if(s.equals("pending"))
+                                    { 	
+                                    %>
+                                     <span class="badge bg-warning"><%=order.getVendorActionStatus() %></span>  </li>
+                                    <% }
+                                    else if(s.equals("approved")) {
+                                    %>
+                                     <span class="badge bg-success"><%=order.getVendorActionStatus() %></span>  </li>
+                                    
+                                    <%} else if(s.equals("rejected")){
+                                    	
+                                    	%>
+                                    	 <span class="badge bg-danger"><%=order.getVendorActionStatus() %></span>  </li>
+                                    	 
+                                    	<%} %>
+                                    
+                                    
+                                    
                                <% 
                                 }
                                 %>

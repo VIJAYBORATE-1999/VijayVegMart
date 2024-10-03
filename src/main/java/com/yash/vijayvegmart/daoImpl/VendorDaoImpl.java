@@ -27,11 +27,11 @@ public class VendorDaoImpl implements VendorDao{
 	        List<VendorOrdersVO> vendorOrdersList = new ArrayList<VendorOrdersVO>();
 
 	        // SQL query to retrieve orders for a given vendor_id and vendor_action_status
-	        String query = "SELECT o.order_id, o.user_id, o.order_date, c.quantity_added, c.veg_id, vd.veg_name, c.total_price " +
-	                       "FROM orders o " +
-	                       "JOIN carts c ON o.cart_id = c.cart_id AND o.user_id = c.user_id " +
-	                       "JOIN vegetables_details vd ON c.veg_id = vd.veg_id " +
-	                       "WHERE vd.vendor_id = ? AND o.vendor_action_status = ?";
+	        String query = "SELECT o.order_id, o.user_id, o.order_date, o.cart_id, c.quantity_added, c.veg_id, vd.veg_name, c.total_price " +
+                    "FROM orders o " +
+                    "JOIN carts c ON o.cart_id = c.cart_id AND o.user_id = c.user_id " +
+                    "JOIN vegetables_details vd ON c.veg_id = vd.veg_id " +
+                    "WHERE vd.vendor_id = ? AND o.vendor_action_status = ?";
 
 	        // Assuming you have a method to get the database connection
 	   
@@ -51,6 +51,7 @@ public class VendorDaoImpl implements VendorDao{
 	                order.setUser_id(rs.getInt("user_id"));
 	                order.setOrder_date(rs.getTimestamp("order_date"));
 	                order.setQuantity_added(rs.getDouble("quantity_added"));
+	                order.setCart_id(rs.getInt("cart_id")); // Fetch cart_id
 	                order.setVeg_id(rs.getInt("veg_id"));
 	                order.setVeg_name(rs.getString("veg_name"));
 	                order.setTotal_price(rs.getDouble("total_price"));
@@ -65,4 +66,31 @@ public class VendorDaoImpl implements VendorDao{
 	    }
 	
 	
+	 
+	    public boolean updateVendorActionStatus(String orderId, int userId, int cartId, String newVendorActionStatus) {
+	        // SQL query to update the vendor_action_status field
+	        String query = "UPDATE orders " +
+	                       "SET vendor_action_status = ? " +
+	                       "WHERE order_id = ? AND user_id = ? AND cart_id = ?";
+
+	        try (PreparedStatement ps = connection.prepareStatement(query)) {
+	            // Set parameters for the query
+	            ps.setString(1, newVendorActionStatus);  // Set new vendor_action_status
+	            ps.setString(2, orderId);                // Set order_id
+	            ps.setInt(3, userId);                    // Set user_id
+	            ps.setInt(4, cartId);                    // Set cart_id
+
+	            // Execute the update query
+	            int rowsAffected = ps.executeUpdate();
+
+	            // Return true if the update was successful (i.e., at least one row was updated)
+	            return rowsAffected > 0;
+
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	            return false;  // Return false if there was an exception or no rows were updated
+	        }
+	    }
+	    
+	    
 }

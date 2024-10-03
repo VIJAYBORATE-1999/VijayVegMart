@@ -27,5 +27,10 @@ public class VendorServiceImpl implements VendorService{
 	}
 
 	
+	 public boolean updateVendorActionStatus(String orderId, int userId, int cartId, String newVendorActionStatus)
+	 {
+		 
+		 return dao.updateVendorActionStatus(orderId, userId, cartId, newVendorActionStatus);
+	 }
 	
 }
