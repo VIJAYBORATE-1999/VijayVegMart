@@ -28,6 +28,7 @@ public class VendorController extends HttpServlet {
 		// TODO Auto-generated method stub
 		
 		String vendor_action_status = request.getParameter("vendor_action_status");
+		String inventory_action = request.getParameter("inventory_action");
 		
 		
 		if( vendor_action_status != null)
@@ -52,6 +53,35 @@ public class VendorController extends HttpServlet {
 		
 		}
 
+		else if(inventory_action!= null)
+		{
+			String veg_name = request.getParameter("veg_name");
+			int  veg_id = Integer.parseInt(request.getParameter("veg_id"));
+			int  vendor_id = Integer.parseInt(request.getParameter("vendor_id"));
+			int  new_quantity = Integer.parseInt(request.getParameter("newStock"));
+			
+			System.out.println("===================================");
+			if(inventory_action.equals("update"))
+			{
+				
+				System.out.println(veg_name );
+				System.out.println( veg_id );
+				System.out.println(vendor_id );
+				System.out.println(new_quantity );
+				boolean b = vendorService.updateQuantity(veg_id, veg_name, vendor_id, new_quantity);
+				response.sendRedirect("vendor/inventory.jsp");
+			}
+			else if (inventory_action.equals("refill"))
+			{
+				
+				boolean b = vendorService.updateQuantity(veg_id, veg_name, vendor_id, new_quantity);
+				response.sendRedirect("vendor/inventory.jsp");
+			}
+						
+		}
+				
+		
+		
 		
 		
 		

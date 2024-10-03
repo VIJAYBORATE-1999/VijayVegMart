@@ -33,4 +33,11 @@ public class VendorServiceImpl implements VendorService{
 		 return dao.updateVendorActionStatus(orderId, userId, cartId, newVendorActionStatus);
 	 }
 	
+	 
+	 
+	 @Override
+	public boolean updateQuantity(int vegId, String vegName, int vendorId, int newQuantity) {
+		// TODO Auto-generated method stub
+		return dao.updateQuantity(vegId, vegName, vendorId, newQuantity);
+	}
 }

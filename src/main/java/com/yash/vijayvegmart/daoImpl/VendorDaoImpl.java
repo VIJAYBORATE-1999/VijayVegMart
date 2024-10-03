@@ -93,4 +93,29 @@ public class VendorDaoImpl implements VendorDao{
 	    }
 	    
 	    
+	    public boolean updateQuantity(int vegId, String vegName, int vendorId, int newQuantity) {
+	        // SQL query to update the quantity field
+	        String query = "UPDATE vegetables_details " +
+	                       "SET quantity = ? " +
+	                       "WHERE veg_id = ? AND veg_name = ? AND vendor_id = ?";
+
+	        try (PreparedStatement ps = connection.prepareStatement(query)) {
+	            // Set parameters for the query
+	            ps.setInt(1, newQuantity);        // Set new quantity
+	            ps.setInt(2, vegId);              // Set veg_id
+	            ps.setString(3, vegName);         // Set veg_name
+	            ps.setInt(4, vendorId);           // Set vendor_id
+
+	            // Execute the update query
+	            int rowsAffected = ps.executeUpdate();
+
+	            // Return true if the update was successful (i.e., at least one row was updated)
+	            return rowsAffected > 0;
+
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	            return false;  // Return false if there was an exception or no rows were updated
+	        }
+	    }
+	    
 }

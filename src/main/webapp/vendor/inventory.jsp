@@ -51,7 +51,7 @@ if (user != null) {
                 </tr>
                 
                 <% 
-                VegetablesServiceImpl vserviceImpl2 = new  VegetablesServiceImpl();
+                VegetablesServiceImpl vserviceImpl2 = new VegetablesServiceImpl();
                 List<VegetablesDetails> list2 = vserviceImpl2.fetchAllVegetablesInStockByVendorId(user.getId());
                 
                 for(VegetablesDetails veg_item : list2) {       
@@ -61,7 +61,7 @@ if (user != null) {
                         <td><%=veg_item.getQuantity() %></td>
                         <td><%=veg_item.getUpdatedAt() %></td>
                         <td>
-                            <button class="button" onclick="openDialog('update', '<%=veg_item.getVegName() %>', <%=veg_item.getQuantity() %>)">Update</button>
+                            <button class="button" onclick="openDialog('update', '<%=veg_item.getVegName() %>', <%=veg_item.getQuantity() %>, <%=veg_item.getVegId() %>, <%=veg_item.getVendorId() %>)">Update</button>
                         </td>
                     </tr>
                 <% } %>       
@@ -86,27 +86,30 @@ if (user != null) {
                         <td><%=veg_item.getQuantity() %></td>
                         <td><%=veg_item.getUpdatedAt() %></td>
                         <td>
-                            <button class="button" onclick="openDialog('refill', '<%=veg_item.getVegName() %>', 0)">Refill</button>
+                            <button class="button" onclick="openDialog('refill', '<%=veg_item.getVegName() %>', 0, <%=veg_item.getVegId() %>, <%=veg_item.getVendorId() %>)">Refill</button>
                         </td>
                     </tr>
                 <% } %>  
             </table>
-            
-            <!-- Dialog Box -->
-            <div id="dialog" style="display: none;">
-                <div style="background-color: white; padding: 20px; border: 1px solid #ccc; width: 300px; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1000;">
-                    <h3 id="dialogTitle"></h3>
-                    <form id="stockForm" onsubmit="submitStockForm(event)">
-                        <input type="hidden" id="vegetableName" required>
-                        <input type="number" id="newStock" placeholder="Stock" required>
-                        <button type="submit" class="button">Update/Refill Stock</button>
-                        <button type="button" class="button" onclick="closeDialog()">Cancel</button>
-                    </form>
-                </div>
-                <div style="background: rgba(0, 0, 0, 0.5); position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 999;"></div>
-            </div>
         </div>
     </div>
+</div>
+
+<!-- Dialog Box -->
+<div id="dialog" style="display: none;">
+    <div style="background-color: white; padding: 20px; border: 1px solid #ccc; width: 300px; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1000;">
+        <h3 id="dialogTitle"></h3>
+        <form id="stockForm" action="${pageContext.request.contextPath}/VendorsController" method="post">
+            <input type="hidden" id="inventory_action" name="inventory_action" value="" required>
+            <input type="hidden" id="veg_id" name="veg_id" value="" required>
+            <input type="hidden" id="veg_name" name="veg_name" value="" required>
+            <input type="hidden" id="vendor_id" name="vendor_id" value="" required>
+            <input type="number" id="newStock" name="newStock" placeholder="Stock" required>
+            <button type="submit" class="button">Submit</button>
+            <button type="button" class="button" onclick="closeDialog()">Cancel</button>
+        </form>
+    </div>
+    <div style="background: rgba(0, 0, 0, 0.5); position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 999;"></div>
 </div>
 
 <%@include file="../components/footer.jsp" %>

@@ -88,27 +88,30 @@
     }
 
     
-    function openDialog(action, vegetable, stock) {
-    const dialog = document.getElementById('dialog');
-    const dialogTitle = document.getElementById('dialogTitle');
-    dialogTitle.textContent = action === 'update' ? `Update Stock for ${vegetable}` : `Refill Stock for ${vegetable}`;
-    document.getElementById('vegetableName').value = vegetable; // Set the vegetable name
-    document.getElementById('newStock').value = stock; // Set the current stock (if applicable)
-    dialog.style.display = 'block';
-}
 
-function closeDialog() {
-    const dialog = document.getElementById('dialog');
-    dialog.style.display = 'none';
-}
 
-function submitStockForm(event) {
-    event.preventDefault();
-    const vegetable = document.getElementById('vegetableName').value;
-    const newStock = document.getElementById('newStock').value;
-    
-    // Handle update/refill logic here
-    console.log(`Updated/Refilled ${vegetable} stock to ${newStock} kg`);
+	// JavaScript to handle opening and closing the dialog box dynamically
+	function openDialog(action, vegName, quantity, vegId, vendorId) {
+	    // Update the dialog title based on the action (update or refill)
+	    document.getElementById("dialogTitle").innerText = action === 'update' ? 'Update Stock' : 'Refill Stock';
 
-    closeDialog(); // Close dialog after submission
-}
+	    // Set the hidden input values with the selected vegetable's details
+	    document.getElementById("inventory_action").value = action;
+	    document.getElementById("veg_id").value = vegId;
+	    document.getElementById("veg_name").value = vegName;
+	    document.getElementById("vendor_id").value = vendorId;
+
+	    // Pre-fill the stock input field with the existing quantity if updating, or 0 for refill
+	    document.getElementById("newStock").value = quantity;
+
+	    // Display the dialog box
+	    document.getElementById("dialog").style.display = "block";
+	}
+
+	// Close the dialog box
+	function closeDialog() {
+	    document.getElementById("dialog").style.display = "none";
+	}
+
+
+

@@ -46,26 +46,50 @@
 <p class="text-info">${error}</p>
 
 </c:if>
+  <div class="w-50 w-md-50 w-sm-75 w-100 mx-auto" style="max-width: 500px;">
+    <form action="${pageContext.request.contextPath}/users" class="" method="post">
+        <div class="mb-3 d-flex justify-content-between">
+            <label for="username" class="me-2 w-25 text-start">User Name:</label>
+            <input type="text" name="username" required="required" placeholder="Enter Your User Name" value="${sessionScope.username}" 
+            class="form-control form-control-sm w-75 border-0 py-2 ${not empty sessionScope.error && sessionScope.error=='Username already exists.' ? 'error':''}">
+        </div>
+
+        <div class="mb-3 d-flex justify-content-between">
+            <label for="email" class="me-2 w-25 text-start">Email:</label>
+            <input type="email" class="form-control form-control-sm w-75 border-0 py-2" placeholder="Enter Your EmailId" name="email" required="required">
+        </div>
+
+        <div class="mb-3 d-flex justify-content-between">
+            <label for="password" class="me-2 w-25 text-start">Password:</label>
+            <input type="password" id="password" class="form-control form-control-sm w-75 border-0 py-2" placeholder="Enter Your Password" name="password" required="required">
+        </div>
+
+        <div class="mb-3 d-flex justify-content-between">
+            <label for="confirm-password" class="me-2 w-25 text-start">Confirm Password:</label>
+            <input type="password" id="confirm-password" onkeyup="validatePasswordMatch()" class="form-control form-control-sm w-75 border-0 py-2" placeholder="Confirm Your Password" name="confrmpassword" required="required">
+        </div>
+
+        <div class="mb-3 d-flex justify-content-between">
+            <label for="usertype" class="me-2 w-25 text-start">User Type:</label>
+            <select name="usertype" class="form-control form-control-sm w-75 border-0 py-2">
+                <option value="customer" selected>Customer</option>
            
-            
-                <form action="${pageContext.request.contextPath}/users" class="" method="post">
-                    <input type="text" name="username" required="required" placeholder="Enter Your User Name" value="${sessionScope.username}" class="w-100  border-0 py-3 mb-4 ${not empty sessionScope.error && sessionScope.error=='Username already exists.' ? 'error':''}">
-                                  
-                    <input type="email" class="w-100  border-0 py-3 mb-4" placeholder="Enter Your EmailId" name="email" required="required" >
-                    <input type="password" id="password" class="w-100  border-0 py-3 mb-4" placeholder="Enter Your Password" name="password" required="required" >
-                    <input type="password" id="confirm-password" onkeyup="validatePasswordMatch()" class="w-100  border-0 py-3 mb-4" placeholder="Confirm Your Password" name="confrmpassword" required="required" >
-					<select name="usertype" class="w-100  border-0 py-3 mb-4" >
-					  <option value="customer" selected>Customer</option>
-             		 <option value="admin">Admin</option>
-             		 <option value="vendor">Vendor</option>
-          			</select>
-					<input type="checkbox" id="check" name="check" required="required">  <label for="check"  > Agree to terms and Conditions </label>
-                 
-                    <input type="hidden" value="register" name="action" />
-                 <br><br><br>
-                    <button class="w-100 btn  border-secondary py-3 bg-white text-primary" type="submit">Register</button>
-                                <br><br><br>
-                </form>
+                <option value="vendor">Vendor</option>
+            </select>
+        </div>
+
+        <div class="mb-3 d-flex align-items-center">
+            <input type="checkbox" id="check" name="check" required="required" class="me-2">
+            <label for="check" class="mb-0">Agree to terms and Conditions</label>
+        </div>
+
+        <input type="hidden" value="register" name="action" />
+    
+        <button class="w-100 btn border-secondary py-2 bg-white text-primary" type="submit">Register</button>
+    </form>
+</div>
+
+
                 
 <c:if test="${not empty password}">
  <c:remove var="error" scope="session"/> 
