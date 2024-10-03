@@ -16,7 +16,13 @@
 
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css" type="text/css">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/vendor.css" type="text/css">
-        <%@include file="/components/links.jsp" %>     
+        <%@include file="/components/links.jsp" %>   
+               <style>
+    @keyframes fadeOut {
+        0% { opacity: 1; } /* Fully visible */
+        100% { opacity: 0; } /* Fully invisible */
+    }
+</style>  
     </head>
     <body>
 
@@ -46,7 +52,7 @@
     <div id="content">
     
     <c:if test="${not empty sucessmessage}">
-        <p class="text-success">${sucessmessage}</p>
+       <h4 class="text-success" style="color: green; font-weight: bold; animation: fadeOut 1s ease-out forwards;">${sucessmessage}</h4>
         <c:remove var="sucessmessage" scope="session"/> 
     </c:if>
 

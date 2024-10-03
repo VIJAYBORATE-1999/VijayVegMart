@@ -40,4 +40,28 @@ public class VendorServiceImpl implements VendorService{
 		// TODO Auto-generated method stub
 		return dao.updateQuantity(vegId, vegName, vendorId, newQuantity);
 	}
+	 
+	 
+	 /*-----------------------INVENTORY LOGIC ----------------------*/
+	 @Override
+	public boolean checkandUpdateInventory(double user_ordered_quantity, int user_ordered_VEG_ID) {
+		
+		 
+		double stock_veg_id = dao.getQuantityByVegId(user_ordered_VEG_ID); // FETCH VEG AVAILABLE  STOCK FIRST 
+		
+		if(stock_veg_id > user_ordered_quantity)
+		{
+			// STOCK AVALABLE SO REDUCE INVENTORY COUNT 
+			boolean b = dao.updateInventoryQuantity(user_ordered_VEG_ID, user_ordered_quantity);
+			return b; 
+			
+		}
+		else 
+		{
+			// Not sufficient stock in inventory 
+			return false;
+		}
+		 
+		
+	}
 }

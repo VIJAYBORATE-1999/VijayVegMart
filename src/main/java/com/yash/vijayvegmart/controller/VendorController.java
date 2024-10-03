@@ -6,6 +6,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.yash.vijayvegmart.service.VendorService;
 import com.yash.vijayvegmart.serviceImpl.VendorServiceImpl;
@@ -29,7 +30,7 @@ public class VendorController extends HttpServlet {
 		
 		String vendor_action_status = request.getParameter("vendor_action_status");
 		String inventory_action = request.getParameter("inventory_action");
-		
+		HttpSession session = request.getSession(false);
 		
 		if( vendor_action_status != null)
 		{
@@ -40,13 +41,28 @@ public class VendorController extends HttpServlet {
 			
 			if(vendor_action_status.equals("approved"))
 			{
-				boolean b = vendorService.updateVendorActionStatus(order_id, user_id, cart_id, vendor_action_status);
 				
+				double user_ordered_quantity = Double.parseDouble(request.getParameter("user_ordered_quantity"));
+				
+				
+				int  user_ordered_VEG_ID = Integer.parseInt(request.getParameter("user_ordered_VEG_ID"));
+				
+				boolean b1 = vendorService.checkandUpdateInventory(user_ordered_quantity, user_ordered_VEG_ID); // 
+				if(b1 == true)
+				{
+				boolean b = vendorService.updateVendorActionStatus(order_id, user_id, cart_id, vendor_action_status);
+				  session.setAttribute("sucessmessage", "ORDER  APPROVED !!!");
+				}
+				else
+				{
+					 session.setAttribute("failuremessage", "OUT OF STOCK !!!FIRST REFILL !!!");
+					
+				}
 			}
 			else if(vendor_action_status.equals("rejected"))
 			{
 				boolean b = vendorService.updateVendorActionStatus(order_id, user_id, cart_id, vendor_action_status);
-				
+				 session.setAttribute("failuremessage", "ORDER REJECTED SUCESSFULLY!!!");
 			}
 		
 			 response.sendRedirect("vendor/myorders.jsp");
@@ -69,12 +85,14 @@ public class VendorController extends HttpServlet {
 				System.out.println(vendor_id );
 				System.out.println(new_quantity );
 				boolean b = vendorService.updateQuantity(veg_id, veg_name, vendor_id, new_quantity);
+				 session.setAttribute("sucessmessage", "Vegetable Stock Updated  Successfully !!!");
 				response.sendRedirect("vendor/inventory.jsp");
 			}
 			else if (inventory_action.equals("refill"))
 			{
 				
 				boolean b = vendorService.updateQuantity(veg_id, veg_name, vendor_id, new_quantity);
+				session.setAttribute("sucessmessage", "Vegetable Stock Refilled  Successfully !!!");
 				response.sendRedirect("vendor/inventory.jsp");
 			}
 						

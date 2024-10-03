@@ -32,13 +32,15 @@ public class VegetablesController extends HttpServlet {
         	  String action_type = request.getParameter("action_type");    // Handles vendor Add/Update Vegetables SECTION  FORM Button => "Add Vegetables"  or "Update"   (home.jsp -> Add/Update Vegetables Section)
         	   String action_type2 = request.getParameter("action_type2"); // Handles vendor Add/Update Vegetables SECTION  FORM Button => "Delete" (home.jsp -> Add/Update Vegetables Section)
         	   String action_type3 = request.getParameter("action_type3"); // Handles vendor Inventory  SECTION  FORM Button => "Update" or "Refill" (home.jsp -> Inventory Section) , we just update the stock 
-        	   
+        	   HttpSession session = request.getSession(false);
     
  /*----------CASE 1) DELETE SERVICE CALL ---------------------------------- */       	   
            	if ((action_type2!= null) && ("delete".equals(action_type2))) {
            		 int veg_id = Integer.parseInt(request.getParameter("vegetable_id"));
            		 System.out.print("Vegetbale idDDD is "+veg_id);		 
            		veg_service.deleteVegetableById(veg_id);
+           		
+           	   session.setAttribute("sucessmessage", "Vegetable Deleted Successfully");
            	 response.sendRedirect(request.getContextPath() + "/vendor/home.jsp");
            		 
            	}
@@ -55,7 +57,7 @@ public class VegetablesController extends HttpServlet {
             String veg_pic_name = part.getSubmittedFileName();         
             double discount_per_piece = Double.parseDouble(request.getParameter("discount_per_piece"));
             double net_price = Double.parseDouble(request.getParameter("net_price"));
-            HttpSession session = request.getSession(false);
+           
             Users user = (Users) session.getAttribute("user");
             int vendorId = user.getId();
             VegetablesDetails veg_details = new VegetablesDetails(vendorId, veg_name, quantity, description, price_per_piece, veg_pic_name, veg_category , discount_per_piece, net_price); 
@@ -65,7 +67,7 @@ public class VegetablesController extends HttpServlet {
             if ("add".equals(action_type)) {
                 veg_service.addVegetable(veg_details, part, path);
 
-                session.setAttribute("sucessmessage", "Vegetable Added Successfully");
+                session.setAttribute("sucessmessage", "Vegetable Added Successfully !!!");
                 response.sendRedirect(request.getContextPath() + "/vendor/home.jsp");
             }
  /*--------------- CASE 3) UPDATE   ------------------ */           
@@ -88,6 +90,7 @@ public class VegetablesController extends HttpServlet {
             	  System.out.println("------------"); 
             	  System.out.println("------------"); 
             	  veg_service.updateVegetable(veg_details2, part, path);
+            	   session.setAttribute("sucessmessage", "Vegetable Updated Successfully  !!!");
             	  response.sendRedirect(request.getContextPath() + "/vendor/home.jsp");
             } 
             

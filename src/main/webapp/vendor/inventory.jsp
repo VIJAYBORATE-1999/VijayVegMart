@@ -15,7 +15,13 @@
     <title>Vendor Inventory</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css" type="text/css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/vendor.css" type="text/css">   
-    <%@include file="/components/links.jsp" %>     
+    <%@include file="/components/links.jsp" %>  
+                   <style>
+    @keyframes fadeOut {
+        0% { opacity: 2; } /* Fully visible */
+        100% { opacity: 0; } /* Fully invisible */
+    }
+</style>    
 </head>
 <body>
 
@@ -34,12 +40,18 @@ if (user != null) {
     return;  // Ensure no further content is sent after redirect
 }
 %>
+
+
 <br>
 <div id="container2">
+    
     <div id="content">
         <div id="inventory" class="section active">
             <h2>Inventory</h2>
-            
+      <c:if test="${not empty sucessmessage}">
+       <h4 class="text-success" style="color: green; font-weight: bold; animation: fadeOut 1.5s ease-out forwards;">${sucessmessage}</h4>
+        <c:remove var="sucessmessage" scope="session"/> 
+    </c:if>         
             <!-- In Stock Table -->
             <h3>In Stock</h3>
             <table>

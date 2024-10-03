@@ -18,6 +18,12 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css" type="text/css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/vendor.css" type="text/css">   
     <%@include file="/components/links.jsp" %>     
+                       <style>
+    @keyframes fadeOut {
+        0% { opacity: 2; } /* Fully visible */
+        100% { opacity: 0; } /* Fully invisible */
+    }
+</style>  
 </head>
 <body>
 
@@ -41,7 +47,15 @@ if (user != null) {
     <div id="content">
         <div id="inventory" class="section active">
             <h2>Orders</h2>
-            
+    <c:if test="${not empty sucessmessage}">
+       <h4 class="text-success" style="color: green; font-weight: bold; animation: fadeOut 1.5s ease-out forwards;">${sucessmessage}</h4>
+        <c:remove var="sucessmessage" scope="session"/> 
+    </c:if>   
+    
+        <c:if test="${not empty failuremessage}">
+       <h4 class="text-danger" style="color: green; font-weight: bold; animation: fadeOut 1.5s ease-out forwards;">${failuremessage}</h4>
+        <c:remove var="failuremessage" scope="session"/> 
+    </c:if>           
             <!-- In Stock Table -->
             <h3>Pending</h3>
             <table>
@@ -70,6 +84,9 @@ if (user != null) {
                              <input type="hidden" id="order_id" name="order_id" value="<%=vendor_order.getOrder_id() %>">
                              <input type="hidden" id="user_id" name="user_id" value="<%=vendor_order.getUser_id() %>">
                              <input type="hidden" id="cart_id" name="cart_id" value="<%=vendor_order.getCart_id() %>">
+                             <input type="hidden" id="user_ordered_quantity" name="user_ordered_quantity" value="<%=vendor_order.getQuantity_added()%>">
+                             <input type="hidden" id="user_ordered_VEG_ID" name="user_ordered_VEG_ID" value="<%=vendor_order.getVeg_id()%>">
+                            
                             <input type="submit" value="Approve">
                             </form>
     						  <form action="${pageContext.request.contextPath}/VendorsController" method="post">

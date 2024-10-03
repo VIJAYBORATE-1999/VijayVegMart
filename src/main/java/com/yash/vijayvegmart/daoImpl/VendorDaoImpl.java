@@ -118,4 +118,42 @@ public class VendorDaoImpl implements VendorDao{
 	        }
 	    }
 	    
+	    @Override
+	    public double getQuantityByVegId(int vegId) {
+	    	 String query = "SELECT quantity FROM vegetables_details WHERE veg_id = ?";
+	    	    double quantity = -1.0; // Initialize to -1 or some other value indicating not found
+	    	    try (PreparedStatement ps = connection.prepareStatement(query)) {
+	    	        ps.setInt(1, vegId);
+	    	        ResultSet rs = ps.executeQuery();
+	    	        if (rs.next()) {
+	    	            quantity = rs.getDouble("quantity");
+	    	        }
+	    	    } catch (SQLException e) {
+	    	        e.printStackTrace();
+	    	    }
+	    	    return quantity;
+	    }
+	    
+	    @Override
+	    public boolean updateInventoryQuantity(int vegId, double vegCount) {
+	    	
+	    	 String query = "UPDATE vegetables_details SET quantity = quantity - ? WHERE veg_id = ? AND quantity >= ?";
+	    	    boolean isUpdated = false; // To track if the update was successful
+	    	    
+	    	    try (PreparedStatement ps = connection.prepareStatement(query)) {
+	    	        ps.setDouble(1, vegCount);
+	    	        ps.setInt(2, vegId);
+	    	        ps.setDouble(3, vegCount); // Check to ensure quantity doesn't go negative
+	    	        
+	    	        int affectedRows = ps.executeUpdate();
+	    	        if (affectedRows > 0) {
+	    	            isUpdated = true; // Update was successful
+	    	        }
+	    	    } catch (SQLException e) {
+	    	        e.printStackTrace();
+	    	    }
+	    	    return isUpdated; // Return true if updated successfully, false otherwise
+	    	}
+	    
+	    
 }
