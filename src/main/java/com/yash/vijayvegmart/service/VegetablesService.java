@@ -26,5 +26,9 @@ public interface VegetablesService {
      public VegetablesDetails fetchVegetableDetailsByCartId(int cartId) throws Exception ;
      
      public List<VegetablesDetails> getVegetablesDetailsByOrderId(String orderId) throws Exception;
+     
+     public void updateVegetable(VegetablesDetails details, Part vegPicPart, String path) throws Exception;
+     
+     public boolean deleteVegetableById(int vegId) throws Exception;
 
 }

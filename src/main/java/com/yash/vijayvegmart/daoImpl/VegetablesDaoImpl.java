@@ -417,4 +417,49 @@ public List<VegetablesDetails> getVegetablesDetailsByOrderId(String orderId)  {
 
 
 
+
+public boolean deleteVegetableById(int vegId) {
+    String query = "DELETE FROM vegetables_details WHERE veg_id = ?";
+
+    try (PreparedStatement ps = connection.prepareStatement(query)) {
+        ps.setInt(1, vegId);
+
+        int rowsAffected = ps.executeUpdate();
+        return rowsAffected > 0; // Return true if at least one row was deleted
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+        return false;
+    }
+}
+
+
+
+
+@Override
+public void updateVegetable(VegetablesDetails details) {
+    String query = "UPDATE vegetables_details SET vendor_id = ?, veg_name = ?, quantity = ?, description = ?, price_per_piece = ?, veg_pic_name = ?, veg_category = ?, discount_per_piece = ?, net_price = ? WHERE veg_id = ?";
+
+    try (PreparedStatement ps = connection.prepareStatement(query)) {
+        ps.setInt(1, details.getVendorId());
+        ps.setString(2, details.getVegName());
+        ps.setInt(3, details.getQuantity());
+        ps.setString(4, details.getDescription());
+        ps.setDouble(5, details.getPricePerPiece());
+        ps.setString(6, details.getVegPicName());
+        ps.setString(7, details.getVegCategory());
+        ps.setDouble(8, details.getDiscount_per_piece());
+        ps.setDouble(9, details.getNet_price());
+        ps.setInt(10, details.getVegId()); // Set veg_id for the update condition
+        ps.executeUpdate();
+        System.out.print("UPDATED VEGETABLE IN DATABASE ");
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+}
+
+
+
+
+
 }

@@ -39,6 +39,25 @@ public class VegetablesDetails {
 		this. net_price= net_price;
 	}
 
+	
+	
+	
+
+	public VegetablesDetails(int vegId,int vendorId, String vegName, int quantity,
+			String description, double pricePerPiece, String vegPicName, String vegCategory ,double discount_per_piece, double net_price) {
+		super();
+		this.vegId = vegId;
+		this.vendorId = vendorId;
+		this.vegName = vegName;
+		this.quantity = quantity;
+		this.description = description;
+		this.pricePerPiece = pricePerPiece;
+		this.discount_per_piece = discount_per_piece;
+		this.net_price = net_price;
+		this.vegPicName = vegPicName;
+		this.vegCategory = vegCategory;
+	}
+
 
 	public int getVegId() {
 		return vegId;
@@ -158,8 +177,23 @@ public class VegetablesDetails {
 	public void setNet_price(double net_price) {
 		this.net_price = net_price;
 	}
+
+
+	@Override
+	public String toString() {
+		
+		
+		return "VegetablesDetails [vegId=" + vegId + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt
+				+ ", vendorId=" + vendorId + ", vegName=" + vegName + ", quantity=" + quantity + ", description="
+				+ description + ", pricePerPiece=" + pricePerPiece + ", discount_per_piece=" + discount_per_piece
+				+ ", net_price=" + net_price + ", vegPicName=" + vegPicName + ", vegCategory=" + vegCategory + "]";
+	}
     
     
+	
+	
+	
+	
 
 }
 

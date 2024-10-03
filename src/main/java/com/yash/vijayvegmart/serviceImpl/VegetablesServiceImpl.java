@@ -156,7 +156,67 @@ public VegetablesDetails fetchVegetableById(int veg_id) throws Exception {
        return vegDao.getVegetablesDetailsByOrderId(orderId);	
     }
     
+    
+    
+
+/* ---------------------------UPDATE VEGETBALE INTO DB -----------------*/
+
+
+public void updateVegetable(VegetablesDetails details, Part vegPicPart, String path) throws Exception {
+    // Check if the vegetable exists for the vendor
+    System.out.println("updateVegetableedd CALLED");
+    
+    // Check if the vegetable with the same name exists for the vendor
+    Optional<VegetablesDetails> existingVegetable = vegDao.checkVegetableExistsByVendor(details.getVendorId(), details.getVegName());
+    
+//    if (existingVegetable.isPresent() && existingVegetable.get().getVegId() != details.getVegId()) {
+//        throw new VegetablesException("Same vegetable already exists.");
+//    }
+
+    // Update vegetable details
+    vegDao.updateVegetable(details);
+
+    // Ensure the img directory exists and handle file upload
+    if (vegPicPart != null && vegPicPart.getSize() > 0) {
+        String pathFinal = path + "\\img";
+        
+        System.out.println("HEYYYYY PATH ISSSSSS:::::::::::::" + pathFinal);
+        File imgDir = new File(pathFinal);
+        if (!imgDir.exists()) {
+            boolean created = imgDir.mkdirs();
+            if (created) {
+                System.out.println("Directory created: " + imgDir.getAbsolutePath());
+            } else {
+                throw new VegetablesException("Failed to create directory.");
+            }
+        }
+
+        String fileName = details.getVegPicName();
+        vegPicPart.write(pathFinal + File.separator + fileName);
+        System.out.println("Image saved at: " + pathFinal + File.separator + fileName);
+    }
 }
+
+
+
+    
+    
+    
+    /*------------------Delete vegetbale --------------------------------- */
+    
+    
+    
+    @Override
+    public boolean deleteVegetableById(int vegId) throws Exception {
+    	// TODO Auto-generated method stub
+    	return vegDao.deleteVegetableById(vegId);
+    }
+   
+    
+    
+    
+}
+
 
 
 

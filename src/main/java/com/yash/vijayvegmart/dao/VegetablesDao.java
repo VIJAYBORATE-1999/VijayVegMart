@@ -22,6 +22,8 @@ public interface VegetablesDao {
     Optional<VegetablesDetails> getVegetableById(int veg_id) ;
     
     
+    
+    
     public List<String> getAllVendorsNames();
     
     public String getUsernameByVegId(int vegId);
@@ -30,4 +32,10 @@ public interface VegetablesDao {
     public VegetablesDetails getVegetableDetailsByCartId(int cartId);
     
     public List<VegetablesDetails> getVegetablesDetailsByOrderId(String orderId) ;
+    
+    
+    public void updateVegetable(VegetablesDetails details) ;
+    
+    public boolean deleteVegetableById(int vegId);
+    
 }

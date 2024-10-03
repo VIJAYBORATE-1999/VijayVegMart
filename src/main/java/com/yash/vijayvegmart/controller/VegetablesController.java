@@ -37,7 +37,10 @@ public class VegetablesController extends HttpServlet {
  /*----------CASE 1) DELETE SERVICE CALL ---------------------------------- */       	   
            	if ((action_type2!= null) && ("delete".equals(action_type2))) {
            		 int veg_id = Integer.parseInt(request.getParameter("vegetable_id"));
-           		 System.out.print("Vegetbale idDDD is "+veg_id);
+           		 System.out.print("Vegetbale idDDD is "+veg_id);		 
+           		veg_service.deleteVegetableById(veg_id);
+           	 response.sendRedirect(request.getContextPath() + "/vendor/home.jsp");
+           		 
            	}
            	          
            	else if (action_type !=null)
@@ -70,10 +73,22 @@ public class VegetablesController extends HttpServlet {
             	
             	System.out.println("	UPDATE TRIGGERED ");
             	
-            	  System.out.println(veg_name+"="+ description+""+veg_category+"="+quantity+""+price_per_piece+"="+veg_pic_name+""+action_type+"="+discount_per_piece+"="+net_price);            	
+            	 // System.out.println(veg_name+"="+ description+""+veg_category+"="+quantity+""+price_per_piece+"="+veg_pic_name+""+action_type+"="+discount_per_piece+"="+net_price);            	
             	  int veg_id =  Integer.parseInt(request.getParameter("veg_id"));
             	  System.out.println("Vegetbale id isSSSSS ===> "+veg_id);
                 // Update logic here
+            	  VegetablesDetails veg_details2 = new VegetablesDetails(veg_id,vendorId, veg_name, quantity, description, price_per_piece, veg_pic_name, veg_category , discount_per_piece, net_price); 
+                  System.out.println("------------"); 
+                  System.out.println("------------"); 
+                  System.out.println("------------"); 
+            	  System.out.println(veg_details2.toString());
+            	  
+            	  System.out.println("------------"); 
+            	  
+            	  System.out.println("------------"); 
+            	  System.out.println("------------"); 
+            	  veg_service.updateVegetable(veg_details2, part, path);
+            	  response.sendRedirect(request.getContextPath() + "/vendor/home.jsp");
             } 
             
             
