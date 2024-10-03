@@ -55,8 +55,37 @@
                     </div>
                     
                     <%
-                        }
+                        } else if (user_1.getUsertype().equals("vendor")){
                     %>
+
+                    <!-- My Orders Icon -->
+                    <a href="myorders.jsp" class="nav-item nav-link" aria-label="My Orders">
+                        <i class="fas fa-box fa-2x fa-icon-colour"></i>
+                    </a>
+                    
+                      <!-- Inventory Icon -->
+                    <a href="inventory.jsp" class="nav-item nav-link" aria-label="Inventory">
+                        <i class="fas fa-boxes fa-2x fa-icon-colour"></i>
+                    </a>
+                    
+                    
+                    
+                    <!-- Profile Icon with Hover Effect -->
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link position-relative" id="profileDropdown" aria-label="Profile" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-user-circle fa-2x fa-icon-colour"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end p-3" aria-labelledby="profileDropdown" style="min-width: 200px;">
+                            <p><strong>Username:</strong> <%= user_1.getUsername() %></p>
+                            <p><strong>Email:</strong> <%= user_1.getEmail() %></p>
+                            <p><strong>Type :</strong> <%= user_1.getUsertype() %></p>
+                            <!-- Go to Profile Link -->
+                            <a href="profile.jsp" class="dropdown-item mt-2">Go to Profile</a>
+                        </div>
+                    </div>
+
+
+<%} %>
 
                     <!-- About Icon -->
                     <a href="about.jsp" class="nav-item nav-link fa-icon-colour">About</a>
