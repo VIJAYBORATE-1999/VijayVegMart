@@ -46,40 +46,67 @@
 <p class="text-info">${error}</p>
 
 </c:if>
-  <div class="w-50 w-md-50 w-sm-75 w-100 mx-auto" style="max-width: 500px;">
-    <form action="${pageContext.request.contextPath}/users" class="" method="post">
-        <div class="mb-3 d-flex justify-content-between">
+ <div class="w-50 w-md-50 w-sm-75 w-100 mx-auto" style="max-width: 500px;">
+    <form id="registrationForm" action="${pageContext.request.contextPath}/users" method="post" onsubmit="return validateForm()">
+        <div class="mb-3 d-flex justify-content-between position-relative">
             <label for="username" class="me-2 w-25 text-start">User Name:</label>
-            <input type="text" name="username" required="required" placeholder="Enter Your User Name" value="${sessionScope.username}" 
+            <input type="text" name="username" required placeholder="Enter Your User Name" 
             class="form-control form-control-sm w-75 border-0 py-2 ${not empty sessionScope.error && sessionScope.error=='Username already exists.' ? 'error':''}">
         </div>
 
-        <div class="mb-3 d-flex justify-content-between">
+        <div class="mb-3 d-flex justify-content-between position-relative">
             <label for="email" class="me-2 w-25 text-start">Email:</label>
-            <input type="email" class="form-control form-control-sm w-75 border-0 py-2" placeholder="Enter Your EmailId" name="email" required="required">
+            <input type="email" required  placeholder="Enter Your EmailId" name="email"  
+            class="form-control form-control-sm w-75 border-0 py-2 ${not empty sessionScope.error && sessionScope.error=='Email Id already exists.' ? 'error':''}">
         </div>
 
-        <div class="mb-3 d-flex justify-content-between">
+        <div class="mb-3 d-flex justify-content-between position-relative">
+            <label for="mobile" class="me-2 w-25 text-start">Mobile No:</label>
+            <input type="tel" name="mobile" required placeholder="Enter Your Mobile No" value="${sessionScope.mobile}" class="form-control form-control-sm w-75 border-0 py-2">
+        </div>
+
+        <div class="mb-3 d-flex justify-content-between position-relative">
+            <label for="address" class="me-2 w-25 text-start">Address:</label>
+            <input type="text" name="address" required placeholder="Enter Your Address" value="${sessionScope.address}" class="form-control form-control-sm w-75 border-0 py-2">
+        </div>
+
+        <div class="mb-3 d-flex justify-content-between position-relative">
+            <label for="state" class="me-2 w-25 text-start">State:</label>
+            <input type="text" name="state" required placeholder="Enter Your State" value="${sessionScope.state}" class="form-control form-control-sm w-75 border-0 py-2">
+        </div>
+
+        <div class="mb-3 d-flex justify-content-between position-relative">
+            <label for="city" class="me-2 w-25 text-start">City:</label>
+            <input type="text" name="city" required placeholder="Enter Your City" value="${sessionScope.city}" class="form-control form-control-sm w-75 border-0 py-2">
+        </div>
+
+        <div class="mb-3 d-flex justify-content-between position-relative">
+            <label for="pincode" class="me-2 w-25 text-start">Pincode:</label>
+            <input type="number" name="pincode" required placeholder="Enter Your Pincode" value="${sessionScope.pincode}" class="form-control form-control-sm w-75 border-0 py-2">
+        </div>
+
+        <div class="mb-3 d-flex justify-content-between position-relative">
             <label for="password" class="me-2 w-25 text-start">Password:</label>
-            <input type="password" id="password" class="form-control form-control-sm w-75 border-0 py-2" placeholder="Enter Your Password" name="password" required="required">
+            <input type="password" id="password" class="form-control form-control-sm w-75 border-0 py-2" placeholder="Enter Your Password" name="password" required onkeyup="checkPasswordStrength()">
+            <small id="passwordStrengthMessage" class="form-text position-absolute" style="right: 10px; color: red;"></small>
         </div>
 
-        <div class="mb-3 d-flex justify-content-between">
+        <div class="mb-3 d-flex justify-content-between position-relative">
             <label for="confirm-password" class="me-2 w-25 text-start">Confirm Password:</label>
-            <input type="password" id="confirm-password" onkeyup="validatePasswordMatch()" class="form-control form-control-sm w-75 border-0 py-2" placeholder="Confirm Your Password" name="confrmpassword" required="required">
+            <input type="password" id="confirm-password" class="form-control form-control-sm w-75 border-0 py-2" placeholder="Confirm Your Password" name="confrmpassword" required onkeyup="checkPasswordMatch()">
+            <small id="passwordMatchMessage" class="form-text position-absolute" style="right: 10px; color: red;"></small>
         </div>
 
-        <div class="mb-3 d-flex justify-content-between">
+        <div class="mb-3 d-flex justify-content-between position-relative">
             <label for="usertype" class="me-2 w-25 text-start">User Type:</label>
             <select name="usertype" class="form-control form-control-sm w-75 border-0 py-2">
                 <option value="customer" selected>Customer</option>
-           
                 <option value="vendor">Vendor</option>
             </select>
         </div>
 
         <div class="mb-3 d-flex align-items-center">
-            <input type="checkbox" id="check" name="check" required="required" class="me-2">
+            <input type="checkbox" id="check" name="check" required class="me-2">
             <label for="check" class="mb-0">Agree to terms and Conditions</label>
         </div>
 
@@ -89,12 +116,73 @@
     </form>
 </div>
 
+<script>
+    // Function to check password strength
+    function checkPasswordStrength() {
+        const password = document.getElementById('password').value;
+        const strengthMessage = document.getElementById('passwordStrengthMessage');
+        const passwordRegex = /^(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[A-Z]).{8,}$/;
+
+        if (password.length < 8) {
+            strengthMessage.style.color = 'red';
+            strengthMessage.textContent = 'Password is too short';
+        } else if (!passwordRegex.test(password)) {
+            strengthMessage.style.color = 'red';
+            strengthMessage.textContent = 'Weak password:';
+        } else {
+            strengthMessage.style.color = 'green';
+            strengthMessage.textContent = 'Strong password';
+        }
+    }
+
+    // Function to check if passwords match
+    function checkPasswordMatch() {
+        const password = document.getElementById('password').value;
+        const confirmPassword = document.getElementById('confirm-password').value;
+        const matchMessage = document.getElementById('passwordMatchMessage');
+
+        if (password !== confirmPassword) {
+            document.getElementById('confirm-password').style.borderColor = 'red';
+            matchMessage.style.color = 'red';
+            matchMessage.textContent = 'Passwords do not match!';
+        } else {
+            document.getElementById('confirm-password').style.borderColor = 'green';
+            matchMessage.style.color = 'green';
+            matchMessage.textContent = 'Passwords match!';
+        }
+    }
+
+    // Final form validation before submission
+    function validateForm() {
+        const password = document.getElementById('password').value;
+        const confirmPassword = document.getElementById('confirm-password').value;
+        const passwordRegex = /^(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[A-Z]).{8,}$/;
+
+        // Check if passwords match
+        if (password !== confirmPassword) {
+            alert("Passwords do not match!");
+            return false;
+        }
+
+        // Check if password is strong
+        if (!passwordRegex.test(password)) {
+            alert("Password must be at least 8 characters long, contain at least one uppercase letter, one number, and one special character.");
+            return false;
+        }
+
+        return true; // Allow form submission
+    }
+</script>
+
 
                 
-<c:if test="${not empty password}">
+
  <c:remove var="error" scope="session"/> 
- <c:remove var="username" scope="session"/> 
-</c:if>
+ <c:remove var="mobile" scope="session"/> 
+ <c:remove var="address" scope="session"/> 
+ <c:remove var="state" scope="session"/> 
+  <c:remove var="city" scope="session"/> 
+   <c:remove var="pincode" scope="session"/> 
 
             </div>
         </div>

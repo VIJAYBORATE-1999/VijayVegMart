@@ -61,4 +61,30 @@ public class UsersDAOImpl implements UsersDao {
         return Optional.empty();
     }
 
+    
+    @Override
+    public Optional<Users> getUserByEmail(String email) {
+        String query = "SELECT * FROM users WHERE email = ?";
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setString(1, email);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                Users user = new Users();
+                user.setId(rs.getInt("id"));
+                user.setUsername(rs.getString("username"));
+                user.setPassword(rs.getString("password"));
+                user.setEmail(rs.getString("email"));
+                user.setIsactive(rs.getString("isactive"));
+                user.setIsapproved(rs.getString("isapproved"));
+                user.setUsertype(rs.getString("usertype"));
+                return Optional.of(user);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return Optional.empty();
+    }
+
+    
+    
 }

@@ -98,10 +98,14 @@
                         <i class="fas fa-search fa-2x fa-icon-colour"></i>
                     </a>
 
+<% if (user_1 != null) {
+    %>
                     <!-- Logout Icon -->
                     <a href="${pageContext.request.contextPath}/logout" class="my-auto" aria-label="Log Out">
                         <i class="fas fa-power-off fa-2x danger-colour"></i>
                     </a>
+                    
+                    <%} %>
                 </div>
             </div>
         </nav>

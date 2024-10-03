@@ -93,3 +93,9 @@ document
        });
      }
    });
+   
+   
+
+   function myFunction() {
+     alert("Please Log-In To Shop");
+   }

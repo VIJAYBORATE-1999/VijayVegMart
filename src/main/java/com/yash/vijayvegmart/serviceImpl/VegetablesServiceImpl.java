@@ -2,6 +2,7 @@ package com.yash.vijayvegmart.serviceImpl;
 
 
 import java.io.File;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
@@ -213,6 +214,13 @@ public void updateVegetable(VegetablesDetails details, Part vegPicPart, String p
     }
    
     
+    
+    public VegetablesDetails get_A_VegetableById(int vegId) throws SQLException 
+    {
+    	
+    	return vegDao.get_A_VegetableById(vegId);
+    	
+    }
     
     
 }

@@ -276,6 +276,37 @@ public Optional<VegetablesDetails> getVegetableById(int vegId) {
 }
 
 
+/*  ----------------------------------Anothet type */////////////////////////////////////////
+
+public VegetablesDetails get_A_VegetableById(int vegId) throws SQLException {
+    String query = "SELECT * FROM vegetables_details WHERE veg_id = ?";
+    
+    try (PreparedStatement ps = connection.prepareStatement(query)) {
+        ps.setInt(1, vegId);
+        ResultSet rs = ps.executeQuery();
+        
+        if (rs.next()) {
+            VegetablesDetails details = new VegetablesDetails();
+            details.setVegId(rs.getInt("veg_id"));
+            details.setVendorId(rs.getInt("vendor_id"));
+            details.setVegName(rs.getString("veg_name"));
+            details.setQuantity(rs.getInt("quantity"));
+            details.setDescription(rs.getString("description"));
+            details.setPricePerPiece(rs.getDouble("price_per_piece"));
+            details.setVegPicName(rs.getString("veg_pic_name"));
+            details.setVegCategory(rs.getString("veg_category"));
+            details.setDiscount_per_piece(rs.getDouble("discount_per_piece"));
+            details.setNet_price(rs.getDouble("net_price"));
+            details.setCreatedAt(rs.getTimestamp("created_at"));
+            details.setUpdatedAt(rs.getTimestamp("updated_at"));
+            
+            return details;
+        } else {
+            throw new SQLException("Vegetable not found for ID: " + vegId);
+        }
+    }
+}
+
 
 
 /*------------------------------------GET ALL VENDOR NAMES -------------------------------*/

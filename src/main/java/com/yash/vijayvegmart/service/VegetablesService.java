@@ -1,4 +1,5 @@
 package com.yash.vijayvegmart.service;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,5 +31,7 @@ public interface VegetablesService {
      public void updateVegetable(VegetablesDetails details, Part vegPicPart, String path) throws Exception;
      
      public boolean deleteVegetableById(int vegId) throws Exception;
+     
+     public VegetablesDetails get_A_VegetableById(int vegId) throws SQLException ;
 
 }

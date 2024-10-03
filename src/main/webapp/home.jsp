@@ -4,6 +4,8 @@
 <%@page import="com.yash.vijayvegmart.model.Users"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page isELIgnored="false"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,11 +14,34 @@
          <%@include file="/components/links.jsp" %>
         <script src="${pageContext.request.contextPath}/js/main.js"></script>
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css" type="text/css">
+   <style>
+    @keyframes fadeOut {
+        0% { opacity: 1; } /* Fully visible */
+        100% { opacity: 0; } /* Fully invisible */
+    }
+</style>
     </head>
     <body>
 <%@include file="../components/navbar.jsp" %>
 <br><br><br><br>
 
+<c:if test="${not empty sucessmessage}">
+ <h4 class="text-success">${sucessmessage}</h4>
+<c:remove var="sucessmessage" scope="session"/>
+</c:if>
+
+<c:if test="${not empty cartmessage}">
+    <h4 class="text-success" style="color: green; font-weight: bold; animation: fadeOut 1s ease-out forwards;">
+        ${cartmessage}
+    </h4>
+    <c:remove var="cartmessage" scope="session"/>
+</c:if>
+
+
+<c:if test="${not empty failureMessage}">
+<p class="text-danger">${failureMessage}</p>
+<c:remove var="failureMessage" scope="session"/>
+</c:if>
 
     <div class="container2">
     
@@ -112,7 +137,7 @@
               <option value="2">2kg</option>
                 <option value="5">5kg</option>
             </select>
-            <button> Add to Cart </button>
+            <button onclick="myFunction()" > Add to Cart </button>
 <%     	
     }
 %>           
@@ -173,12 +198,13 @@
               <option value="2">2kg</option>
                 <option value="5">5kg</option>
             </select>
-            <button> Add to Cart </button>
+            <button onclick="myFunction()"> Add to Cart </button>
+            
 <%     	
     }
 %>           
 
-          </div>
+          </div> 
 
       <%}
 
@@ -312,9 +338,23 @@
       </div>
     </div>
 
+<script>
+function myFunction() {
+    if (confirm("Please Log-In To Shop. Do you want to log in now?")) {
+        // Redirect to login page if "OK" is clicked
+        window.location.href = "login.jsp"; // Change to your login page URL
+    } else {
+        // Do nothing if "Cancel" is clicked
+   
+    }
+}
+
+</script>
 
 <%@include file="../components/footer.jsp" %>
  <%@include file="../components/jslibraries.jsp" %>
+
  </body>
+
 
 </html>

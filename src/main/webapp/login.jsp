@@ -21,11 +21,7 @@
 
   <!-- Content Section Start -->
     <div class="container mt-5 pt-5 content">
-        <h2 class="text-center mb-4">Login</h2>
-        <div class="row">
-            <div class="offset-2 col-8 offset-2">
-
-<c:if test="${not empty sucessmessage}">
+    <c:if test="${not empty sucessmessage}">
 <p class="text-success">${sucessmessage}</p>
 <c:remove var="sucessmessage" scope="session"/>
 </c:if>
@@ -33,6 +29,9 @@
 <p class="text-danger">${failureMessage}</p>
 <c:remove var="failureMessage" scope="session"/>
 </c:if>
+        <h2 class="text-center mb-4">Login</h2>
+        <div class="row">
+            <div class="offset-2 col-8 offset-2">
 
 <div class="w-50 w-md-50 w-sm-75 w-100 mx-auto" style="max-width: 400px;">
     <form action="${pageContext.request.contextPath}/users" method="post">

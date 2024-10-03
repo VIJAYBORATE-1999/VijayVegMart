@@ -6,6 +6,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.yash.vijayvegmart.model.VegetablesDetails;
 import com.yash.vijayvegmart.service.CartsService;
@@ -30,7 +31,7 @@ public class CartsController extends HttpServlet {
 		
 		 
 		 String action = request.getParameter("action");
-
+		 HttpSession session = request.getSession(false);
 		 
 		 if(action!=null)
 		 {
@@ -42,9 +43,10 @@ public class CartsController extends HttpServlet {
 			 // we will delete the pending item from cart 
 			 
 			 carts_service.deletePendingCart(veg_id_Delete, user_id_Delete);
-			 
+			 session.setAttribute("cartmessage", "ITEM SUCESSFULLY REMOVED CART !!!");
 			 System.out.println("VEG ID " + veg_id_Delete );
 			 System.out.println("user_id_Delete " +user_id_Delete );
+			 
 			 response.sendRedirect(request.getContextPath() + "/cart.jsp");
 			 
 			 
@@ -55,7 +57,7 @@ public class CartsController extends HttpServlet {
 			 int veg_id =  Integer.parseInt(request.getParameter("vegetable_id"));
 			 int user_id = Integer.parseInt(request.getParameter("user_id")); 
 			 double quantity_added = Double.parseDouble(request.getParameter("quantity_added"));
-		  
+			
 		System.out.println("veg ID : "+veg_id );
 		System.out.println("user id " + user_id);
 		System.out.println("quantity_added " + quantity_added);
@@ -64,27 +66,11 @@ public class CartsController extends HttpServlet {
 			System.out.println("Price======= " + veg_details.getNet_price());
 			 double total_price  = veg_details.getNet_price() * quantity_added;
 			System.out.println("Total cost "+ total_price) ;
-			
-			//logic=> 1  check stock is it avialable to add  ?
-			//if yes then see if user has alreadyy added same vegetbale So just update quantity 
-			//other wise just insert in tbale 
-			
-			int stock = veg_details.getQuantity();
-			
-			System.out.println("Stock "+stock);
-			if(quantity_added < stock)  //************* && check from cart upadted quantity also 
-			{
+	
 				carts_service.saveOrUpdateCart(veg_id, user_id, quantity_added, total_price);
+				 session.setAttribute("cartmessage", "ITEM SUCESSFULLY ADDED TO CART !!!");
 				response.sendRedirect(request.getContextPath() + "/home.jsp");
 				
-			}
-			else
-			{
-				//TRY TO ADD LESEER QANTITY CART ECCEPTION 
-			}
-			
-			
-		//	WE WILL FIEST FETCH THE VEGETBALE DETAILS BY VEG ID AND THEN FILL OTAL PRICE 
 		 }	
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

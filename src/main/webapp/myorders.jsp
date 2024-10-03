@@ -39,7 +39,7 @@ HashSet<String> order_ids = new HashSet<String>();
 
 for(Orders order_item : order_list)
 {
-	order_ids.add(order_item.getOrderId());
+    order_ids.add(order_item.getOrderId());
 }
 
 ArrayList<String> order_ids_list= new ArrayList<String>(order_ids);
@@ -49,9 +49,9 @@ ArrayList<String> order_ids_list= new ArrayList<String>(order_ids);
             //for(Orders order_item : order_list)
             for(String order_id : order_ids_list)
             {
-            	  Revenues revenue =order_Service_impl.fetchRevenuesByIdAndUserId(order_id, user.getId());
-            	  String order_date = order_Service_impl.getOrderDateByOrderId(order_id) ;
-            	%>            	
+                  Revenues revenue =order_Service_impl.fetchRevenuesByIdAndUserId(order_id, user.getId());
+                  String order_date = order_Service_impl.getOrderDateByOrderId(order_id) ;
+                %>              
 
             <!-- Order #VEG-123456 -->
             <div class="order-card">
@@ -92,16 +92,23 @@ ArrayList<String> order_ids_list= new ArrayList<String>(order_ids);
                               
                                 CartsServiceImpl cserviceImpl = new CartsServiceImpl();
                                 List<Carts> carts_items = cserviceImpl.getCartsByOrderId(order_id);
+                             
                                 for(Carts carts_item : carts_items)
                                 {
-                                	 VegetablesDetails veg_list = vserviceImpl.fetchVegetableById(carts_item.getVeg_id());
-                                	 Orders order =  order_Service_impl.getOrderDetailsByOrderIdAndCartId(order_id, carts_item.getCart_Id());
+                                	System.out.println("Veg id====>  "+ carts_item.getVeg_id());
+                                }
+                               
+                                for(Carts carts_item : carts_items)
+                                {
+                                	 System.out.println("Carts item size "+ carts_item.getVeg_id());
+                                     VegetablesDetails veg_list = vserviceImpl.get_A_VegetableById(carts_item.getVeg_id());
+                                     Orders order =  order_Service_impl.getOrderDetailsByOrderIdAndCartId(order_id, carts_item.getCart_Id());
                                 %>
                                     <li><%=veg_list.getVegName()%> - Quantity: <%=carts_item.getQuantity_added() %> , Price: <%= carts_item.getTotal_Price() %> , 
                                     
                                     <% String s =order.getVendorActionStatus();
                                     if(s.equals("pending"))
-                                    { 	
+                                    {   
                                     %>
                                      <span class="badge bg-warning"><%=order.getVendorActionStatus() %></span>  </li>
                                     <% }
@@ -110,11 +117,11 @@ ArrayList<String> order_ids_list= new ArrayList<String>(order_ids);
                                      <span class="badge bg-success"><%=order.getVendorActionStatus() %></span>  </li>
                                     
                                     <%} else if(s.equals("rejected")){
-                                    	
-                                    	%>
-                                    	 <span class="badge bg-danger"><%=order.getVendorActionStatus() %></span>  </li>
-                                    	 
-                                    	<%} %>
+                                        
+                                        %>
+                                         <span class="badge bg-danger"><%=order.getVendorActionStatus() %></span>  </li>
+                                         
+                                        <%} %>
                                     
                                     
                                     
@@ -134,8 +141,8 @@ ArrayList<String> order_ids_list= new ArrayList<String>(order_ids);
 
 <!-- Modallllllllll-->
 
-<%            	
-            	
+<%              
+                
             }
 %>
           

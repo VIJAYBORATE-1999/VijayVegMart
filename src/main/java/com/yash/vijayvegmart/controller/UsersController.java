@@ -25,17 +25,30 @@ public class UsersController extends HttpServlet {
         
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-        String email = request.getParameter("email");
-        String usertype = request.getParameter("usertype");
         String action = request.getParameter("action");
+        
 
         if ("register".equals(action)) {
-            // Registration logic
+        
+            String email = request.getParameter("email");
+            String usertype = request.getParameter("usertype");          
+            String mobile = request.getParameter("mobile");
+            String address = request.getParameter("address");
+            String state = request.getParameter("state");
+            String city = request.getParameter("city");
+            int pincode = Integer.parseInt(request.getParameter("pincode"));
+            
             Users user = new Users();
+            
             user.setUsername(username);
             user.setPassword(password);
             user.setEmail(email);
             user.setUsertype(usertype);
+            user.setMobileno(mobile);
+           user.setAddress(address);
+           user.setState(state);
+           user.setCity(city);
+           user.setPincode(pincode);           
             user.setIsapproved("notapproved"); // first time needed 
             user.setIsactive("active"); // later admin can disable user 
 
@@ -43,17 +56,26 @@ public class UsersController extends HttpServlet {
 
             try {
                 userService.registerUser(user);
-                session.setAttribute("sucessmessage", "Registration successful!");
+                session.setAttribute("sucessmessage", "Registration successful! Wait for Admin Approval ");
                 response.sendRedirect("login.jsp");
             } catch (Exception e) {
                 session.setAttribute("error", e.getMessage());
                 session.setAttribute("username", username);
+                session.setAttribute("email", email);
+                session.setAttribute("usertype", usertype);
+                session.setAttribute("mobile",mobile );
+                session.setAttribute("address",address );
+                session.setAttribute("state",state );
+                session.setAttribute("city",city );
+                session.setAttribute("pincode",pincode);
+                
                 response.sendRedirect("register.jsp");
             }
         } else if ("login".equals(action)) {
             // Login logic
 
             try {
+            	
                 Users user = userService.loginUser(username, password);
 
                 HttpSession session = request.getSession();
@@ -80,7 +102,10 @@ public class UsersController extends HttpServlet {
                     // Normal user (Customer)
                 	
                 	if(user.getIsapproved().equals("approved") && user.getIsactive().equals("active"))
+                	{
+                		 session.setAttribute("sucessmessage","Welcome User !");
                         response.sendRedirect("home.jsp");
+                	}
                     	else if(user.getIsapproved().equals("notapproved"))
                     	{
                     		// wait for admin approval 
@@ -92,10 +117,9 @@ public class UsersController extends HttpServlet {
            
                 }
             } catch (Exception e) {
-                request.setAttribute("error", e.getMessage());
-                System.out.print(e.getMessage());
-                RequestDispatcher dispatcher = request.getRequestDispatcher("login.jsp");
-                dispatcher.forward(request, response);
+            	 HttpSession session = request.getSession();
+               session.setAttribute("failureMessage", e.getMessage());
+               response.sendRedirect("login.jsp");
             }
         }
     }

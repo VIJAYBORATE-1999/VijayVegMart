@@ -5,6 +5,8 @@
 <%@page import="com.yash.vijayvegmart.serviceImpl.CartsServiceImpl"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page isELIgnored="false"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,11 +16,26 @@
     <script src="${pageContext.request.contextPath}/js/cart.js"></script>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css" type="text/css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/cart.css" type="text/css">
+       <style>
+    @keyframes fadeOut {
+        0% { opacity: 1; } /* Fully visible */
+        100% { opacity: 0; } /* Fully invisible */
+    }
+</style>
 </head>
 
 <body>
 <%@include file="../components/navbar.jsp" %>
 <br><br><br><br>
+
+
+<c:if test="${not empty cartmessage}">
+    <h4 class="text-danger" style="color: green; font-weight: bold; animation: fadeOut 1s ease-out forwards;">
+        ${cartmessage}
+    </h4>
+    <c:remove var="cartmessage" scope="session"/>
+</c:if>
+
 
 <div class="container3 mt-5">
     <h1 class="text-center">Your Vegetable Cart</h1>

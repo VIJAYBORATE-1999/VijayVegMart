@@ -1,5 +1,6 @@
 package com.yash.vijayvegmart.dao;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,4 +39,5 @@ public interface VegetablesDao {
     
     public boolean deleteVegetableById(int vegId);
     
+    public VegetablesDetails get_A_VegetableById(int vegId) throws SQLException ;
 }
