@@ -1,3 +1,5 @@
+<%@page import="com.yash.vijayvegmart.model.VO.VendorOrdersVO"%>
+<%@page import="com.yash.vijayvegmart.serviceImpl.VendorServiceImpl"%>
 <%@page import="com.yash.vijayvegmart.serviceImpl.VegetablesServiceImpl"%>
 <%@page import="java.util.List"%>
 <%@page import="com.yash.vijayvegmart.model.VegetablesDetails"%>
@@ -46,82 +48,94 @@ if (user != null) {
                 <tr>
                     <th>Vegetable</th>
                     <th>Stock (kg)</th>
-                    <th>Last Updated</th>
+                    <th>Order Date</th>
                     <th>Action</th>
                 </tr>
+                <%
+            
+                VendorServiceImpl vendorservice_impl = new VendorServiceImpl();
+               List<VendorOrdersVO> vendor_order_list = vendorservice_impl.getVendorOrders(user.getId(),"pending");
                 
+               for(VendorOrdersVO vendor_order :vendor_order_list )
+               {
+                %>
                
                     <tr>
-                        <td>POTATO%></td>
-                        <td> 32 </td>
-                        <td> DATE</td>
+                        <td><%=vendor_order.getVeg_name() %></td>
+                        <td><%= vendor_order.getQuantity_added()%></td>
+                        <td> <%= vendor_order.getOrder_date() %></td>
                         <td>
                             <button class="button"> Approve</button>
                              <button class="button"> Reject</button>
+                             
+                             
                         </td>
                     </tr>
-               
+     <%} %>          
             </table>
         
             <!-- ApprovedTable -->
+        
             <h3>Approved</h3>
             <table>
                 <tr>
                     <th>Vegetable</th>
                     <th>Stock (kg)</th>
-                    <th>Last Updated</th>
-                    <th>Action</th>
+                    <th>Order Date</th>
+                    <th>Status</th>
                 </tr>
+                <%
+            
+               List<VendorOrdersVO> vendor_order_list2 = vendorservice_impl.getVendorOrders(user.getId(),"approved");
+                
+               for(VendorOrdersVO vendor_order :vendor_order_list2 )
+               {
+                %>
                
                     <tr>
-                        <td>lady finger</td>
-                        <td>23</td>
-                        <td>date : </td>
+                        <td><%=vendor_order.getVeg_name() %></td>
+                        <td><%= vendor_order.getQuantity_added()%></td>
+                        <td> <%= vendor_order.getOrder_date() %></td>
                         <td>
-                          Approved 
+                            Approved
                         </td>
                     </tr>
-                
+     <%} %>          
             </table>
-            
-            
-             <!-- ApprovedTable -->
-            <h3>Rejected </h3>
+        
+             <!-- Rejected -->
+             
+        
+            <h3>Rejected</h3>
             <table>
                 <tr>
                     <th>Vegetable</th>
                     <th>Stock (kg)</th>
-                    <th>Last Updated</th>
-                    <th>Action</th>
+                    <th>Order Date</th>
+                    <th>Status</th>
                 </tr>
+                <%
+            
+             
+               List<VendorOrdersVO> vendor_order_list3 = vendorservice_impl.getVendorOrders(user.getId(),"rejected");
+                
+               for(VendorOrdersVO vendor_order :vendor_order_list3 )
+               {
+                %>
                
                     <tr>
-                        <td>lady finger</td>
-                        <td>23</td>
-                        <td>date : </td>
+                        <td><%=vendor_order.getVeg_name() %></td>
+                        <td><%= vendor_order.getQuantity_added()%></td>
+                        <td> <%= vendor_order.getOrder_date() %></td>
                         <td>
-                        Rejected
-                        <button class="button"> ReApprove</button>
+                           Rejected
                         </td>
                     </tr>
-                
+     <%} %>          
             </table>
+        
             
-            
-            
-            <!-- Dialog Box -->
-            <div id="dialog" style="display: none;">
-                <div style="background-color: white; padding: 20px; border: 1px solid #ccc; width: 300px; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1000;">
-                    <h3 id="dialogTitle"></h3>
-                    <form id="stockForm" onsubmit="submitStockForm(event)">
-                        <input type="hidden" id="vegetableName" required>
-                        <input type="number" id="newStock" placeholder="Stock" required>
-                        <button type="submit" class="button">Update/Refill Stock</button>
-                        <button type="button" class="button" onclick="closeDialog()">Cancel</button>
-                    </form>
-                </div>
-                <div style="background: rgba(0, 0, 0, 0.5); position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 999;"></div>
-            </div>
+          
         </div>
     </div>
 </div>
