@@ -12,5 +12,6 @@ public interface VendorService {
 	 public boolean updateQuantity(int vegId, String vegName, int vendorId, int newQuantity);
 	 
 	 public boolean checkandUpdateInventory(double  user_ordered_quantity , int  user_ordered_VEG_ID );
+	 public String decrypt(String s) throws Exception;
 
 }

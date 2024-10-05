@@ -13,6 +13,7 @@ import com.yash.vijayvegmart.daoImpl.VegetablesDaoImpl;
 import com.yash.vijayvegmart.exception.VegetablesException;
 import com.yash.vijayvegmart.model.VegetablesDetails;
 import com.yash.vijayvegmart.service.VegetablesService;
+import com.yash.vijayvegmart.util.RSAUtil_DECRYPTION;
 
 public class VegetablesServiceImpl implements VegetablesService {
     
@@ -221,6 +222,15 @@ public void updateVegetable(VegetablesDetails details, Part vegPicPart, String p
     	return vegDao.get_A_VegetableById(vegId);
     	
     }
+    
+    
+    @Override
+	public String decrypt(String s) throws Exception {
+	
+	RSAUtil_DECRYPTION obj = new RSAUtil_DECRYPTION();
+	return (obj.decrypt(s));
+	
+	}
     
     
 }

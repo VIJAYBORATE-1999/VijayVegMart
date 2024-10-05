@@ -34,6 +34,9 @@
 
 OrdersServiceImpl order_Service_impl = new OrdersServiceImpl();
 List<Orders>  order_list = order_Service_impl.fetchAllOrdersByUserId(user.getId());
+if(order_list.size()>0)
+{
+	
 
 HashSet<String> order_ids = new HashSet<String>();
 
@@ -156,6 +159,12 @@ ArrayList<String> order_ids_list= new ArrayList<String>(order_ids);
 
 
         </div>
+        
+        <%} else { %>
+        <br><br>
+       <h2 class="text-danger"> No Orders Found.... </h2>
+          
+        <%} %>
     </div>
 
 

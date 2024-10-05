@@ -33,5 +33,7 @@ public interface VegetablesService {
      public boolean deleteVegetableById(int vegId) throws Exception;
      
      public VegetablesDetails get_A_VegetableById(int vegId) throws SQLException ;
+     
+     public String decrypt(String s) throws Exception;
 
 }

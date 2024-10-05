@@ -7,6 +7,7 @@ import com.yash.vijayvegmart.daoImpl.AdminDaoImpl;
 import com.yash.vijayvegmart.model.Revenues;
 import com.yash.vijayvegmart.model.Users;
 import com.yash.vijayvegmart.service.AdminService;
+import com.yash.vijayvegmart.util.RSAUtil_DECRYPTION;
 
 public class AdminServiceImpl implements AdminService {
 
@@ -92,5 +93,13 @@ public Revenues fetchRevenueByOrderId(String orderId) {
 	return adminDao.getRevenueByOrderId(orderId);
 }
 
+
+@Override
+	public String decrypt(String s) throws Exception {
+	
+	RSAUtil_DECRYPTION obj = new RSAUtil_DECRYPTION();
+	return (obj.decrypt(s));
+	
+	}
 
 }

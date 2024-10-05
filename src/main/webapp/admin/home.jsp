@@ -1,3 +1,4 @@
+<%@page import="com.yash.vijayvegmart.util.RSAUtil_DECRYPTION"%>
 <%@page import="com.yash.vijayvegmart.serviceImpl.AdminServiceImpl"%>
 <%@page import="com.yash.vijayvegmart.serviceImpl.VegetablesServiceImpl"%>
 <%@page import="java.util.List"%>
@@ -57,7 +58,7 @@
             <div class="menu-item" onclick="showSection('feedback')">User Feedback</div>
         </div>
         <div id="content">
-            <div id="profile" class="section active">
+            <div id="profile" class="section" >
                 <h2>Profile</h2>
                 <form id="personalDetailsForm" onsubmit="updatePersonalDetails(event)">
                     <h3>Edit Personal Details</h3>
@@ -94,9 +95,17 @@
                 </table>
             </div>
 
-            <div id="approveRequests" class="section">
-                <h2>Approve User Requests</h2>
+            <div id="approveRequests"  class="section active">
+
                 <br>
+                <%
+               
+                AdminServiceImpl aserviceImpl = new AdminServiceImpl();
+                List<Users> user_list = aserviceImpl.fetchAllNotApprovedUsers();
+                if(user_list.size()!=0)
+                {
+                	 
+                %>
                 <h3>Pending Approvals</h3>
                 <table>
                     <tr>
@@ -105,18 +114,20 @@
                         <th>Action</th>
                     </tr>
                     
-                    <%
-                    AdminServiceImpl aserviceImpl = new AdminServiceImpl();
+                  <% 
                     
-                    List<Users> user_list = aserviceImpl.fetchAllNotApprovedUsers();
+                    
                     for(Users users_item : user_list)
                     { 
+                    	
+                    	String username = aserviceImpl.decrypt(users_item.getUsername());
+                    	String email = aserviceImpl.decrypt(users_item.getEmail());
                     %>
                     
                     
                     <tr>
-                        <td><%=users_item.getUsername() %></td>
-                        <td><%=users_item.getEmail() %> </td>
+                        <td><%=username%></td>
+                        <td><%=email%> </td>
                         <td>
                         
                         <form action="${pageContext.request.contextPath}/Admin" style="  display: contents;" method="post">
@@ -134,11 +145,18 @@
 </form>  
                         </td>
                     </tr>
-        <%}
-
-%>            
+        <%}%>
+               <% }%> 
+            
                    
                 </table>
+
+ <%
+
+ List<Users> user_list2= aserviceImpl.fetchAllApprovedUsers();
+ if(user_list2.size()!=0)
+ {
+ %>
 
                 <h3>Approved Users</h3>
                 <table>
@@ -151,16 +169,32 @@
                     </tr>
                     
                     <%
-                    List<Users> user_list2= aserviceImpl.fetchAllApprovedUsers();
+                  
                     for(Users users_item : user_list2)
                     { 
-                  
+                    	String username = aserviceImpl.decrypt(users_item.getUsername());
+                    	String email = aserviceImpl.decrypt(users_item.getEmail());
                     %>
                     
                     <tr>
-                        <td><%=users_item.getUsername() %></td>
-                        <td><%=users_item.getEmail() %></td>
-                        <td><%=users_item.getIsapproved() %>&<%=users_item.getIsactive() %></td>
+                         <td><%=username%></td>
+                        <td><%=email%> </td>
+                        <%
+                        if(users_item.getIsapproved().equals("approved") && users_item.getIsactive().equals("active"))
+                        {
+                        %>
+                       <td > <div class="badge bg-success" > <%=users_item.getIsapproved() %> </div> & <div class="badge bg-success"> <%=users_item.getIsactive() %></div> </td> 
+                        
+                        <%} %>
+                        
+                                                <%
+                        if(users_item.getIsapproved().equals("approved") && users_item.getIsactive().equals("inactive"))
+                        {
+                        %>
+                       <td > <div class="badge bg-success" > <%=users_item.getIsapproved() %> </div> & <div class="badge bg-danger"> <%=users_item.getIsactive() %></div> </td> 
+                        
+                        <%} %>
+                        
                         <td>
                         
                         <form action="${pageContext.request.contextPath}/Admin" style="
@@ -176,8 +210,17 @@
                            <%}
 
 %>    
+
+   <% }%> 
+   
                 </table>
 
+ <%
+
+ List<Users> user_list3= aserviceImpl.fetchAllRejectedUsers();
+ if(user_list3.size()!=0)
+ {
+ %>
                 <h3>Rejected Users</h3>
                 <table>
                     <tr>
@@ -188,15 +231,17 @@
                     </tr>
                  
                   <%
-                    List<Users> user_list3= aserviceImpl.fetchAllRejectedUsers();
+                    
                     for(Users users_item : user_list3)
                     { 
                   
+                    	String username = aserviceImpl.decrypt(users_item.getUsername());
+                    	String email = aserviceImpl.decrypt(users_item.getEmail());
                     %>
                     
                     <tr>
-                         <td><%=users_item.getUsername() %></td>
-                        <td><%=users_item.getEmail() %></td>
+                           <td><%=username%></td>
+                        <td><%=email%> </td>
                         <td><%=users_item.getIsapproved() %></td>
                         <td>
                         
@@ -211,8 +256,16 @@
         <%}
 
 %>    
+
+
+   <% }%> 
                 </table>
-                
+          
+          
+          <%
+          List<Users> user_list4= aserviceImpl.fetchAllDeletedUsers();
+          if(user_list4.size()!=0){
+          %>      
                 
                 <h3>Deleted  Users</h3>
                 <table>
@@ -224,16 +277,17 @@
                     </tr>
                      
                   <%
-                    List<Users> user_list4= aserviceImpl.fetchAllDeletedUsers();
+                    
                     for(Users users_item : user_list4)
                     { 
-                  
+                    	String username = aserviceImpl.decrypt(users_item.getUsername());
+                    	String email = aserviceImpl.decrypt(users_item.getEmail());
                     %>
                     
                     <tr>
-                        <td><%=users_item.getUsername() %></td>
-                        <td><%=users_item.getEmail() %></td>
-                       <td><%=users_item.getIsactive() %></td>
+                          <td><%=username%></td>
+                        <td><%=email%> </td>
+                       <td class="badge bg-danger" ><%=users_item.getIsactive() %></td>
                         <td>
                         
                                                  <form action="${pageContext.request.contextPath}/Admin" style="
@@ -249,6 +303,7 @@
 
 %>    
 
+   <% }%> 
                 </table>
                 
                 

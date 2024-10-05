@@ -12,7 +12,7 @@
     <head>
         <title>Vijay Veg Mart</title>
          <%@include file="/components/links.jsp" %>
-        <script src="${pageContext.request.contextPath}/js/main.js"></script>
+        <script src="${pageContext.request.contextPath}/js/main.js" defer></script>
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css" type="text/css">
    <style>
     @keyframes fadeOut {
@@ -64,7 +64,7 @@
         <div class="sort-section">
           <label for="sort-vendor">Sort by Vendor: </label>
           <select id="sort-vendor">
-            <option value="all">All Vendors</option>
+         <!--   <option value="all">All Vendors</option> -->  
          <% 
         
         VegetablesServiceImpl vserviceImpl = new  VegetablesServiceImpl();
@@ -73,7 +73,7 @@
          
          for(String vendor_name : list1)
          {
-        	 
+        	 vendor_name= vserviceImpl.decrypt(vendor_name);
          %>
             
             <option value="<%=vendor_name%>"><%=vendor_name%></option>
@@ -104,6 +104,7 @@
         for(VegetablesDetails veg_item : list)
         {       
         	String vendor_name = vserviceImpl.getVendorUsernameByVegId(veg_item.getVegId());
+        	vendor_name = vserviceImpl.decrypt(vendor_name);
         %>  
           <div class="product-card" data-vendor="<%=vendor_name %>" data-price="<%=veg_item.getNet_price()%>">
             <span class="discount-tag"><%=veg_item.getDiscount_per_piece()%>Rs OFF</span>
@@ -137,7 +138,7 @@
               <option value="2">2kg</option>
                 <option value="5">5kg</option>
             </select>
-            <button onclick="myFunction()" > Add to Cart </button>
+            <button type="button" onclick="myFunction()" > Add to Cart </button>
 <%     	
     }
 %>           
@@ -155,7 +156,7 @@
 
         <!-- Leafy green Start  -->
         
-               <div class="grid" id="Leafy Green">
+               <div class="grid" id="Leafy Green" style="display: none;">
         
         <% 
         
@@ -165,6 +166,7 @@
         for(VegetablesDetails veg_item : list2)
         {       
         	String vendor_name = vserviceImpl.getVendorUsernameByVegId(veg_item.getVegId());
+        	vendor_name= vserviceImpl.decrypt(vendor_name);
         %>  
           <div class="product-card" data-vendor="<%=vendor_name %>" data-price="<%=veg_item.getNet_price()%>">
             <span class="discount-tag"><%=veg_item.getDiscount_per_piece()%>Rs OFF</span>
@@ -198,7 +200,7 @@
               <option value="2">2kg</option>
                 <option value="5">5kg</option>
             </select>
-            <button onclick="myFunction()"> Add to Cart </button>
+           <button type="button" onclick="myFunction()" > Add to Cart </button>
             
 <%     	
     }
@@ -216,7 +218,7 @@
 
         <!-- Root Vegetable Start  -->
         
-               <div class="grid" id="Root">
+               <div class="grid" id="Root" style="display: none;" >
         
         <% 
         
@@ -226,6 +228,7 @@
         for(VegetablesDetails veg_item : list3)
         {       
         	String vendor_name = vserviceImpl.getVendorUsernameByVegId(veg_item.getVegId());
+        	vendor_name = vserviceImpl.decrypt(vendor_name);
         %>  
           <div class="product-card" data-vendor="<%=vendor_name %>" data-price="<%=veg_item.getNet_price()%>">
             <span class="discount-tag"><%=veg_item.getDiscount_per_piece()%>Rs OFF</span>
@@ -259,7 +262,7 @@
               <option value="2">2kg</option>
                 <option value="5">5kg</option>
             </select>
-            <button> Add to Cart </button>
+         <button type="button" onclick="myFunction()" > Add to Cart </button>
 <%     	
     }
 %>           
@@ -278,7 +281,7 @@
 
         <!-- Cruciferous Start  -->
         
-               <div class="grid" id="Cruciferous">
+               <div class="grid" id="Cruciferous" style="display: none;">
         
         <% 
         
@@ -288,6 +291,7 @@
         for(VegetablesDetails veg_item : list4)
         {       
         	String vendor_name = vserviceImpl.getVendorUsernameByVegId(veg_item.getVegId());
+        	vendor_name= vserviceImpl.decrypt(vendor_name);
         %>  
           <div class="product-card" data-vendor="<%=vendor_name %>" data-price="<%=veg_item.getNet_price()%>">
             <span class="discount-tag"><%=veg_item.getDiscount_per_piece()%>Rs OFF</span>
@@ -321,7 +325,7 @@
               <option value="2">2kg</option>
                 <option value="5">5kg</option>
             </select>
-            <button> Add to Cart </button>
+           <button type="button" onclick="myFunction()" > Add to Cart </button>
 <%     	
     }
 %>           
@@ -338,18 +342,7 @@
       </div>
     </div>
 
-<script>
-function myFunction() {
-    if (confirm("Please Log-In To Shop. Do you want to log in now?")) {
-        // Redirect to login page if "OK" is clicked
-        window.location.href = "login.jsp"; // Change to your login page URL
-    } else {
-        // Do nothing if "Cancel" is clicked
-   
-    }
-}
 
-</script>
 
 <%@include file="../components/footer.jsp" %>
  <%@include file="../components/jslibraries.jsp" %>

@@ -1,3 +1,4 @@
+<%@page import="com.yash.vijayvegmart.serviceImpl.UsersServiceImpl"%>
 <%@page import="com.yash.vijayvegmart.model.Users"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -9,23 +10,19 @@
 
     <head>
         <title>Vijay Veg Mart</title>
-         <%@include file="components/links.jsp" %>
+        <%@include file="components/links.jsp" %>
         <%@include file="components/jslibraries.jsp" %>
         <link href="css/style.css" rel="stylesheet">
-       <style> 
-       .error{
-       
-       border : 2px solid red;
-       background-color : #ffe6e6;
-       }
-       
-     </style>
+        <style> 
+            .error {
+                border: 2px solid red;
+                background-color: #ffe6e6;
+            }
+        </style>
     </head>
     <body>
 
 <%@include file="components/navbar.jsp" %>
-
-
 
   <!-- Content Section Start -->
         
@@ -34,29 +31,26 @@
         <div class="row">
             <div class="offset-2 col-8 offset-2">
             
-
- 
- 
  <c:if test="${not empty checkmessage}">
-<p class="text-danger">${checkmessage}</p>
-<c:remove var="checkmessage" scope="request"/>
+    <p class="text-danger">${checkmessage}</p>
+    <c:remove var="checkmessage" scope="request"/>
 </c:if>     
  
  <c:if test="${not empty error}">
-<p class="text-info">${error}</p>
+    <p class="text-info">${error}</p>
+ </c:if>
 
-</c:if>
- <div class="w-50 w-md-50 w-sm-75 w-100 mx-auto" style="max-width: 500px;">
+<div class="w-50 w-md-50 w-sm-75 w-100 mx-auto" style="max-width: 500px;">
     <form id="registrationForm" action="${pageContext.request.contextPath}/users" method="post" onsubmit="return validateForm()">
         <div class="mb-3 d-flex justify-content-between position-relative">
             <label for="username" class="me-2 w-25 text-start">User Name:</label>
-            <input type="text" name="username" required placeholder="Enter Your User Name" 
+            <input type="text" id="username" name="username" required placeholder="Enter Your User Name" 
             class="form-control form-control-sm w-75 border-0 py-2 ${not empty sessionScope.error && sessionScope.error=='Username already exists.' ? 'error':''}">
         </div>
 
         <div class="mb-3 d-flex justify-content-between position-relative">
             <label for="email" class="me-2 w-25 text-start">Email:</label>
-            <input type="email" required  placeholder="Enter Your EmailId" name="email"  
+            <input type="email" required placeholder="Enter Your EmailId" name="email"  
             class="form-control form-control-sm w-75 border-0 py-2 ${not empty sessionScope.error && sessionScope.error=='Email Id already exists.' ? 'error':''}">
         </div>
 
@@ -101,6 +95,14 @@
             <label for="usertype" class="me-2 w-25 text-start">User Type:</label>
             <select name="usertype" class="form-control form-control-sm w-75 border-0 py-2">
                 <option value="customer" selected>Customer</option>
+                <%
+                UsersServiceImpl impl = new UsersServiceImpl();
+             boolean b = impl.doesAdminUserExist();
+                if(!b) {
+                %>
+                <option value="admin" selected>Admin</option>
+                
+                <%} %>
                 <option value="vendor">Vendor</option>
             </select>
         </div>
@@ -117,7 +119,75 @@
 </div>
 
 <script>
-    // Function to check password strength
+    const publicKeyPem = `
+    MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA62p7h7YhhFxK5mCUwQ6KiG2QOmfrYcyZQqNPgy1R+BJM5tV7GmyyYAs3RuXx3zYHWTYOSF+0kapCMosWgR6dSpYFqbNHFmGXEzFihTgf15fVmZF+T96JQoTz6N2b/fPmInMkqgS3oIbO7s2KYjvMghFCMLZheMhiMedELnI3kn+Qt5EJdOASUCHET0qLnZztSHSbCXs5L3g3+4HsN9B9cE+pVzFaiNBg0eNNmpeg+HEhxAmoph5JhZlbdbCUzDR+IJjjCr3deZlRBPKELXo+7tq4tcbAwxJe/xdZbHvkfnf0c5H9M1897RKh8HJWDMAXf8nRlG0gv5I+w4Q65sPnrwIDAQAB
+    `;
+
+    async function importPublicKey(pem) {
+        const binaryDer = str2ab(pem);
+        return crypto.subtle.importKey(
+            'spki',
+            binaryDer,
+            {
+                name: 'RSA-OAEP',
+                hash: { name: 'SHA-256' }
+            },
+            true,
+            ['encrypt']
+        );
+    }
+
+    function str2ab(str) {
+        const binaryString = window.atob(str.replace(/\s/g, ''));
+        const len = binaryString.length;
+        const bytes = new Uint8Array(len);
+        for (let i = 0; i < len; i++) {
+            bytes[i] = binaryString.charCodeAt(i);
+        }
+        return bytes.buffer;
+    }
+
+    async function encryptData(publicKey, data) {
+        const encryptedBuffer = await crypto.subtle.encrypt(
+            {
+                name: 'RSA-OAEP'
+            },
+            publicKey,
+            new TextEncoder().encode(data)
+        );
+        return btoa(String.fromCharCode.apply(null, new Uint8Array(encryptedBuffer)));
+    }
+
+    document.getElementById('registrationForm').addEventListener('submit', async function (e) {
+        e.preventDefault(); // Prevent the form from submitting normally
+
+        // Encrypt the username, email, password, and confirm password
+        const username = document.getElementById('username').value;
+        const email = document.getElementsByName('email')[0].value;
+        const password = document.getElementById('password').value;
+        const confirmPassword = document.getElementById('confirm-password').value;
+
+        const publicKey = await importPublicKey(publicKeyPem);
+
+        const encryptedUsername = await encryptData(publicKey, username);
+        const encryptedEmail = await encryptData(publicKey, email);
+        const encryptedPassword = await encryptData(publicKey, password);
+        const encryptedConfirmPassword = await encryptData(publicKey, confirmPassword);
+
+        // Set the encrypted values back to the input fields
+        document.getElementById('username').value = encryptedUsername;
+        document.getElementsByName('email')[0].value = encryptedEmail;
+        document.getElementById('password').value = encryptedPassword;
+        document.getElementById('confirm-password').value = encryptedConfirmPassword;
+
+        // Submit the form after encrypting
+        this.submit();
+    });
+
+    //////
+    
+    
+     // Function to check password strength
     function checkPasswordStrength() {
         const password = document.getElementById('password').value;
         const strengthMessage = document.getElementById('passwordStrengthMessage');
@@ -172,10 +242,10 @@
 
         return true; // Allow form submission
     }
+    
+    
 </script>
 
-
-                
 
  <c:remove var="error" scope="session"/> 
  <c:remove var="mobile" scope="session"/> 
@@ -191,6 +261,6 @@
 
 <%@include file="components/footer.jsp" %>
 
- </body>
+    </body>
 
 </html>

@@ -25,36 +25,25 @@ function capitalize(str) {
 }
 
 
-document
-     .getElementById("category-list")
-     .addEventListener("click", (e) => {
-       if (e.target.tagName === "LI") {
-         const category = e.target.getAttribute("data-category");
-         document.querySelectorAll(".grid").forEach((grid) => {
-           grid.style.display = "none";
-         });
-         document.getElementById(category).style.display = "grid";
-         document.getElementById(
-           "category-title"
-         ).innerText = `Buy Fresh ${capitalize(category)} Online`;
-
-         // Update active class
-         document.querySelectorAll("#category-list li").forEach((li) => {
-           li.classList.remove("active");
-         });
-         e.target.classList.add("active");
-       }
-     });
+function myFunction() {
+    if (confirm("Please Log-In To Shop. Do you want to log in now?")) {
+        // Redirect to login page if "OK" is clicked
+        window.location.href = "login.jsp"; // Change to your login page URL
+    } else {
+        // Do nothing if "Cancel" is clicked
+   
+    }
+}
 
 
 
-   // Load default category (vegetables) on page load
-   window.onload = () => {
-     document.getElementById("vegetables").style.display = "grid";
-   };
 
+  
    // Sort by Vendor
+   debugger;
+   window.onload = function () {
    document.getElementById("sort-vendor").addEventListener("change", (e) => {
+	
      const vendor = e.target.value;
      const productCards = document.querySelectorAll(".product-card");
      productCards.forEach((card) => {
@@ -66,6 +55,8 @@ document
      });
    });
 
+   
+   }
    // Sort by Price
    // Sort by Price
    document.getElementById("sort-price").addEventListener("change", (e) => {
@@ -96,6 +87,25 @@ document
    
    
 
-   function myFunction() {
-     alert("Please Log-In To Shop");
-   }
+   document
+        .getElementById("category-list")
+        .addEventListener("click", (e) => {
+          if (e.target.tagName === "LI") {
+            const category = e.target.getAttribute("data-category");
+            document.querySelectorAll(".grid").forEach((grid) => {
+              grid.style.display = "none";
+            });
+            document.getElementById(category).style.display = "grid";
+            document.getElementById(
+              "category-title"
+            ).innerText = `Buy Fresh ${capitalize(category)} Online`;
+
+            // Update active class
+            document.querySelectorAll("#category-list li").forEach((li) => {
+              li.classList.remove("active");
+            });
+            e.target.classList.add("active");
+          }
+        });
+
+  

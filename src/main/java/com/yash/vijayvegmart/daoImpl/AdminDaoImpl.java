@@ -28,7 +28,7 @@ public class AdminDaoImpl implements AdminDao {
 	
 	public List<Users> getAllApprovedUsers() {
         List<Users> approvedUsersList = new ArrayList<Users>();
-        String query = "SELECT id, username, email, isapproved , isactive FROM users WHERE isapproved = 'approved'";
+        String query = "SELECT id, username, email, isapproved , isactive FROM users WHERE isapproved = 'approved' AND usertype <> 'admin'";
 
         try (PreparedStatement ps = connection.prepareStatement(query)) {
             ResultSet rs = ps.executeQuery();
@@ -57,7 +57,7 @@ public class AdminDaoImpl implements AdminDao {
   
 	public List<Users> getAllNotApprovedUsers() {
         List<Users> notApprovedUsersList = new ArrayList<Users>();
-        String query = "SELECT id ,username, email, isapproved FROM users WHERE isapproved = 'notapproved'";
+        String query = "SELECT id ,username, email, isapproved FROM users WHERE isapproved = 'notapproved' AND usertype <> 'admin' ";
 
         try (PreparedStatement ps = connection.prepareStatement(query)) {
             ResultSet rs = ps.executeQuery();
@@ -86,7 +86,7 @@ public class AdminDaoImpl implements AdminDao {
   
 	public List<Users> getAllRejectedUsers() {
         List<Users> rejectedUsersList = new ArrayList<>();
-        String query = "SELECT id, username, email, isapproved FROM users WHERE isapproved = 'rejected'";
+        String query = "SELECT id, username, email, isapproved FROM users WHERE isapproved = 'rejected' AND usertype <> 'admin'";
 
         try (PreparedStatement ps = connection.prepareStatement(query)) {
             ResultSet rs = ps.executeQuery();
@@ -114,7 +114,7 @@ public class AdminDaoImpl implements AdminDao {
   
 	  public List<Users> getAllDeletedUsers() {
 	        List<Users> deletedUsersList = new ArrayList<>();
-	        String query = "SELECT id, username, email, isapproved, isactive FROM users WHERE isapproved = 'approved' AND isactive = 'inactive'";
+	        String query = "SELECT id, username, email, isapproved, isactive FROM users WHERE isapproved = 'approved' AND isactive = 'inactive' AND usertype <> 'admin'";
 
 	        try (PreparedStatement ps = connection.prepareStatement(query)) {
 	            ResultSet rs = ps.executeQuery();

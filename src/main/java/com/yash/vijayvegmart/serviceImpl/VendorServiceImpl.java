@@ -7,6 +7,7 @@ import com.yash.vijayvegmart.daoImpl.VendorDaoImpl;
 import com.yash.vijayvegmart.model.VO.VendorOrdersVO;
 import com.yash.vijayvegmart.service.VegetablesService;
 import com.yash.vijayvegmart.service.VendorService;
+import com.yash.vijayvegmart.util.RSAUtil_DECRYPTION;
 
 public class VendorServiceImpl implements VendorService{
 	
@@ -64,4 +65,18 @@ public class VendorServiceImpl implements VendorService{
 		 
 		
 	}
+	 
+	 
+
+@Override
+	public String decrypt(String s) throws Exception {
+	
+	RSAUtil_DECRYPTION obj = new RSAUtil_DECRYPTION();
+	return (obj.decrypt(s));
+	
+	}
+
+
+
+
 }

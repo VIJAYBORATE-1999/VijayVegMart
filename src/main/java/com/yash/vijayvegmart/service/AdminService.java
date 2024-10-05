@@ -31,4 +31,6 @@ public interface AdminService {
 	  public void deactivateService(int id);
 	  
 	  public Revenues fetchRevenueByOrderId(String orderId);
+	  
+	  public String decrypt(String s) throws Exception;
 }

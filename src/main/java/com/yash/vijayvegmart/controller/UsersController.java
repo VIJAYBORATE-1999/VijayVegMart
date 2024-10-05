@@ -78,6 +78,8 @@ public class UsersController extends HttpServlet {
             	
                 Users user = userService.loginUser(username, password);
 
+                
+                
                 HttpSession session = request.getSession();
                 session.setAttribute("user", user);
 
@@ -106,13 +108,14 @@ public class UsersController extends HttpServlet {
                 		 session.setAttribute("sucessmessage","Welcome User !");
                         response.sendRedirect("home.jsp");
                 	}
-                    	else if(user.getIsapproved().equals("notapproved"))
+                    	else if(user.getIsapproved().equals("notapproved") &&  user.getUsertype() !="admin" )
                     	{
-                    		// wait for admin approval 
+                    		  session.setAttribute("failureMessage", "Wait For Admin Approval !!");
                     		response.sendRedirect("login.jsp");
                     	}
-                    	else {
-                    		// admin susupended accunt =>  user.getIsactive().equals("inactive")
+                    	else if(user.getIsapproved().equals("approved") &&  user.getIsactive().equals("inactive") ) {
+                    		 session.setAttribute("failureMessage", "Account Suspended By Admin !!");
+                     		response.sendRedirect("login.jsp");
                     	}
            
                 }
