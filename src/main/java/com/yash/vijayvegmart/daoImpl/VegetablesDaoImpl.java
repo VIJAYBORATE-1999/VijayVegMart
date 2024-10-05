@@ -95,7 +95,7 @@ public void saveVegetable(VegetablesDetails details) {
 	
 	 List<VegetablesDetails> vegetablesList = new ArrayList<VegetablesDetails>();
 	 VegetablesDetails details  =  null;
-     String query = "SELECT * FROM vegetables_details WHERE veg_category= ?";  // SQL query to fetch all vegetables
+     String query = "SELECT * FROM vegetables_details WHERE veg_category= ? AND is_active='active'";  // SQL query to fetch all vegetables
      
      try (PreparedStatement ps = connection.prepareStatement(query)) {
     	 ps.setString(1, Category);
@@ -134,7 +134,7 @@ public List<VegetablesDetails> getAllVegetablesByVendorId(int vendor_id) {
 	
 	 List<VegetablesDetails> vegetablesList = new ArrayList<VegetablesDetails>();
 	 VegetablesDetails details  =  null;
-    String query = "SELECT * FROM vegetables_details WHERE vendor_id = ?";  // SQL query to fetch all vegetables by a vendor id
+    String query = "SELECT * FROM vegetables_details WHERE vendor_id = ? AND is_active ='active'";  // SQL query to fetch all vegetables by a vendor id
     
     try (PreparedStatement ps = connection.prepareStatement(query)) {
     	ps.setInt(1,vendor_id);
@@ -163,7 +163,39 @@ public List<VegetablesDetails> getAllVegetablesByVendorId(int vendor_id) {
     return vegetablesList;  // Return the list of vegetables
 }
 
+@Override
+public List<VegetablesDetails> getAllDeletedVegetablesByVendorId(int vendor_id) {
+	
+	 List<VegetablesDetails> vegetablesList = new ArrayList<VegetablesDetails>();
+	 VegetablesDetails details  =  null;
+    String query = "SELECT * FROM vegetables_details WHERE vendor_id = ? AND is_active ='inactive'";  // SQL query to fetch all vegetables by a vendor id
+    
+    try (PreparedStatement ps = connection.prepareStatement(query)) {
+    	ps.setInt(1,vendor_id);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+       	 details = new VegetablesDetails();
+            details.setVegId(rs.getInt(1));
+            details.setVendorId(rs.getInt(4));
+            details.setVegName(rs.getString(5));
+            details.setQuantity(rs.getInt(6));
+            details.setDescription(rs.getString(7));
+            details.setPricePerPiece(rs.getDouble(8));
+            details.setVegPicName(rs.getString(9));
+            details.setVegCategory(rs.getString(10));
+            details.setDiscount_per_piece(rs.getDouble(11));
+            details.setNet_price(rs.getDouble(12));
+            details.setCreatedAt(rs.getTimestamp(2));
+            details.setUpdatedAt(rs.getTimestamp(3));
 
+            vegetablesList.add(details);  // Add the details to the list
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+
+    return vegetablesList;  // Return the list of vegetables
+}
 
 /*----------------------------FETCH IN STOCK  VEGETBALE FOR A PARTICULAR  VENDOR FROM DATABASE --------------------------------------*/
 
@@ -450,21 +482,31 @@ public List<VegetablesDetails> getVegetablesDetailsByOrderId(String orderId)  {
 
 
 public boolean deleteVegetableById(int vegId) {
-    String query = "DELETE FROM vegetables_details WHERE veg_id = ?";
-
-    try (PreparedStatement ps = connection.prepareStatement(query)) {
-        ps.setInt(1, vegId);
-
-        int rowsAffected = ps.executeUpdate();
-        return rowsAffected > 0; // Return true if at least one row was deleted
-
+	String sql = "UPDATE vegetables_details SET is_active = 'inactive' WHERE veg_id = ?";
+    try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+        preparedStatement.setInt(1, vegId);
+        int rowsUpdated = preparedStatement.executeUpdate();
+        return rowsUpdated > 0; // Return true if the update was successful
     } catch (SQLException e) {
-        e.printStackTrace();
-        return false;
+        e.printStackTrace(); // Handle exceptions appropriately
+        return false; // Return false if there was an error
     }
 }
 
 
+// restore the vegetable back 
+@Override
+	public boolean restoreVegetableById(int vegId) {
+	String sql = "UPDATE vegetables_details SET is_active = 'active' WHERE veg_id = ?";
+    try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+        preparedStatement.setInt(1, vegId);
+        int rowsUpdated = preparedStatement.executeUpdate();
+        return rowsUpdated > 0; // Return true if the update was successful
+    } catch (SQLException e) {
+        e.printStackTrace(); // Handle exceptions appropriately
+        return false; // Return false if there was an error
+    }
+	}
 
 
 @Override

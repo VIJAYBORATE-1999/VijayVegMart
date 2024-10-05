@@ -124,7 +124,35 @@
                             </form> 
                         </td>
                     </tr>
-                <% } %>       
+                <% } %>    
+                
+                
+                
+                                <% 
+                
+                    List<VegetablesDetails> list2 = vserviceImpl.fetchAllDeletedVegetablesByVendorId(user.getId());
+                    for (VegetablesDetails veg_item : list2) {       
+                %>
+                    <tr>
+                        <td style="display: none;"><%=veg_item.getVegId()%></td>
+                        <td><%=veg_item.getVegName() %></td>
+                        <td><%=veg_item.getVegCategory() %></td>
+                        <td><%=veg_item.getQuantity() %></td>  
+                        <td><%=veg_item.getDescription() %></td>
+                        <td><%=veg_item.getPricePerPiece() %></td>
+                        <td><%=veg_item.getDiscount_per_piece() %></td>
+                        <td><%=veg_item.getNet_price() %></td>
+                        <td><img src="${pageContext.request.contextPath}/img/<%=veg_item.getVegPicName()%>" alt="<%=veg_item.getVegPicName() %>" width="50"></td>
+                        <td>
+                            <form style="display: contents;" action="${pageContext.request.contextPath}/Vegetable" method="post">
+                                <input type="hidden" id="vegetable_id" name="vegetable_id" value="<%=veg_item.getVegId()%>">
+                                <input type="submit" name="restore_action" value="restore" style="max-width: 100%; background-color: #FFA07A; margin-left: 12% !important; padding: 4px 10px; margin: 2px;color: white; border: none; border-radius: 4px;">
+                            </form> 
+                        </td>
+                    </tr>
+                <% } %>  
+                
+                   
             </table>
         </div>
     </div>

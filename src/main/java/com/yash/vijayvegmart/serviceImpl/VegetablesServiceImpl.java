@@ -91,6 +91,14 @@ public class VegetablesServiceImpl implements VegetablesService {
     }
     
     
+    
+    // we will fetch all deleted veegtbales uploded by partticular vendor 
+    @Override
+    public List<VegetablesDetails> fetchAllDeletedVegetablesByVendorId(int vendor_id) throws Exception {
+    	return vegDao.getAllDeletedVegetablesByVendorId(vendor_id);
+    }
+    
+    
 /* --------------------------------- FTECH IN STOCK VEGETBALE FROM  DB VIA SPECIFIC VENDOR   ------------------------------------*/   
     
     @Override
@@ -214,6 +222,11 @@ public void updateVegetable(VegetablesDetails details, Part vegPicPart, String p
     	return vegDao.deleteVegetableById(vegId);
     }
    
+    @Override
+    public boolean restoreVegetableById(int vegId) throws Exception {
+    	// TODO Auto-generated method stub
+    	return vegDao.restoreVegetableById(vegId);
+    }
     
     
     public VegetablesDetails get_A_VegetableById(int vegId) throws SQLException 

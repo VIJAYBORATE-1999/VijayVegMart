@@ -32,10 +32,22 @@ public class VegetablesController extends HttpServlet {
         	  String action_type = request.getParameter("action_type");    // Handles vendor Add/Update Vegetables SECTION  FORM Button => "Add Vegetables"  or "Update"   (home.jsp -> Add/Update Vegetables Section)
         	   String action_type2 = request.getParameter("action_type2"); // Handles vendor Add/Update Vegetables SECTION  FORM Button => "Delete" (home.jsp -> Add/Update Vegetables Section)
         	   String action_type3 = request.getParameter("action_type3"); // Handles vendor Inventory  SECTION  FORM Button => "Update" or "Refill" (home.jsp -> Inventory Section) , we just update the stock 
+        	   String restore_action = request.getParameter("restore_action");
         	   HttpSession session = request.getSession(false);
     
+ /*--------CASE 0) RESTORE THE DELETED VEGETBALE BACK --------------------------------------*/       	   
+       if((restore_action != null) && ("restore".equals(restore_action))) 
+       {
+    	   int veg_id = Integer.parseInt(request.getParameter("vegetable_id"));
+    	   veg_service.restoreVegetableById(veg_id);
+      	   session.setAttribute("sucessmessage", "Vegetable Restored Successfully");
+         	 response.sendRedirect(request.getContextPath() + "/vendor/home.jsp");
+       }
+        	   
+        	   
+        	   
  /*----------CASE 1) DELETE SERVICE CALL ---------------------------------- */       	   
-           	if ((action_type2!= null) && ("delete".equals(action_type2))) {
+       else	if ((action_type2!= null) && ("delete".equals(action_type2))) {
            		 int veg_id = Integer.parseInt(request.getParameter("vegetable_id"));
            		 System.out.print("Vegetbale idDDD is "+veg_id);		 
            		veg_service.deleteVegetableById(veg_id);

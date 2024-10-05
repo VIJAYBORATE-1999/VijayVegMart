@@ -64,7 +64,7 @@
         <div class="sort-section">
           <label for="sort-vendor">Sort by Vendor: </label>
           <select id="sort-vendor">
-         <!--   <option value="all">All Vendors</option> -->  
+         <option value="all">All Vendors</option>
          <% 
         
         VegetablesServiceImpl vserviceImpl = new  VegetablesServiceImpl();
@@ -125,11 +125,16 @@
               <option value="2">2kg</option>
                 <option value="5">5kg</option>
             </select>
-   
+   <% if(veg_item.getQuantity()<=0) { %>
+   <span class="badge bg-warning"> Out Of Stock !</span>
+   <%}else{ %>
   <input type="submit"  name="add_to_cart" value="Add to Cart" style="max-width: 100%; background-color: #28a745; margin-left: 12% !important; padding: 4px 10px; margin: 2px;color: white; border: none; border-radius: 4px;">
+<%} %>
 </form> 
 <%
-    } else { 
+    }
+    
+    else { 
 %>    	
     	
     	<select name="quantity_added">
@@ -138,7 +143,12 @@
               <option value="2">2kg</option>
                 <option value="5">5kg</option>
             </select>
+            
+            <% if(veg_item.getQuantity()<=0) { %>
+   <span class="badge bg-warning"> Out Of Stock !</span>
+   <%}else{ %>
             <button type="button" onclick="myFunction()" > Add to Cart </button>
+            <%} %>
 <%     	
     }
 %>           

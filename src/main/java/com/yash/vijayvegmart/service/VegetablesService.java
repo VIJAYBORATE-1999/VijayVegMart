@@ -13,6 +13,7 @@ public interface VegetablesService {
 	 public List<VegetablesDetails> fetchAllVegetablesBycategory(String Category) throws Exception ; 
 	    
 	 public List<VegetablesDetails> fetchAllVegetablesByVendorId(int vendor_id) throws Exception ; 
+	 public List<VegetablesDetails> fetchAllDeletedVegetablesByVendorId(int vendor_id) throws Exception;
 
 	 public List<VegetablesDetails> fetchAllVegetablesInStockByVendorId(int vendor_id) throws Exception ; 
 
@@ -31,6 +32,7 @@ public interface VegetablesService {
      public void updateVegetable(VegetablesDetails details, Part vegPicPart, String path) throws Exception;
      
      public boolean deleteVegetableById(int vegId) throws Exception;
+     public boolean restoreVegetableById(int vegId) throws Exception;
      
      public VegetablesDetails get_A_VegetableById(int vegId) throws SQLException ;
      

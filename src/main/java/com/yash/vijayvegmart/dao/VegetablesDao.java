@@ -16,6 +16,8 @@ public interface VegetablesDao {
     
     List<VegetablesDetails> getAllVegetablesByVendorId(int vendor_id); // get all vegetables for particlar vendor  
 
+    public List<VegetablesDetails> getAllDeletedVegetablesByVendorId(int vendor_id); // get all deleted vegetables by vendor 
+    
     List<VegetablesDetails> getAllInStockVegetablesByVendorId(int vendor_id);  // get all in stock  vegetables for particlar vendor  
 
     List<VegetablesDetails> getAllOutOfStockVegetablesByVendorId(int vendor_id); // get all out of  vegetables for particlar vendor  
@@ -38,6 +40,8 @@ public interface VegetablesDao {
     public void updateVegetable(VegetablesDetails details) ;
     
     public boolean deleteVegetableById(int vegId);
+    
+    public boolean restoreVegetableById(int vegId);
     
     public VegetablesDetails get_A_VegetableById(int vegId) throws SQLException ;
 }
