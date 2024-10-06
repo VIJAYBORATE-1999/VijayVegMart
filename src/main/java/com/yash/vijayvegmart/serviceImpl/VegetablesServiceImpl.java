@@ -81,6 +81,12 @@ public class VegetablesServiceImpl implements VegetablesService {
     
     
     
+    
+    @Override
+    public List<VegetablesDetails> fetchAllVegetablesByName(String name) throws Exception {
+    	// TODO Auto-generated method stub
+    	return vegDao.getAllVegetablesByName(name);
+    }
    
 /* --------------------------------- FTECH ALL VEGETBALE FROM  DB VIA SPECIFIC VENDOR   ------------------------------------*/   
     

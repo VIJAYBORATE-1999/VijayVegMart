@@ -50,7 +50,7 @@ public String placeOrder(String fullName, String address, String city, String st
 	
 	// Logic for order_id generation :
 	String order_id=null;
-	String order_id_generated = UUID.randomUUID().toString();
+	String order_id_generated = UUID.randomUUID().toString().replace("-","").substring(0,5);
 	DateTimeFormatter f = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
 	String currentDateTime = LocalDateTime.now().format(f);
 	order_id = order_id_generated + currentDateTime;

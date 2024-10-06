@@ -126,6 +126,47 @@ public void saveVegetable(VegetablesDetails details) {
 
 
 
+
+
+
+
+@Override
+	public List<VegetablesDetails> getAllVegetablesByName(String name) {
+	
+	 List<VegetablesDetails> vegetablesList = new ArrayList<VegetablesDetails>();
+	 VegetablesDetails details  =  null;
+     String query = "SELECT * FROM vegetables_details WHERE veg_name LIKE ? AND is_active='active'";  // SQL query to fetch all vegetables
+     
+     try (PreparedStatement ps = connection.prepareStatement(query)) {
+    	 ps.setString(1, "%"+name+"%");
+         ResultSet rs = ps.executeQuery();
+         while (rs.next()) {
+        	 details = new VegetablesDetails();
+             details.setVegId(rs.getInt(1));
+             details.setVendorId(rs.getInt(4));
+             details.setVegName(rs.getString(5));
+             details.setQuantity(rs.getInt(6));
+             details.setDescription(rs.getString(7));
+             details.setPricePerPiece(rs.getDouble(8));
+             details.setVegPicName(rs.getString(9));
+             details.setVegCategory(rs.getString(10));
+             details.setDiscount_per_piece(rs.getDouble(11));
+             details.setNet_price(rs.getDouble(12));
+             details.setCreatedAt(rs.getTimestamp(2));
+             details.setUpdatedAt(rs.getTimestamp(3));
+
+             vegetablesList.add(details);  // Add the details to the list
+         }
+     } catch (SQLException e) {
+         e.printStackTrace();
+     }
+
+     return vegetablesList;  // Return the list of vegetables
+ }
+
+
+
+
 /*----------------------------FETCH ALL VEGETBALE FOR A PARTICULAR  VENDOR FROM DATABASE --------------------------------------*/
 
 //WE WILL FETCH VEEGTABLES UPLOADED BY PARTICULAR VENDOR 

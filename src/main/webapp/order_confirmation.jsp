@@ -83,6 +83,7 @@
                     <td colspan="3" class="text-end"><strong>Total:</strong></td>
                     <%
                      Revenues revenue =order_Service_impl.fetchRevenuesByIdAndUserId(order_id, user.getId());
+                    double Total_Payment = revenue.getTotalPayment();
                     %>
                     <td><strong><%=revenue.getTotalPayment()%></strong></td>
                 </tr>
@@ -114,7 +115,8 @@
             <button onclick="window.print()" class="btn btn-primary">Download Bill</button>
         </div>
     </div>
-    
+
+ 
     <br><br>
 <%@include file="../components/footer.jsp" %>
 </body>

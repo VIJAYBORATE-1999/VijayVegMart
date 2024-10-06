@@ -44,4 +44,6 @@ public interface VegetablesDao {
     public boolean restoreVegetableById(int vegId);
     
     public VegetablesDetails get_A_VegetableById(int vegId) throws SQLException ;
+    public List<VegetablesDetails> getAllVegetablesByName(String name);
 }
+

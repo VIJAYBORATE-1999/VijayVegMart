@@ -38,4 +38,8 @@ public interface VegetablesService {
      
      public String decrypt(String s) throws Exception;
 
+     public List<VegetablesDetails> fetchAllVegetablesByName(String Name) throws Exception ; 
+     
+    
+	    
 }
