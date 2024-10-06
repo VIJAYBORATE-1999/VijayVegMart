@@ -63,29 +63,69 @@
 
     <div id="addUpdate" class="section active">
         <h2>Add/Update Vegetables</h2>
-        <form action="${pageContext.request.contextPath}/Vegetable" method="post" id="vegetableForm" enctype="multipart/form-data">
-            <input type="hidden" id="formAction" name="action_type" value="add">
-            <input type="hidden" id="veg_id" name="veg_id" value="">
-            <input type="text" name="veg_name" id="vegetableName" placeholder="Vegetable Name" required>
+ <div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-8 col-sm-10 col-12">
+            <form action="${pageContext.request.contextPath}/Vegetable" method="post" id="vegetableForm" enctype="multipart/form-data">
+                <input type="hidden" id="formAction" name="action_type" value="add">
+                <input type="hidden" id="veg_id" name="veg_id" value="">
 
-            <select id="vegetableCategory" name="veg_category" required>
-                <option value="" disabled selected>Select Category</option>
-                <option value="Leafy Green">Leafy Green</option>
-                <option value="Cruciferous">Cruciferous </option>
-                <option value="Root">Root</option>
-                <option value="Seasonal">Seasonal</option>
-            </select>
+                <div class="mb-4 d-flex justify-content-between">
+                    <label for="vegetableName" class="me-2 w-25 text-start">Vegetable Name:</label>
+                    <input type="text" name="veg_name" id="vegetableName" class="form-control form-control-sm w-75 border-0 py-2" placeholder="Enter Vegetable Name" required>
+                </div>
 
-            <input type="number" id="vegetableStock" name="quantity" placeholder="Quantity (Stock in Pieces)" required>
-            <textarea id="vegetableDescription" name="description" placeholder="Description"></textarea>
-            <input type="number" name="price_per_piece" id="vegetablePrice" placeholder="Price (Per Piece)" required>
-            <input type="number" name="discount_per_piece" id="vegetableDiscount" placeholder="Discount (Per Piece)" required oninput="calculateNetPrice()">
-            <input type="number" name="net_price" id="vegetableNetPrice" placeholder="Net Price (After Discount)" readonly>
-            <input type="file" name="veg_pic_name" id="vegetableImage" required>
+                <div class="mb-4 d-flex justify-content-between">
+                    <label for="vegetableCategory" class="me-2 w-25 text-start">Category:</label>
+                    <select id="vegetableCategory" name="veg_category" class="form-control form-control-sm w-75 border-0 py-2" required>
+                        <option value="" disabled selected>Select Category</option>
+                        <option value="Leafy Green">Leafy Green</option>
+                        <option value="Cruciferous">Cruciferous</option>
+                        <option value="Root">Root</option>
+                        <option value="Seasonal">Seasonal</option>
+                    </select>
+                </div>
 
-            <button type="button" class="button" onclick="resetForm()">Reset</button>
-            <button type="submit" class="button" id="submitButton">Add Vegetables</button>
-        </form>
+                <div class="mb-4 d-flex justify-content-between">
+                    <label for="vegetableStock" class="me-2 w-25 text-start">Quantity:</label>
+                    <input type="number" id="vegetableStock" name="quantity" class="form-control form-control-sm w-75 border-0 py-2" placeholder="In Kg" required>
+                </div>
+
+                <div class="mb-4 d-flex justify-content-between">
+                    <label for="vegetableDescription" class="me-2 w-25 text-start">Description:</label>
+                    <textarea id="vegetableDescription" name="description" class="form-control form-control-sm w-75 border-0 py-2" placeholder="Enter Description"></textarea>
+                </div>
+
+                <div class="mb-4 d-flex justify-content-between">
+                    <label for="vegetablePrice" class="me-2 w-25 text-start">Price:</label>
+                    <input type="number" name="price_per_piece" id="vegetablePrice" class="form-control form-control-sm w-75 border-0 py-2" placeholder="Price per Piece" required>
+                </div>
+
+                <div class="mb-4 d-flex justify-content-between">
+                    <label for="vegetableDiscount" class="me-2 w-25 text-start">Discount:</label>
+                    <input type="number" name="discount_per_piece" id="vegetableDiscount" class="form-control form-control-sm w-75 border-0 py-2" placeholder="Discount per Kg" required oninput="calculateNetPrice()">
+                </div>
+
+                <div class="mb-4 d-flex justify-content-between">
+                    <label for="vegetableNetPrice" class="me-2 w-25 text-start">Net Price:</label>
+                    <input type="number" name="net_price" id="vegetableNetPrice" class="form-control form-control-sm w-75 border-0 py-2" placeholder="Net Price (After Discount)" readonly>
+                </div>
+
+                <div class="mb-4 d-flex justify-content-between">
+                    <label for="vegetableImage" class="me-2 w-25 text-start">Image:</label>
+                    <input type="file" name="veg_pic_name" id="vegetableImage" class="form-control form-control-sm w-75 border-0 py-2" required>
+                </div>
+
+                <div class="d-flex justify-content-between">
+                    <button type="button" class="btn btn-secondary w-45 py-2" onclick="resetForm()">Reset</button>
+                    <button type="submit" class="btn btn-primary w-45 py-2" id="submitButton">Add Vegetables</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+ 
+
         
         <div class="table-responsive">
             <table>

@@ -65,7 +65,7 @@ public void saveVegetable(VegetablesDetails details) {
 	
 	
 	
-	  String query = "INSERT INTO vegetables_details (vendor_id, veg_name , quantity , description , price_per_piece , veg_pic_name, veg_category , discount_per_piece , net_price ) VALUES (?, ?, ?, ?, ?, ?, ?,?,?)";
+	  String query = "INSERT INTO vegetables_details (vendor_id, veg_name , quantity , description , price_per_piece , veg_pic_name, veg_category , discount_per_piece , net_price,is_active ) VALUES (?, ?, ?, ?, ?, ?, ?,?,?,?)";
       try (PreparedStatement ps = connection.prepareStatement(query)) {
           ps.setInt(1, details.getVendorId());
           ps.setString(2, details.getVegName());
@@ -76,6 +76,7 @@ public void saveVegetable(VegetablesDetails details) {
           ps.setString(7, details.getVegCategory());
           ps.setDouble(8, details.getDiscount_per_piece());
           ps.setDouble(9, details.getNet_price());
+          ps.setString(10,"active"); 
          //net_price
           ps.executeUpdate();
           System.out.print("SAVED VEGETABLE IN DATABASE ");
