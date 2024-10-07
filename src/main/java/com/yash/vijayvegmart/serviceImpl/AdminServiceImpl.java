@@ -18,6 +18,14 @@ public AdminServiceImpl() {
 }
 
 
+/* -------CLOSE  DB   CONNECTION -----------   */
+
+@Override
+	public void closeConnection() {
+		// TODO Auto-generated method stub
+		adminDao.closeConnection();
+	}
+/* -------CLOSE  DB   CONNECTION -----------   */
 
 
 @Override
@@ -102,4 +110,10 @@ public Revenues fetchRevenueByOrderId(String orderId) {
 	
 	}
 
+
+@Override
+	public List<Revenues> fetchAllRevenues() {
+		// TODO Auto-generated method stub
+		return adminDao.fetchAllRevenues();
+	}
 }

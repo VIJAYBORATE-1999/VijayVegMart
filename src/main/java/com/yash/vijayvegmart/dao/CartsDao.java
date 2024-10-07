@@ -6,6 +6,9 @@ import com.yash.vijayvegmart.model.Carts;
 
 public interface CartsDao {
 	
+	/*------------  CLOSE DB CONNECTION WHEN NEEDED ----------------  */
+	public void closeConnection();
+	
 	public void saveOrUpdateCart(int vegId, int userId, double quantityAdded, double totalPrice);
 
 	public List<Carts> getAllCartsByUserID(int user_id);

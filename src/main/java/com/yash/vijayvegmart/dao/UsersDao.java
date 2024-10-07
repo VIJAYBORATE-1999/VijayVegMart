@@ -6,6 +6,12 @@ import java.util.Optional;
 import com.yash.vijayvegmart.model.Users;
 
 public interface UsersDao {
+	
+	
+	/*------------  CLOSE DB CONNECTION WHEN NEEDED ----------------  */
+	public void closeConnection();
+	
+	
 	public List<String> getAllUsernames();
 	public List<String> getAllPasswords();
 	public List<String> getAllEmails() ;

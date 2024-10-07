@@ -8,6 +8,11 @@ import javax.servlet.http.Part;
 import com.yash.vijayvegmart.model.VegetablesDetails;
 
 public interface VegetablesService {
+	
+	
+	/*------------  CLOSE DB CONNECTION WHEN NEEDED ----------------  */
+	public void closeConnection();
+	
 	public void addVegetable(VegetablesDetails details, Part vegPicPart, String contextPath)throws Exception;
 	
 	 public List<VegetablesDetails> fetchAllVegetablesBycategory(String Category) throws Exception ; 

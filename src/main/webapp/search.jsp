@@ -129,6 +129,12 @@ else {
 
 <%@include file="components/footer.jsp" %>
 
+
+<%
+/*----------DB CONNECTION CLOSE --------------------  */
+vserviceImpl.closeConnection();
+/*----------DB CONNECTION CLOSE --------------------  */
+%>
  </body>
 
 </html>

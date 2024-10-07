@@ -15,7 +15,32 @@ public class CheckoutDaoImpl  implements CheckoutDao{
 	}
 	
 	
-	/*   When user clciks on contuniue shopping we will update cart again   */
+	//--------------------------------------------------------------------------------------//
+		//--------------------------------------------------------------------------------------//
+	   /*------------------CLOSE COnnection When All DAO Operations are done ----------------*/	
+	   //--------------------------------------------------------------------------------------//	
+		//--------------------------------------------------------------------------------------//
+	public void closeConnection() {
+	        if (connection != null) {
+	            try {
+	                connection.close();
+	                System.out.println("Database connection closed For Admin DAO");
+	            } catch (SQLException e) {
+	                e.printStackTrace();
+	            }
+	        }
+	    }
+
+	//--------------------------------------------------------------------------------------//
+	//--------------------------------------------------------------------------------------//
+	//--------------------------------------------------------------------------------------//
+
+	
+	
+	
+	
+	
+	/*   When user clicks on continue shopping we will update cart again   */
 	
 	
 	

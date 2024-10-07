@@ -5,6 +5,9 @@ import com.yash.vijayvegmart.model.Users;
 public interface UsersService {
 	
 	
+	/*------------  CLOSE DB CONNECTION WHEN NEEDED ----------------  */
+	public void closeConnection();
+	
     void registerUser(Users user) throws Exception;
     public boolean getUserByUserName(String user_name) throws Exception;
     public boolean getUserByEmail(String user_email)throws Exception;

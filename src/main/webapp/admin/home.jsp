@@ -1,3 +1,4 @@
+<%@page import="com.yash.vijayvegmart.model.Revenues"%>
 <%@page import="com.yash.vijayvegmart.util.RSAUtil_DECRYPTION"%>
 <%@page import="com.yash.vijayvegmart.serviceImpl.AdminServiceImpl"%>
 <%@page import="com.yash.vijayvegmart.serviceImpl.VegetablesServiceImpl"%>
@@ -15,10 +16,10 @@
 
     <head>
         <title>Vijay Veg Mart</title>
-
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css" type="text/css">
+         <%@include file="/components/links.jsp" %>
+<script src="${pageContext.request.contextPath}/js/main.js" defer></script>
      <link rel="stylesheet" href="${pageContext.request.contextPath}/css/admin.css" type="text/css">
-     
+      <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css" type="text/css">
      
      
      
@@ -52,46 +53,41 @@
  <div id="container3">
         <div id="sidebar">
             <h2>Admin Dashboard</h2>
-            <div class="menu-item" onclick="showSection('profile')">Profile</div>
-            <div class="menu-item" onclick="showSection('sales')">Revenue Generated</div>
+            <div class="menu-item" style="display:none;" onclick="showSection('profile')" >Profile</div>
             <div class="menu-item" onclick="showSection('approveRequests')">Approve Users Requests</div>
+            <div class="menu-item" onclick="showSection('sales')">Revenue Generated</div>
+            
             <div class="menu-item" onclick="showSection('feedback')">User Feedback</div>
         </div>
         <div id="content">
-            <div id="profile" class="section" >
+            <div id="profile" class="section" style="display:none;" >
                 <h2>Profile</h2>
-                <form id="personalDetailsForm" onsubmit="updatePersonalDetails(event)">
-                    <h3>Edit Personal Details</h3>
-                    <div style="display: flex; align-items: center;">
-                        <img id="profilePic" src="default_profile_pic.jpg" alt="Profile Picture" style="width: 50px; height: 50px; border-radius: 50%; margin-right: 10px;">
-                        <input type="file" id="profilePictureInput" onchange="previewProfilePicture(event)" accept="image/*">
-                    </div>
-                    <input type="text" id="firstName" value="Admin" readonly required>
-                    <input type="text" id="lastName" value="User" readonly required>
-                    <textarea id="address" placeholder="Address" readonly required>123 Main St</textarea>
-                    <input type="text" id="state" value="California" readonly required>
-                    <input type="text" id="country" value="USA" readonly required>
-                    <input type="text" id="zipCode" value="90001" readonly required>
-                    <button type="button" class="button" id="updatePersonalButton" onclick="togglePersonalEdit()">UPDATE</button>
-                </form>
+
             </div>
 
             <div id="sales" class="section">
                 <h2>Revenue Generated</h2>
                 <table>
                     <tr>
-                        <th>Order Date</th>
-                        <th>User ID : </th>
+                        <th>Order ID</th>
                         <th>Total Order Cost </th>
                         <th>Tax(Shop Revenue)</th>
                     </tr>
+                    <%
+                    AdminServiceImpl aserviceImpl = new AdminServiceImpl();
+                  List<Revenues> revenue_list =   aserviceImpl.fetchAllRevenues();
+                  
+                  for(Revenues revenue : revenue_list)
+                  {
+                    %>
+                    
                     <tr>
-                        <td>2024-09-20</td>
-                        <td>Vinay</td>
-                        <td>2000 $</td>
-                        <td>$50.00</td>
+                        <td><%= revenue.getOrderId() %></td>
+                        <td><%= revenue.getTotalPayment() %></td>
+                        <td><%= revenue.getTax() %></td>
                     </tr>
 
+<%} %>
                 </table>
             </div>
 
@@ -100,7 +96,7 @@
                 <br>
                 <%
                
-                AdminServiceImpl aserviceImpl = new AdminServiceImpl();
+               
                 List<Users> user_list = aserviceImpl.fetchAllNotApprovedUsers();
                 if(user_list.size()!=0)
                 {
@@ -351,6 +347,15 @@
 
 <%@include file="../components/footer.jsp" %>
 
+<%
+
+
+/*---------CLOSE CONNECTION ----------------------- */
+
+aserviceImpl.closeConnection();
+
+
+%>
 
  </body>
                <script src="${pageContext.request.contextPath}/js/admin.js"></script>

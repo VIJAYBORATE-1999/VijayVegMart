@@ -16,6 +16,17 @@ public class CheckoutServiceImpl  implements CheckoutService{
 		
 	}  
 	
+	
+	/* -------CLOSE  DB   CONNECTION -----------   */
+	
+	@Override
+	public void closeConnection() {
+		// TODO Auto-generated method stub
+	cart_check_out_dao.closeConnection();
+	}
+	
+	
+	
 	//When user clicks on Continue shopping 	
 		@Override
 		public void updateCartItem(int veg_id, int user_id, int cart_id, double quantity_added, double total_price) {

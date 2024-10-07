@@ -17,6 +17,16 @@ public class CartsServiceImpl  implements CartsService{
 		this.cart_dao = new CartDaoImpl();
 	}
 
+	
+	
+	/* -------CLOSE  DB   CONNECTION -----------   */
+	
+	@Override
+	public void closeConnection() {
+		// TODO Auto-generated method stub
+	cart_dao.closeConnection();	
+	}
+	/* -------CLOSE  DB   CONNECTION -----------   */
 
 	///When Customer clicks on Add To Cart Button on Home page 
 	@Override

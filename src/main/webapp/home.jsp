@@ -357,6 +357,12 @@
 <%@include file="../components/footer.jsp" %>
  <%@include file="../components/jslibraries.jsp" %>
 
+<%
+/*----------DB CONNECTION CLOSE --------------------  */
+vserviceImpl.closeConnection();
+/*----------DB CONNECTION CLOSE --------------------  */
+%>
+
  </body>
 
 

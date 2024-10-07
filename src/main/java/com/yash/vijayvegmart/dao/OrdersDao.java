@@ -10,6 +10,11 @@ import com.yash.vijayvegmart.model.Revenues;
 public interface OrdersDao {
 
 	
+	
+	/*------------  CLOSE DB CONNECTION WHEN NEEDED ----------------  */
+	public void closeConnection();
+	
+	
 	void insertOrder(Orders order);
 
 

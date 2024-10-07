@@ -148,6 +148,12 @@ if ((user != null) &&(user.getUsertype().equals("customer"))) {
 <%@include file="../components/footer.jsp" %>
 <%@include file="../components/jslibraries.jsp" %>
    
+   <%
+/*----------DB CONNECTION CLOSE --------------------  */
+vserviceImpl.closeConnection();
+cserviceImpl.closeConnection();
+/*----------DB CONNECTION CLOSE --------------------  */
+%>
 </body>
  <script src="${pageContext.request.contextPath}/js/checkout.js"></script>
 </html>

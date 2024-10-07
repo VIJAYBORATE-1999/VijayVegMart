@@ -19,6 +19,14 @@ public class VendorServiceImpl implements VendorService{
 	}
 	
 	
+	   /* -------CLOSE  DB   CONNECTION -----------   */
+	
+	
+	@Override
+	public void closeConnection() {
+		dao.closeConnection();
+	}
+	
 	
 	public List<VendorOrdersVO> getVendorOrders(int vendor_id, String vendorActionStatus)
 	{

@@ -141,7 +141,14 @@ if ((user != null) &&(user.getUsertype().equals("customer"))) {
         </div>
     </div>
 
+ <%
  
+ /*----------DB CONNECTION CLOSE --------------------  */
+ cserviceImpl.closeConnection();
+ order_Service_impl.closeConnection();
+ vserviceImpl.closeConnection();
+ /*----------DB CONNECTION CLOSE --------------------  */
+ %>
     <br><br>
 <%@include file="../components/footer.jsp" %>
 </body>

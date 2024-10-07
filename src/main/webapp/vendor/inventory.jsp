@@ -47,7 +47,8 @@ if ((user != null) &&(user.getUsertype().equals("vendor"))) {
     
     <div id="content">
         <div id="inventory" class="section active">
-            <h2>Inventory</h2>
+            <h2>Inventory DashBoard</h2>
+             <br>
       <c:if test="${not empty sucessmessage}">
        <h4 class="text-success" style="color: green; font-weight: bold; animation: fadeOut 1.5s ease-out forwards;">${sucessmessage}</h4>
         <c:remove var="sucessmessage" scope="session"/> 
@@ -78,7 +79,7 @@ if ((user != null) &&(user.getUsertype().equals("vendor"))) {
                     </tr>
                 <% } %>       
             </table>
-        
+        <br><br>
             <!-- Out of Stock Table -->
             <h3>Out of Stock</h3>
             <table>
@@ -103,6 +104,7 @@ if ((user != null) &&(user.getUsertype().equals("vendor"))) {
                     </tr>
                 <% } %>  
             </table>
+             <br>
         </div>
     </div>
 </div>
@@ -126,6 +128,11 @@ if ((user != null) &&(user.getUsertype().equals("vendor"))) {
 
 <%@include file="../components/footer.jsp" %>
 
+<%
+/*---------CLOSE CONNECTION ----------------------- */
+vserviceImpl2.closeConnection();
+/*---------CLOSE CONNECTION ----------------------- */
+%>
 </body>
 <script src="${pageContext.request.contextPath}/js/vendor.js"></script>
 </html>

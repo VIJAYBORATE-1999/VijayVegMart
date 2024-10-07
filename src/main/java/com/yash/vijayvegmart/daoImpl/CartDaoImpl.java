@@ -19,6 +19,20 @@ public class CartDaoImpl implements CartsDao {
 	}
 	
 
+	/*------------------CLOSE COnnection When All DAO Operations are done ----------------*/	
+	
+
+	public void closeConnection() {
+	        if (connection != null) {
+	            try {
+	                connection.close();
+	                System.out.println("Database connection closed For Carts DAO");
+	            } catch (SQLException e) {
+	                e.printStackTrace();
+	            }
+	        }
+	    }
+
 
 	/**************When user Clicks Add to cart Button *********///////////////
 	
@@ -27,13 +41,13 @@ public class CartDaoImpl implements CartsDao {
         String insertQuery = "INSERT INTO carts (user_id, veg_id, quantity_added, total_price, created_at, updated_at , order_status ) VALUES (?, ?, ?, ?, NOW(), NOW(),?)";
         String updateQuery = "UPDATE carts SET quantity_added = quantity_added + ?, total_price = total_price + ?, updated_at = NOW() WHERE veg_id = ? AND user_id = ?";
 
-        
+        ResultSet rs= null;
        
         try (PreparedStatement checkStmt = connection.prepareStatement(checkQuery)) {
             checkStmt.setInt(1, vegId);
             checkStmt.setInt(2, userId);
             checkStmt.setString(3, "pending");
-            ResultSet rs = checkStmt.executeQuery();
+            rs = checkStmt.executeQuery();
 
             if (rs.next()) {
                 // Update existing record
@@ -64,6 +78,14 @@ public class CartDaoImpl implements CartsDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        finally {
+			if(rs!=null) {try {
+				rs.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}}
+		}
     }
 	
 	
@@ -74,10 +96,10 @@ public class CartDaoImpl implements CartsDao {
 	public List<Carts> getAllCartsByUserID(int user_id) {
 	    List<Carts> cartsList = new ArrayList<Carts>();
 	    String query = "SELECT * FROM carts WHERE user_id = ? and order_status='pending'";
-
+	    ResultSet rs = null;
 	    try (PreparedStatement ps = connection.prepareStatement(query)) {
 	        ps.setInt(1, user_id);
-	        ResultSet rs = ps.executeQuery();
+	     rs = ps.executeQuery();
 
 	        while (rs.next()) {
 	            Carts carts = new Carts();
@@ -94,6 +116,15 @@ public class CartDaoImpl implements CartsDao {
 	    } catch (SQLException e) {
 	        e.printStackTrace();
 	    }
+	    
+        finally {
+			if(rs!=null) {try {
+				rs.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}}
+		}
 
 	    return cartsList;  // Return the list of cart details
 	}

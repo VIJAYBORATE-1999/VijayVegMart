@@ -8,6 +8,9 @@ import com.yash.vijayvegmart.model.OrdersDetails;
 import com.yash.vijayvegmart.model.Revenues;
 
 public interface OrdersService {
+	
+	/*------------  CLOSE DB CONNECTION WHEN NEEDED ----------------  */
+	public void closeConnection();
 
 	String placeOrder(String fullName, String address, String city, String state, int zip,
 	

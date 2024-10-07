@@ -20,6 +20,26 @@ public class VendorDaoImpl implements VendorDao{
 		this.connection = DBUtil.getConnection();
 	}
 	
+
+	//--------------------------------------------------------------------------------------//
+		//--------------------------------------------------------------------------------------//
+	 /*------------------CLOSE COnnection When All DAO Operations are done ----------------*/	
+	 //--------------------------------------------------------------------------------------//	
+		//--------------------------------------------------------------------------------------//
+	public void closeConnection() {
+	      if (connection != null) {
+	          try {
+	              connection.close();
+	              System.out.println("Database connection closed For Admin DAO");
+	          } catch (SQLException e) {
+	              e.printStackTrace();
+	          }
+	      }
+	  }
+
+	//--------------------------------------------------------------------------------------//
+	//--------------------------------------------------------------------------------------//
+	//--------------------------------------------------------------------------------------//
 	
 	
 	 public List<VendorOrdersVO> getVendorOrders(int vendor_id, String vendorActionStatus) {
@@ -36,14 +56,14 @@ public class VendorDaoImpl implements VendorDao{
 	        // Assuming you have a method to get the database connection
 	   
 	      
-
+	        ResultSet rs= null;
 	        try (PreparedStatement ps = connection.prepareStatement(query)){
 	           
 	          
 	            ps.setInt(1, vendor_id); // Set vendor_id parameter
 	            ps.setString(2, vendorActionStatus); // Set vendor_action_status parameter
 
-	            ResultSet rs = ps.executeQuery();
+	             rs = ps.executeQuery();
 
 	            while (rs.next()) {
 	                VendorOrdersVO order = new VendorOrdersVO();
@@ -60,7 +80,16 @@ public class VendorDaoImpl implements VendorDao{
 	            }
 	        } catch (SQLException e) {
 	            e.printStackTrace();
-	        } 
+	        }
+
+	        finally {
+				if(rs!=null) {try {
+					rs.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}}
+			}
 
 	        return vendorOrdersList;
 	    }
@@ -121,16 +150,26 @@ public class VendorDaoImpl implements VendorDao{
 	    @Override
 	    public double getQuantityByVegId(int vegId) {
 	    	 String query = "SELECT quantity FROM vegetables_details WHERE veg_id = ?";
-	    	    double quantity = -1.0; // Initialize to -1 or some other value indicating not found
+	    	 ResultSet rs=null;
+	    	 double quantity = -1.0; // Initialize to -1 or some other value indicating not found
 	    	    try (PreparedStatement ps = connection.prepareStatement(query)) {
 	    	        ps.setInt(1, vegId);
-	    	        ResultSet rs = ps.executeQuery();
+	    	         rs = ps.executeQuery();
 	    	        if (rs.next()) {
 	    	            quantity = rs.getDouble("quantity");
 	    	        }
 	    	    } catch (SQLException e) {
 	    	        e.printStackTrace();
 	    	    }
+
+		        finally {
+					if(rs!=null) {try {
+						rs.close();
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}}
+				}
 	    	    return quantity;
 	    }
 	    

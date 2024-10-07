@@ -20,6 +20,28 @@ public VegetablesDaoImpl() {
 	}
 
 
+//--------------------------------------------------------------------------------------//
+	//--------------------------------------------------------------------------------------//
+ /*------------------CLOSE COnnection When All DAO Operations are done ----------------*/	
+ //--------------------------------------------------------------------------------------//	
+	//--------------------------------------------------------------------------------------//
+public void closeConnection() {
+      if (connection != null) {
+          try {
+              connection.close();
+              System.out.println("Database connection closed For Admin DAO");
+          } catch (SQLException e) {
+              e.printStackTrace();
+          }
+      }
+  }
+
+//--------------------------------------------------------------------------------------//
+//--------------------------------------------------------------------------------------//
+//--------------------------------------------------------------------------------------//
+
+
+
 
 //To upload a vegetable we will do => checkVegetableExistsByVendor()  & then saveVegetable()
 /*-PART 1----------------------- FIND VEGETABLE BY VENDOR ID AND VEGETBALE NAME --------------------------------*/
@@ -29,11 +51,11 @@ public Optional<VegetablesDetails> checkVegetableExistsByVendor(int vendor_id, S
 	// TODO Auto-generated method stub
 	
 	String query = "SELECT * FROM vegetables_details WHERE vendor_id = ? AND veg_name = ?";
-	
+	ResultSet rs = null;
 	try (PreparedStatement ps = connection.prepareStatement(query)) {
 		ps.setInt(1,vendor_id);
 		ps.setString(2, veg_name);
-		ResultSet rs = ps.executeQuery();
+	 rs = ps.executeQuery();
 		if (rs.next()) {
 			VegetablesDetails details = new VegetablesDetails();
 			details.setVegId(rs.getInt("veg_id"));
@@ -52,6 +74,14 @@ public Optional<VegetablesDetails> checkVegetableExistsByVendor(int vendor_id, S
 	} catch (SQLException e) {
         e.printStackTrace();
     }
+    finally {
+		if(rs!=null) {try {
+			rs.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}}
+	}
     return Optional.empty();
 }
 
@@ -97,10 +127,10 @@ public void saveVegetable(VegetablesDetails details) {
 	 List<VegetablesDetails> vegetablesList = new ArrayList<VegetablesDetails>();
 	 VegetablesDetails details  =  null;
      String query = "SELECT * FROM vegetables_details WHERE veg_category= ? AND is_active='active'";  // SQL query to fetch all vegetables
-     
+     ResultSet rs = null;
      try (PreparedStatement ps = connection.prepareStatement(query)) {
     	 ps.setString(1, Category);
-         ResultSet rs = ps.executeQuery();
+          rs = ps.executeQuery();
          while (rs.next()) {
         	 details = new VegetablesDetails();
              details.setVegId(rs.getInt(1));
@@ -121,6 +151,14 @@ public void saveVegetable(VegetablesDetails details) {
      } catch (SQLException e) {
          e.printStackTrace();
      }
+     finally {
+			if(rs!=null) {try {
+				rs.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}}
+		}
 
      return vegetablesList;  // Return the list of vegetables
  }
@@ -137,10 +175,10 @@ public void saveVegetable(VegetablesDetails details) {
 	 List<VegetablesDetails> vegetablesList = new ArrayList<VegetablesDetails>();
 	 VegetablesDetails details  =  null;
      String query = "SELECT * FROM vegetables_details WHERE veg_name LIKE ? AND is_active='active'";  // SQL query to fetch all vegetables
-     
+     ResultSet rs = null;
      try (PreparedStatement ps = connection.prepareStatement(query)) {
     	 ps.setString(1, "%"+name+"%");
-         ResultSet rs = ps.executeQuery();
+         rs = ps.executeQuery();
          while (rs.next()) {
         	 details = new VegetablesDetails();
              details.setVegId(rs.getInt(1));
@@ -161,6 +199,14 @@ public void saveVegetable(VegetablesDetails details) {
      } catch (SQLException e) {
          e.printStackTrace();
      }
+     finally {
+			if(rs!=null) {try {
+				rs.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}}
+		}
 
      return vegetablesList;  // Return the list of vegetables
  }
@@ -177,10 +223,10 @@ public List<VegetablesDetails> getAllVegetablesByVendorId(int vendor_id) {
 	 List<VegetablesDetails> vegetablesList = new ArrayList<VegetablesDetails>();
 	 VegetablesDetails details  =  null;
     String query = "SELECT * FROM vegetables_details WHERE vendor_id = ? AND is_active ='active'";  // SQL query to fetch all vegetables by a vendor id
-    
+    ResultSet rs = null;
     try (PreparedStatement ps = connection.prepareStatement(query)) {
     	ps.setInt(1,vendor_id);
-        ResultSet rs = ps.executeQuery();
+         rs = ps.executeQuery();
         while (rs.next()) {
        	 details = new VegetablesDetails();
             details.setVegId(rs.getInt(1));
@@ -201,6 +247,14 @@ public List<VegetablesDetails> getAllVegetablesByVendorId(int vendor_id) {
     } catch (SQLException e) {
         e.printStackTrace();
     }
+    finally {
+		if(rs!=null) {try {
+			rs.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}}
+	}
 
     return vegetablesList;  // Return the list of vegetables
 }
@@ -211,10 +265,10 @@ public List<VegetablesDetails> getAllDeletedVegetablesByVendorId(int vendor_id) 
 	 List<VegetablesDetails> vegetablesList = new ArrayList<VegetablesDetails>();
 	 VegetablesDetails details  =  null;
     String query = "SELECT * FROM vegetables_details WHERE vendor_id = ? AND is_active ='inactive'";  // SQL query to fetch all vegetables by a vendor id
-    
+    ResultSet rs = null;
     try (PreparedStatement ps = connection.prepareStatement(query)) {
     	ps.setInt(1,vendor_id);
-        ResultSet rs = ps.executeQuery();
+         rs = ps.executeQuery();
         while (rs.next()) {
        	 details = new VegetablesDetails();
             details.setVegId(rs.getInt(1));
@@ -235,6 +289,14 @@ public List<VegetablesDetails> getAllDeletedVegetablesByVendorId(int vendor_id) 
     } catch (SQLException e) {
         e.printStackTrace();
     }
+    finally {
+		if(rs!=null) {try {
+			rs.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}}
+	}
 
     return vegetablesList;  // Return the list of vegetables
 }
@@ -247,10 +309,10 @@ public List<VegetablesDetails> getAllDeletedVegetablesByVendorId(int vendor_id) 
 	 List<VegetablesDetails> vegetablesList = new ArrayList<VegetablesDetails>();
 	 VegetablesDetails details  =  null;
     String query = "SELECT * FROM vegetables_details WHERE vendor_id = ? AND quantity > 0 ";  // SQL query to fetch all vegetables by a vendor id
-    
+    ResultSet rs = null;
     try (PreparedStatement ps = connection.prepareStatement(query)) {
     	ps.setInt(1,vendor_id);
-        ResultSet rs = ps.executeQuery();
+         rs = ps.executeQuery();
         while (rs.next()) {
        	 details = new VegetablesDetails();
             details.setVegId(rs.getInt(1));
@@ -271,6 +333,14 @@ public List<VegetablesDetails> getAllDeletedVegetablesByVendorId(int vendor_id) 
     } catch (SQLException e) {
         e.printStackTrace();
     }
+    finally {
+		if(rs!=null) {try {
+			rs.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}}
+	}
 
     return vegetablesList;  // Return the list of vegetables
 	}
@@ -284,10 +354,10 @@ public List<VegetablesDetails> getAllDeletedVegetablesByVendorId(int vendor_id) 
 	 List<VegetablesDetails> vegetablesList = new ArrayList<VegetablesDetails>();
 	 VegetablesDetails details  =  null;
     String query = "SELECT * FROM vegetables_details WHERE vendor_id = ? AND quantity =0";  // SQL query to fetch all vegetables by a vendor id
-    
+    ResultSet rs = null;
     try (PreparedStatement ps = connection.prepareStatement(query)) {
     	ps.setInt(1,vendor_id);
-        ResultSet rs = ps.executeQuery();
+         rs = ps.executeQuery();
         while (rs.next()) {
        	 details = new VegetablesDetails();
             details.setVegId(rs.getInt(1));
@@ -308,6 +378,14 @@ public List<VegetablesDetails> getAllDeletedVegetablesByVendorId(int vendor_id) 
     } catch (SQLException e) {
         e.printStackTrace();
     }
+    finally {
+		if(rs!=null) {try {
+			rs.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}}
+	}
 
     return vegetablesList;  // Return the list of vegetables
 	}
@@ -320,10 +398,10 @@ public List<VegetablesDetails> getAllDeletedVegetablesByVendorId(int vendor_id) 
 @Override
 public Optional<VegetablesDetails> getVegetableById(int vegId) {
     String query = "SELECT * FROM vegetables_details WHERE veg_id = ?";
-    
+    ResultSet rs = null;
     try (PreparedStatement ps = connection.prepareStatement(query)) {
         ps.setInt(1, vegId);
-        ResultSet rs = ps.executeQuery();
+        rs = ps.executeQuery();
         
         if (rs.next()) {
             VegetablesDetails details = new VegetablesDetails();
@@ -345,6 +423,14 @@ public Optional<VegetablesDetails> getVegetableById(int vegId) {
     } catch (SQLException e) {
         e.printStackTrace();
     }
+    finally {
+		if(rs!=null) {try {
+			rs.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}}
+	}
     
     return Optional.empty();
 }
@@ -391,8 +477,9 @@ public VegetablesDetails get_A_VegetableById(int vegId) throws SQLException {
 	 List<String> usernames = new ArrayList<>();
      String query = "SELECT DISTINCT u.username FROM users u JOIN vegetables_details v ON u.id = v.vendor_id";
 
-     try (PreparedStatement ps = connection.prepareStatement(query)) {
-         ResultSet rs = ps.executeQuery();
+     try (PreparedStatement ps =  connection.prepareStatement(query); 
+   		  ResultSet rs = ps.executeQuery();)  {
+       
 
          // Iterate through the result set and add usernames to the list
          while (rs.next()) {
@@ -401,6 +488,7 @@ public VegetablesDetails get_A_VegetableById(int vegId) throws SQLException {
      } catch (SQLException e) {
          e.printStackTrace();
      }
+     
 
      return usernames;  // Return the list of usernames
 	
@@ -416,10 +504,10 @@ public VegetablesDetails get_A_VegetableById(int vegId) throws SQLException {
 public String getUsernameByVegId(int vegId) {
     String username = null;
     String query = "SELECT u.username FROM users u JOIN vegetables_details v ON u.id = v.vendor_id WHERE v.veg_id = ?";
-
+    ResultSet rs = null;
     try (PreparedStatement ps = connection.prepareStatement(query)) {
         ps.setInt(1, vegId);  // Set the veg_id parameter in the query
-        ResultSet rs = ps.executeQuery();
+         rs = ps.executeQuery();
 
         if (rs.next()) {
             // Retrieve the username from the result set
@@ -428,6 +516,14 @@ public String getUsernameByVegId(int vegId) {
     } catch (SQLException e) {
         e.printStackTrace();
     }
+    finally {
+		if(rs!=null) {try {
+			rs.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}}
+	}
 
     return username;  // Return the username or null if not found
 }

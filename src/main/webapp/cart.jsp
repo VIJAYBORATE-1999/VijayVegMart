@@ -119,6 +119,12 @@ if ((user != null) &&(user.getUsertype().equals("customer"))) {
 <%@include file="../components/footer.jsp" %>
 <%@include file="../components/jslibraries.jsp" %>
 
+<%
+/*----------DB CONNECTION CLOSE --------------------  */
+vegServiceImpl.closeConnection();
+cartServiceImpl.closeConnection();
+/*----------DB CONNECTION CLOSE --------------------  */
+%>
 <script>
 function submitForm(action) {
     const form = document.getElementById('cart-form');

@@ -1,3 +1,5 @@
+<%@page import="com.yash.vijayvegmart.model.VO.VendorOrdersVO"%>
+<%@page import="com.yash.vijayvegmart.serviceImpl.VendorServiceImpl"%>
 <%@page import="com.yash.vijayvegmart.serviceImpl.VegetablesServiceImpl"%>
 <%@page import="java.util.List"%>
 <%@page import="com.yash.vijayvegmart.model.VegetablesDetails"%>
@@ -157,10 +159,10 @@ if ((user != null) &&(user.getUsertype().equals("vendor"))) {
                         <td><%=veg_item.getNet_price() %></td>
                         <td><img src="${pageContext.request.contextPath}/img/<%=veg_item.getVegPicName()%>" alt="<%=veg_item.getVegPicName() %>" width="50"></td>
                         <td>
-                            <button class="button" onclick="populateForm(<%=veg_item.getVegId()%>, '<%=veg_item.getVegName() %>', '<%=veg_item.getVegCategory() %>', <%=veg_item.getQuantity() %>, '<%=veg_item.getDescription() %>', <%=veg_item.getPricePerPiece() %>, <%=veg_item.getDiscount_per_piece() %>)">Update</button>
+                            <button class="button" style="max-width:55% !important;" onclick="populateForm(<%=veg_item.getVegId()%>, '<%=veg_item.getVegName() %>', '<%=veg_item.getVegCategory() %>', <%=veg_item.getQuantity() %>, '<%=veg_item.getDescription() %>', <%=veg_item.getPricePerPiece() %>, <%=veg_item.getDiscount_per_piece() %>)">Update</button>
                             <form style="display: contents;" action="${pageContext.request.contextPath}/Vegetable" method="post">
                                 <input type="hidden" id="vegetable_id" name="vegetable_id" value="<%=veg_item.getVegId()%>">
-                                <input type="submit" name="action_type2" value="delete" style="max-width: 100%; background-color: #28a745; margin-left: 12% !important; padding: 4px 10px; margin: 2px;color: white; border: none; border-radius: 4px;">
+                                <input type="submit" name="action_type2"  value="delete" style="max-width: 100%; background-color: #28a745; margin-left: 12% !important; padding: 4px 10px; margin: 2px;color: white; border: none; border-radius: 4px;">
                             </form> 
                         </td>
                     </tr>
@@ -201,29 +203,32 @@ if ((user != null) &&(user.getUsertype().equals("vendor"))) {
         <h2>Sales</h2>
         <table>
             <tr>
-                <th>Date</th>
-                <th>Vegetable</th>
+                <th>Order Id</th>
+                  <th>Order Date</th>
+                <th>Vegetable Name</th>
                 <th>Quantity Sold (kg)</th>
-                <th>Total Amount</th>
+                <th>Total Amount</th>              
             </tr>
-            <tr>
-                <td>2024-09-20</td>
-                <td>Tomatoes</td>
-                <td>20</td>
-                <td>$50.00</td>
-            </tr>
-            <tr>
-                <td>2024-09-21</td>
-                <td>Potatoes</td>
-                <td>30</td>
-                <td>$54.00</td>
-            </tr>
-            <tr>
-                <td>2024-09-22</td>
-                <td>Carrots</td>
-                <td>15</td>
-                <td>$22.50</td>
-            </tr>
+           <%
+            
+                VendorServiceImpl vendorservice_impl = new VendorServiceImpl();
+               List<VendorOrdersVO> vendor_order_list = vendorservice_impl.getVendorOrders(user.getId(),"approved");
+               for(VendorOrdersVO vendor_order :vendor_order_list )
+               {     
+           %>
+           
+             <tr>
+             <td> <%= vendor_order.getOrder_id() %></td>
+              <td> <%= vendor_order.getOrder_date() %></td>
+                        <td><%=vendor_order.getVeg_name() %></td>
+                        <td><%= vendor_order.getQuantity_added()%></td>
+                        <td><%= vendor_order.getTotal_price()%></td>
+                       
+           
+           </tr>
+           
+           
+            <%} %>  
         </table>
     </div>
 
@@ -264,5 +269,11 @@ if ((user != null) &&(user.getUsertype().equals("vendor"))) {
 </div>
 
 <script src="${pageContext.request.contextPath}/js/vendor.js"></script>
+<%
+/*---------CLOSE CONNECTION ----------------------- */
+vserviceImpl.closeConnection();
+vendorservice_impl.closeConnection();
+/*---------CLOSE CONNECTION ----------------------- */
+%>
 </body>
 </html>

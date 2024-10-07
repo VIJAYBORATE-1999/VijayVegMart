@@ -23,6 +23,29 @@ public class OrdersDaoImpl implements OrdersDao{
 	}
 
 	
+	//--------------------------------------------------------------------------------------//
+		//--------------------------------------------------------------------------------------//
+	   /*------------------CLOSE COnnection When All DAO Operations are done ----------------*/	
+	   //--------------------------------------------------------------------------------------//	
+		//--------------------------------------------------------------------------------------//
+	public void closeConnection() {
+	        if (connection != null) {
+	            try {
+	                connection.close();
+	                System.out.println("Database connection closed For Admin DAO");
+	            } catch (SQLException e) {
+	                e.printStackTrace();
+	            }
+	        }
+	    }
+
+	//--------------------------------------------------------------------------------------//
+	//--------------------------------------------------------------------------------------//
+	//--------------------------------------------------------------------------------------//
+	
+	
+	
+	
 	
 	
 	//1) 	Table =>"Orders "  update cart status =>payment_status_by_user "payment done"
@@ -161,13 +184,13 @@ public class OrdersDaoImpl implements OrdersDao{
 	public List<Orders> getOrdersByIdAndUserId(String orderId, int userId) throws SQLException {
 	    List<Orders> ordersList = new ArrayList<Orders>();
 	    String query = "SELECT * FROM orders WHERE order_id = ? AND user_id = ?";
-
+	    ResultSet rs = null;
 	    try (PreparedStatement ps = connection.prepareStatement(query)) {
 
 	        ps.setString(1, orderId);
 	        ps.setInt(2, userId);
 
-	        ResultSet rs = ps.executeQuery();
+	         rs = ps.executeQuery();
 
 	        while (rs.next()) {
 	            Orders order = new Orders();
@@ -184,6 +207,14 @@ public class OrdersDaoImpl implements OrdersDao{
 	        e.printStackTrace();
 	        throw new SQLException("Error fetching orders by order_id and user_id", e);
 	    }
+        finally {
+			if(rs!=null) {try {
+				rs.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}}
+		}
 
 	    return ordersList;
 	}
@@ -197,13 +228,13 @@ public OrdersDetails getOrderDetailsByIdAndUserId(String orderId, int userId) th
                    "FROM order_details od " +
                    "JOIN orders o ON od.order_id = o.order_id " +
                    "WHERE o.order_id = ? AND o.user_id = ?";
-
+    ResultSet rs = null;
     try (PreparedStatement ps = connection.prepareStatement(query)) {
         
         ps.setString(1, orderId);
         ps.setInt(2, userId);
         
-        ResultSet rs = ps.executeQuery();
+         rs= ps.executeQuery();
         
         if (rs.next()) {
             orderDetails = new OrdersDetails();
@@ -224,6 +255,14 @@ public OrdersDetails getOrderDetailsByIdAndUserId(String orderId, int userId) th
         e.printStackTrace();
         throw new SQLException("Error fetching order details by order_id and user_id", e);
     }
+    finally {
+		if(rs!=null) {try {
+			rs.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}}
+	}
     
     return orderDetails;
 }
@@ -235,12 +274,13 @@ public Revenues getRevenuesByIdAndUserId(String orderId, int userId) throws SQLE
                    "JOIN orders o ON r.order_id = o.order_id " +
                    "WHERE o.order_id = ? AND o.user_id = ?";
 
+    ResultSet rs =null;
     try (PreparedStatement ps = connection.prepareStatement(query)) {
         
         ps.setString(1, orderId);
         ps.setInt(2, userId);
         
-        ResultSet rs = ps.executeQuery();
+         rs = ps.executeQuery();
         
         if (rs.next()) {
             revenues = new Revenues();
@@ -252,6 +292,14 @@ public Revenues getRevenuesByIdAndUserId(String orderId, int userId) throws SQLE
         e.printStackTrace();
         throw new SQLException("Error fetching revenues by order_id and user_id", e);
     }
+    finally {
+		if(rs!=null) {try {
+			rs.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}}
+	}
     
     System.out.println("=============================================================");
     System.out.println(revenues.getOrderId());
@@ -357,9 +405,10 @@ public boolean checkIfOrderPaymentAlredyDoneByUserForCart(int cart_id) {
 	
 	
 	String query = "SELECT order_status FROM carts WHERE cart_id = ?";
+	 ResultSet rs = null;
     try (PreparedStatement ps = connection.prepareStatement(query)) {
         ps.setInt(1, cart_id);
-        ResultSet rs = ps.executeQuery();
+         rs = ps.executeQuery();
         
         // Check if the result set has any rows
         if (rs.next()) {
@@ -369,6 +418,15 @@ public boolean checkIfOrderPaymentAlredyDoneByUserForCart(int cart_id) {
     } catch (SQLException e) {
         e.printStackTrace();
     }
+
+    finally {
+		if(rs!=null) {try {
+			rs.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}}
+	}
     return false; // return false if order status is not "paid" or if an exception occurs
 }
 

@@ -22,6 +22,16 @@ public class UsersServiceImpl implements UsersService {
         
     }
 
+    
+  
+    /* -------CLOSE  DB   CONNECTION -----------   */
+    @Override
+    public void closeConnection() {
+    	userDao.closeConnection();
+    	
+    }
+    
+    
  /* -------------------  REGISTATION MODULE STARTS  WITH RSA Approach  ---------------------------------*/   
 
     

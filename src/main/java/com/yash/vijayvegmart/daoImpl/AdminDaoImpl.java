@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.jsp.tagext.TryCatchFinally;
+
 import com.yash.vijayvegmart.dao.AdminDao;
 import com.yash.vijayvegmart.model.Revenues;
 import com.yash.vijayvegmart.model.Users;
@@ -21,18 +23,40 @@ public class AdminDaoImpl implements AdminDao {
 		
 		this.connection = DBUtil.getConnection();
 	}
-	
-	
-	
+
+	//--------------------------------------------------------------------------------------//
+	//--------------------------------------------------------------------------------------//
+   /*------------------CLOSE COnnection When All DAO Operations are done ----------------*/	
+   //--------------------------------------------------------------------------------------//	
+	//--------------------------------------------------------------------------------------//
+public void closeConnection() {
+        if (connection != null) {
+            try {
+                connection.close();
+                System.out.println("Database connection closed For Admin DAO");
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+//--------------------------------------------------------------------------------------//
+//--------------------------------------------------------------------------------------//
+//--------------------------------------------------------------------------------------//
+
+
+
+
 /* -----------------FETCH ALL APPROVED USERS Where isapproved="approved" ---------------------------*/
 	
 	public List<Users> getAllApprovedUsers() {
         List<Users> approvedUsersList = new ArrayList<Users>();
         String query = "SELECT id, username, email, isapproved , isactive FROM users WHERE isapproved = 'approved' AND usertype <> 'admin'";
-
-        try (PreparedStatement ps = connection.prepareStatement(query)) {
-            ResultSet rs = ps.executeQuery();
-
+      
+// Using try(Resources) { }  so that ResultSet, Statement are closed     
+        try(PreparedStatement ps =  connection.prepareStatement(query); 
+        		  ResultSet rs = ps.executeQuery();)  {
+           
             while (rs.next()) {
                 Users user = new Users();
                 user.setId(rs.getInt("id"));
@@ -48,6 +72,7 @@ public class AdminDaoImpl implements AdminDao {
         }
 
         return approvedUsersList; // Return the list of approved users
+               
     }
   
   
@@ -59,8 +84,9 @@ public class AdminDaoImpl implements AdminDao {
         List<Users> notApprovedUsersList = new ArrayList<Users>();
         String query = "SELECT id ,username, email, isapproved FROM users WHERE isapproved = 'notapproved' AND usertype <> 'admin' ";
 
-        try (PreparedStatement ps = connection.prepareStatement(query)) {
-            ResultSet rs = ps.executeQuery();
+        try (PreparedStatement ps =  connection.prepareStatement(query); 
+      		  ResultSet rs = ps.executeQuery();) {
+            
 
             while (rs.next()) {
                 Users user = new Users();
@@ -74,6 +100,7 @@ public class AdminDaoImpl implements AdminDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        
 
         return notApprovedUsersList; // Return the list of not approved users
     }
@@ -88,8 +115,9 @@ public class AdminDaoImpl implements AdminDao {
         List<Users> rejectedUsersList = new ArrayList<>();
         String query = "SELECT id, username, email, isapproved FROM users WHERE isapproved = 'rejected' AND usertype <> 'admin'";
 
-        try (PreparedStatement ps = connection.prepareStatement(query)) {
-            ResultSet rs = ps.executeQuery();
+        try (PreparedStatement ps =  connection.prepareStatement(query); 
+      		  ResultSet rs = ps.executeQuery();) {
+            
 
             while (rs.next()) {
                 Users user = new Users();
@@ -116,9 +144,9 @@ public class AdminDaoImpl implements AdminDao {
 	        List<Users> deletedUsersList = new ArrayList<>();
 	        String query = "SELECT id, username, email, isapproved, isactive FROM users WHERE isapproved = 'approved' AND isactive = 'inactive' AND usertype <> 'admin'";
 
-	        try (PreparedStatement ps = connection.prepareStatement(query)) {
-	            ResultSet rs = ps.executeQuery();
-
+	        try (PreparedStatement ps =  connection.prepareStatement(query); 
+	        		  ResultSet rs = ps.executeQuery();) {
+	            
 	            while (rs.next()) {
 	                Users user = new Users();
 	                user.setId(rs.getInt("id"));
@@ -143,8 +171,9 @@ public class AdminDaoImpl implements AdminDao {
 	        List<Users> activeUsersList = new ArrayList<>();
 	        String query = "SELECT id , username, email, isapproved, isactive FROM users WHERE isapproved = 'approved' AND isactive = 'active'";
 
-	        try (PreparedStatement ps = connection.prepareStatement(query)) {
-	            ResultSet rs = ps.executeQuery();
+	        try (PreparedStatement ps =  connection.prepareStatement(query); 
+	        		  ResultSet rs = ps.executeQuery();)  {
+	           
 
 	            while (rs.next()) {
 	                Users user = new Users();
@@ -283,11 +312,11 @@ public class AdminDaoImpl implements AdminDao {
 	  public Revenues getRevenueByOrderId(String orderId) {
 	        Revenues revenue = null;
 	        String query = "SELECT * FROM revenues WHERE order_id = ?";
-
+	        ResultSet rs = null;
 	        try (PreparedStatement ps = connection.prepareStatement(query)) {
 	            ps.setString(1, orderId); 
 
-	            ResultSet rs = ps.executeQuery(); 
+	             rs= ps.executeQuery(); 
 
 	            if (rs.next()) {
 	                
@@ -301,11 +330,47 @@ public class AdminDaoImpl implements AdminDao {
 	        } catch (SQLException e) {
 	            e.printStackTrace();
 	        }
+	        finally {
+				if(rs!=null) {try {
+					rs.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}}
+			}
 
 	        return revenue;  
 	    }
 	  
   
+	  
+	  
+	  @Override
+	public List<Revenues> fetchAllRevenues() {
+		  List<Revenues> revenueList = new ArrayList<>();
+		    String query = "SELECT order_id, total_payment, tax FROM revenues";
+		    
+		    try (PreparedStatement ps = connection.prepareStatement(query)) {
+		        ResultSet rs = ps.executeQuery();
+		        
+		        // Loop through the result set and map each row to the Revenues model
+		        while (rs.next()) {
+		            Revenues revenue = new Revenues();
+		            revenue.setOrderId(rs.getString("order_id"));
+		            revenue.setTotalPayment(rs.getDouble("total_payment"));
+		            revenue.setTax(rs.getDouble("tax"));
+		            
+		            // Add the revenue object to the list
+		            revenueList.add(revenue);
+		        }
+		    } catch (SQLException e) {
+		        e.printStackTrace();
+		    }
+		    
+		    return revenueList; // Return the list of revenues
+	}
+	  
+	  
   }
 	
 	

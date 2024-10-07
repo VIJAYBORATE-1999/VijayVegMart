@@ -23,12 +23,23 @@ public class VegetablesServiceImpl implements VegetablesService {
         this.vegDao = new VegetablesDaoImpl();
     }
 
+    
+    /* -------CLOSE  DB   CONNECTION -----------   */
     @Override
+    public void closeConnection() {
+    	vegDao.closeConnection();
+    	
+    }
+    
+    
+    
+    
+
    
     
 /* --------------------------------- SAVE VEGETBALE INTO DB  ------------------------------------*/ 
     
-    
+    @Override
     public void addVegetable(VegetablesDetails details, Part vegPicPart, String Path) throws Exception {
         
     	//bUSINESS LOGIC -> fIRST Check begetable is there or not ?

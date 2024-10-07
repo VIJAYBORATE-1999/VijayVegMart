@@ -197,6 +197,15 @@ ArrayList<String> order_ids_list= new ArrayList<String>(order_ids);
 <%@include file="../components/footer.jsp" %>
  <%@include file="../components/jslibraries.jsp" %>
 
+<%
+/*----------DB CONNECTION CLOSE --------------------  */
+
+order_Service_impl.closeConnection();
+
+/*----------DB CONNECTION CLOSE --------------------  */
+%>
+
+
 </body>
   <script src="${pageContext.request.contextPath}/js/myorders.js"></script>
   

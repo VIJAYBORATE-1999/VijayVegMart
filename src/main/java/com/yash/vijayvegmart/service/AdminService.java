@@ -8,7 +8,8 @@ import com.yash.vijayvegmart.model.Users;
 public interface AdminService {
 	
 	
-	
+	/*------------  CLOSE DB CONNECTION WHEN NEEDED ----------------  */
+	public void closeConnection();
 
 	  public List<Users>fetchAllApprovedUsers();
 	  
@@ -33,4 +34,8 @@ public interface AdminService {
 	  public Revenues fetchRevenueByOrderId(String orderId);
 	  
 	  public String decrypt(String s) throws Exception;
+	  
+	  public List<Revenues> fetchAllRevenues();
+	  
+	  
 }

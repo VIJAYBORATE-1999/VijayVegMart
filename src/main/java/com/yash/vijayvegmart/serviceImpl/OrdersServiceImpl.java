@@ -22,6 +22,13 @@ public class OrdersServiceImpl implements OrdersService {
         this.order_dao = new OrdersDaoImpl();             
     }
 
+
+	/* -------CLOSE  DB   CONNECTION -----------   */
+	@Override
+	public void closeConnection() {
+		order_dao.closeConnection();
+		
+	}
 	
 	
 

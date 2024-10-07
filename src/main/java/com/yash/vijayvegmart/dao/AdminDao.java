@@ -8,7 +8,8 @@ import com.yash.vijayvegmart.model.Users;
 public interface AdminDao {
 
 	
-	
+	/*------------  CLOSE DB CONNECTION WHEN NEEDED ----------------  */
+	public void closeConnection();
 	
 	  public List<Users> getAllApprovedUsers();
 	  
@@ -31,5 +32,6 @@ public interface AdminDao {
 	  public void deactivateAccount(int id);
 	  
 	  Revenues getRevenueByOrderId(String orderId) ;
+	  public List<Revenues> fetchAllRevenues();
 	  
 }

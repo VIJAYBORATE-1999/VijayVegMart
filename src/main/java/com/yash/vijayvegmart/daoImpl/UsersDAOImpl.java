@@ -21,6 +21,26 @@ public class UsersDAOImpl implements UsersDao {
         this.connection = DBUtil.getConnection();
     }
 
+  //--------------------------------------------------------------------------------------//
+  		//--------------------------------------------------------------------------------------//
+  	   /*------------------CLOSE COnnection When All DAO Operations are done ----------------*/	
+  	   //--------------------------------------------------------------------------------------//	
+  		//--------------------------------------------------------------------------------------//
+  	public void closeConnection() {
+  	        if (connection != null) {
+  	            try {
+  	                connection.close();
+  	                System.out.println("Database connection closed For Admin DAO");
+  	            } catch (SQLException e) {
+  	                e.printStackTrace();
+  	            }
+  	        }
+  	    }
+
+  	//--------------------------------------------------------------------------------------//
+  	//--------------------------------------------------------------------------------------//
+  	//--------------------------------------------------------------------------------------//
+  	  
     
   /*-------------------------REGISTRATION DAO starts -----------------------------------------------*/
     public List<String> getAllUsernames() {
@@ -152,9 +172,10 @@ public class UsersDAOImpl implements UsersDao {
     @Override
     public boolean doesAdminUserExist() {
     	 String query = "SELECT COUNT(*) FROM users WHERE usertype = ?";
+    	  ResultSet rs = null;
     	    try (PreparedStatement ps = connection.prepareStatement(query)) {
     	        ps.setString(1, "admin");
-    	        ResultSet rs = ps.executeQuery();
+    	         rs = ps.executeQuery();
     	        if (rs.next()) {
     	            int count = rs.getInt(1);
     	            return count > 0; // Returns true if count is greater than 0
@@ -162,6 +183,15 @@ public class UsersDAOImpl implements UsersDao {
     	    } catch (SQLException e) {
     	        e.printStackTrace();
     	    }
+
+	        finally {
+				if(rs!=null) {try {
+					rs.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}}
+			}
     	    return false; // Return false if no admin user is found or an exception occurs
     }
     
@@ -173,9 +203,10 @@ public class UsersDAOImpl implements UsersDao {
     	
   
         String query = "SELECT * FROM users WHERE username = ?";
+        ResultSet rs = null;
         try (PreparedStatement ps = connection.prepareStatement(query)) {
             ps.setString(1, username);
-            ResultSet rs = ps.executeQuery();
+             rs = ps.executeQuery();
             if (rs.next()) {
                 Users user = new Users();
                 user.setId(rs.getInt("id"));
@@ -190,6 +221,15 @@ public class UsersDAOImpl implements UsersDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        finally {
+			if(rs!=null) {try {
+				rs.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}}
+		}
         return Optional.empty();
     }
 
@@ -197,9 +237,10 @@ public class UsersDAOImpl implements UsersDao {
     @Override
     public Optional<Users> getUserByEmail(String email) {
         String query = "SELECT * FROM users WHERE email = ?";
+        ResultSet rs = null;
         try (PreparedStatement ps = connection.prepareStatement(query)) {
             ps.setString(1, email);
-            ResultSet rs = ps.executeQuery();
+           rs = ps.executeQuery();
             if (rs.next()) {
                 Users user = new Users();
                 user.setId(rs.getInt("id"));
@@ -214,6 +255,15 @@ public class UsersDAOImpl implements UsersDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        finally {
+			if(rs!=null) {try {
+				rs.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}}
+		}
         return Optional.empty();
     }
 
