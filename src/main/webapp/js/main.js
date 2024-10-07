@@ -26,7 +26,7 @@ function capitalize(str) {
 
 
 function myFunction() {
-    if (confirm("Please Log-In To Shop. Do you want to log in now?")) {
+    if (confirm("Customer Please Log-In To Shop. Do you want to log in now?")) {
         // Redirect to login page if "OK" is clicked
         window.location.href = "login.jsp"; // Change to your login page URL
     } else {

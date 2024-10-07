@@ -74,6 +74,8 @@ public class UsersController extends HttpServlet {
         } else if ("login".equals(action)) {
             // Login logic
 
+        	
+        
             try {
             	
                 Users user = userService.loginUser(username, password);
@@ -94,15 +96,21 @@ public class UsersController extends HttpServlet {
                     response.sendRedirect("vendor/home.jsp");
                 	else if(user.getIsapproved().equals("notapproved"))
                 	{
-                		// wait for admin approval 
+                		 session.setAttribute("failureMessage", "Wait For Admin Approval !!");
                 		response.sendRedirect("login.jsp");
                 	}
-                	else {
-                		// admin susupended accunt =>  user.getIsactive().equals("inactive")
-                	}
-                } else {
+                	else if(user.getIsapproved().equals("approved") &&  user.getIsactive().equals("inactive") ) {
+               		 session.setAttribute("failureMessage", "Account Suspended By Admin !!");
+                		response.sendRedirect("login.jsp");
+               	}
+               	else if(user.getIsapproved().equals("rejected") ) {
+              		 session.setAttribute("failureMessage", "Account Request Rejected By Admin !!");
+               		response.sendRedirect("login.jsp");
+              	}
+                } else if(user.getUsertype().equals("customer")){
                     // Normal user (Customer)
                 	
+                	System.out.println("CUSTOMER LOGIN------");
                 	if(user.getIsapproved().equals("approved") && user.getIsactive().equals("active"))
                 	{
                 		 session.setAttribute("sucessmessage","Welcome User !");
@@ -117,6 +125,10 @@ public class UsersController extends HttpServlet {
                     		 session.setAttribute("failureMessage", "Account Suspended By Admin !!");
                      		response.sendRedirect("login.jsp");
                     	}
+                    	else if(user.getIsapproved().equals("rejected") ) {
+                   		 session.setAttribute("failureMessage", "Account Request Rejected By Admin !!");
+                    		response.sendRedirect("login.jsp");
+                   	}
            
                 }
             } catch (Exception e) {

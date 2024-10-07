@@ -140,4 +140,13 @@ public Orders getOrderDetailsByOrderIdAndCartId(String orderId, int cartId) {
 	return order_dao.getOrderDetailsByOrderIdAndCartId(orderId, cartId);
 }
 
+
+
+
+@Override
+public boolean checkIfOrderPaymentAlredyDoneByUserForCart(int cart_id) {
+	// TODO Auto-generated method stub
+	return order_dao.checkIfOrderPaymentAlredyDoneByUserForCart(cart_id);
+}
+
 }

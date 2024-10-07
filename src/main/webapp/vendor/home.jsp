@@ -30,7 +30,7 @@
 <br><br><br><br><br>
 <%
     Users user = (Users) session.getAttribute("user");
-    if (user != null) {
+if ((user != null) &&(user.getUsertype().equals("vendor"))) {
 %>
         Welcome, Vendor <%= user.getUsername() %>!<br>
         Vendor Email : <%= user.getEmail() %>
@@ -98,7 +98,7 @@
 
                 <div class="mb-4 d-flex justify-content-between">
                     <label for="vegetablePrice" class="me-2 w-25 text-start">Price:</label>
-                    <input type="number" name="price_per_piece" id="vegetablePrice" class="form-control form-control-sm w-75 border-0 py-2" placeholder="Price per Piece" required>
+                    <input type="number" name="price_per_piece" id="vegetablePrice" class="form-control form-control-sm w-75 border-0 py-2" placeholder="Price per Kg" required>
                 </div>
 
                 <div class="mb-4 d-flex justify-content-between">

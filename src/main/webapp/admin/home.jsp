@@ -35,7 +35,7 @@
 <br><br><br><br><br>
     <%
     Users user = (Users) session.getAttribute("user");
-    if (user != null) {
+    if ((user != null) &&(user.getUsertype().equals("admin"))) {
 %>
         Welcome, ADMIN	 <%= user.getUsername() %>!<br>
          ADMIN Email : <%= user.getEmail() %>
@@ -43,7 +43,7 @@
     }else {
     	session.setAttribute("failureMessage", "Please Login");
         response.sendRedirect(request.getContextPath() + "/login.jsp");
-        return;  // Ensure no further content is sent after redirect
+        return;  // 
     }
 %>
 <br>

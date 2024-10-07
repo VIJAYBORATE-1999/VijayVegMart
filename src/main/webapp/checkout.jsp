@@ -23,6 +23,19 @@
 <body>
 <%@include file="../components/navbar.jsp" %>
 <br><br><br><br>
+<%
+    Users user = (Users) session.getAttribute("user");
+if ((user != null) &&(user.getUsertype().equals("customer"))) {
+%>
+        Welcome, User <%= user.getUsername() %>!<br>
+        Email : <%= user.getEmail() %>
+<%
+    } else {
+        session.setAttribute("failureMessage", "Please Login");
+        response.sendRedirect(request.getContextPath() + "/login.jsp");
+        return;  // Ensure no further content is sent after redirect
+    }
+%>
 
 <div class="container3">
         <h1 class="text-center mb-4">Checkout</h1>
@@ -79,7 +92,7 @@
                         <div id="order-items">
                         
                          <% 
-                         Users user = (Users) session.getAttribute("user");
+                       
              VegetablesServiceImpl vserviceImpl = new  VegetablesServiceImpl();
       
             CartsServiceImpl cserviceImpl = new CartsServiceImpl();
@@ -120,7 +133,14 @@
             <input type="hidden" id="user_id" name="user_id" value="<%=user.getId() %>">
              <input type="hidden" id="all_carts_ids" name="all_carts_ids" value="<%=all_carts_ids%>">
            
+           <%
+           if(list.size()>0){
+           %>
             <button type="submit" class="btn btn-primary btn-lg mt-4">Place Order</button>
+       <%} else { %>
+        <span class="badge bg-warning"> Payment Already Done  !</span>
+       
+       <%} %>
         </form>
     </div>
 

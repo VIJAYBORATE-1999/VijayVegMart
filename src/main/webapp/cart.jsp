@@ -27,7 +27,19 @@
 <body>
 <%@include file="../components/navbar.jsp" %>
 <br><br><br><br>
-
+<%
+    Users user = (Users) session.getAttribute("user");
+if ((user != null) &&(user.getUsertype().equals("customer"))) {
+%>
+        Welcome, User <%= user.getUsername() %>!<br>
+         Email : <%= user.getEmail() %>
+<%
+    } else {
+        session.setAttribute("failureMessage", "Please Login");
+        response.sendRedirect(request.getContextPath() + "/login.jsp");
+        return;  // Ensure no further content is sent after redirect
+    }
+%>
 
 <c:if test="${not empty cartmessage}">
     <h4 class="text-danger" style="color: green; font-weight: bold; animation: fadeOut 1s ease-out forwards;">
@@ -44,7 +56,7 @@
     <form id="cart-form" method="POST" onsubmit="return false;"> <!-- Prevent default form submission -->
         <div id="cart-items">
             <%
-            Users user = (Users) session.getAttribute("user");
+            
             CartsServiceImpl cartServiceImpl = new CartsServiceImpl();
             VegetablesServiceImpl vegServiceImpl = new VegetablesServiceImpl();
             List<Carts> list = cartServiceImpl.fetchAllCartsByUserID(user.getId());

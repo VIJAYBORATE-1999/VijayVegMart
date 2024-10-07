@@ -10,6 +10,8 @@
 <%@page import="com.yash.vijayvegmart.serviceImpl.OrdersServiceImpl"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+        <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page isELIgnored="false"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -23,14 +25,29 @@
 
 <%@include file="../components/navbar.jsp" %>
 <br><br><br>
+
+<%
+    Users user = (Users) session.getAttribute("user");
+if ((user != null) &&(user.getUsertype().equals("customer"))) {
+%>
+
+<%
+    } else {
+        session.setAttribute("failureMessage", "Please Login");
+        response.sendRedirect(request.getContextPath() + "/login.jsp");
+        return;  // Ensure no further content is sent after redirect
+    }
+%>
+
     <div class="container3">
         <h1 class="text-center">My Orders</h1>
         <div id="orders-container3">
-          
+    
+     
           
 <%
         
-        Users user = (Users) session.getAttribute("user");
+       
 
 OrdersServiceImpl order_Service_impl = new OrdersServiceImpl();
 List<Orders>  order_list = order_Service_impl.fetchAllOrdersByUserId(user.getId());
@@ -56,6 +73,12 @@ ArrayList<String> order_ids_list= new ArrayList<String>(order_ids);
                   String order_date = order_Service_impl.getOrderDateByOrderId(order_id) ;
                 %>              
 
+    <c:if test="${not empty ordermessage}">
+    <h4 class="text-danger" style="color: green; font-weight: bold; animation: fadeOut 1s ease-out forwards;">
+        ${ordermessage}
+    </h4>
+    <c:remove var="ordermessage" scope="session"/>
+</c:if> 
             <!-- Order #VEG-123456 -->
             <div class="order-card">
                 <div class="order-header d-flex justify-content-between align-items-center">

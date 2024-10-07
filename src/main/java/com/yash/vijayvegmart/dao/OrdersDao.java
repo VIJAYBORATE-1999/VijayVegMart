@@ -34,4 +34,6 @@ public interface OrdersDao {
 	
 	public Orders getOrderDetailsByOrderIdAndCartId(String orderId, int cartId) ;
 	
+public boolean checkIfOrderPaymentAlredyDoneByUserForCart(int cart_id);
+	
 }

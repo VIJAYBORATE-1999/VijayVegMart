@@ -114,14 +114,14 @@
             <p class="price">
               <strong><%=veg_item.getNet_price()%></strong> <span class="old-price"><%=veg_item.getPricePerPiece() %></span>
             </p>
-   <%   if (user != null) {
+   <%   if ((user != null)&& (user.getUsertype().equals("customer"))) {
 %>
                  <form style="display: contents;" action="${pageContext.request.contextPath}/CartsController" method="post">
   <input type="hidden" id="vegetable_id" name="vegetable_id" value="<%=veg_item.getVegId()%>">
    <input type="hidden" id="user_id" name="user_id" value="<%=user.getId()%>"> 
                <select name="quantity_added">
               <option value="1">1kg</option>
-              <option value="0.5">0.5kg</option>
+              
               <option value="2">2kg</option>
                 <option value="5">5kg</option>
             </select>
@@ -139,7 +139,7 @@
     	
     	<select name="quantity_added">
               <option value="1">1kg</option>
-              <option value="0.5">0.5kg</option>
+              
               <option value="2">2kg</option>
                 <option value="5">5kg</option>
             </select>
@@ -186,14 +186,14 @@
             <p class="price">
               <strong><%=veg_item.getNet_price()%></strong> <span class="old-price"><%=veg_item.getPricePerPiece() %></span>
             </p>
-   <%   if (user != null) {
+   <%   if ((user != null)&& (user.getUsertype().equals("customer"))) {
 %>
                  <form style="display: contents;" action="${pageContext.request.contextPath}/CartsController" method="post">
   <input type="hidden" id="vegetable_id" name="vegetable_id" value="<%=veg_item.getVegId()%>">
    <input type="hidden" id="user_id" name="user_id" value="<%=user.getId()%>"> 
                <select name="quantity_added">
               <option value="1">1kg</option>
-              <option value="0.5">0.5kg</option>
+              
               <option value="2">2kg</option>
                 <option value="5">5kg</option>
             </select>
@@ -206,7 +206,7 @@
     	
     	<select name="quantity_added">
               <option value="1">1kg</option>
-              <option value="0.5">0.5kg</option>
+              
               <option value="2">2kg</option>
                 <option value="5">5kg</option>
             </select>
@@ -248,14 +248,14 @@
             <p class="price">
               <strong><%=veg_item.getNet_price()%></strong> <span class="old-price"><%=veg_item.getPricePerPiece() %></span>
             </p>
-   <%   if (user != null) {
+   <%   if ((user != null)&& (user.getUsertype().equals("customer"))) {
 %>
                  <form style="display: contents;" action="${pageContext.request.contextPath}/CartsController" method="post">
   <input type="hidden" id="vegetable_id" name="vegetable_id" value="<%=veg_item.getVegId()%>">
    <input type="hidden" id="user_id" name="user_id" value="<%=user.getId()%>"> 
                <select name="quantity_added">
               <option value="1">1kg</option>
-              <option value="0.5">0.5kg</option>
+              
               <option value="2">2kg</option>
                 <option value="5">5kg</option>
             </select>
@@ -268,7 +268,7 @@
     	
     	<select name="quantity_added">
               <option value="1">1kg</option>
-              <option value="0.5">0.5kg</option>
+              
               <option value="2">2kg</option>
                 <option value="5">5kg</option>
             </select>
@@ -311,14 +311,14 @@
             <p class="price">
               <strong><%=veg_item.getNet_price()%></strong> <span class="old-price"><%=veg_item.getPricePerPiece() %></span>
             </p>
-   <%   if (user != null) {
+   <%   if ((user != null)&& (user.getUsertype().equals("customer"))) {
 %>
                  <form style="display: contents;" action="${pageContext.request.contextPath}/CartsController" method="post">
   <input type="hidden" id="vegetable_id" name="vegetable_id" value="<%=veg_item.getVegId()%>">
    <input type="hidden" id="user_id" name="user_id" value="<%=user.getId()%>"> 
                <select name="quantity_added">
               <option value="1">1kg</option>
-              <option value="0.5">0.5kg</option>
+              
               <option value="2">2kg</option>
                 <option value="5">5kg</option>
             </select>
@@ -331,7 +331,7 @@
     	
     	<select name="quantity_added">
               <option value="1">1kg</option>
-              <option value="0.5">0.5kg</option>
+              
               <option value="2">2kg</option>
                 <option value="5">5kg</option>
             </select>

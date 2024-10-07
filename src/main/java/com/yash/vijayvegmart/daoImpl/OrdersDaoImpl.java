@@ -352,6 +352,27 @@ public Orders getOrderDetailsByOrderIdAndCartId(String orderId, int cartId) {
 }
 	
 		
+@Override
+public boolean checkIfOrderPaymentAlredyDoneByUserForCart(int cart_id) {
+	
+	
+	String query = "SELECT order_status FROM carts WHERE cart_id = ?";
+    try (PreparedStatement ps = connection.prepareStatement(query)) {
+        ps.setInt(1, cart_id);
+        ResultSet rs = ps.executeQuery();
+        
+        // Check if the result set has any rows
+        if (rs.next()) {
+            String orderStatus = rs.getString("order_status");
+            return "paid".equalsIgnoreCase(orderStatus); // return true if the order status is "paid"
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return false; // return false if order status is not "paid" or if an exception occurs
+}
+
+
 	}
 	
 	

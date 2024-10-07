@@ -67,15 +67,33 @@ System.out.println("USER ID :::"+user_id);
 
 String[] carts_ids = all_carts_ids.split(",");
 
-
+boolean b=false;
+HttpSession session = request.getSession(false);
 for(int i=0; i<carts_ids.length; i++)
+{
 System.out.println("carts_ids :::"+carts_ids[i]);
+//check if payment is already done for any carts_id (we need this check as user goes back from order confirmation page to checkout page so we donot genrate order id again )
+String cart_id = carts_ids[i];
+int cart_id_int = Integer.parseInt(cart_id);
+ b = order_service.checkIfOrderPaymentAlredyDoneByUserForCart(cart_id_int);
+if(b==true)
+	break;
+}
 
+if(b)
+{
+	System.out.println("Payment already done, REdircet to Myorders.jsp ");
+	 session.setAttribute("Payment is already Done For The order", "ordermessage" );
+	   response.sendRedirect("myorders.jsp");
+}
+else
+{
+	// lets placeorder
 String order_id = order_service.placeOrder(fullName, address , city ,state ,zip ,cardName ,cardNumber, expDate , cvv , total_order_cost, carts_ids, user_id  );
 							
 
 
-        HttpSession session = request.getSession(false); // we dont want new session , continue old session  
+        // we dont want new session , continue old session  
         session.setAttribute("order_id", order_id );
        response.sendRedirect("order_confirmation.jsp");
 
@@ -83,7 +101,7 @@ String order_id = order_service.placeOrder(fullName, address , city ,state ,zip 
 
 
 
-
+}
 
 	}
 		

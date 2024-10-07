@@ -20,11 +20,36 @@
           <link rel="stylesheet" href="${pageContext.request.contextPath}/css/order_confirmation.css" type="text/css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css" type="text/css">
 
+<script type="text/javascript">
+  window.history.forward();
+  function noBack() {
+    window.history.forward();
+  }
+</script>
+
 </head>
-<body>
+<body onload="noBack();">
+
+
+
 
 <%@include file="../components/navbar.jsp" %>
 <br><br><br><br>
+
+<%
+    Users user = (Users) session.getAttribute("user");
+if ((user != null) &&(user.getUsertype().equals("customer"))) {
+%>
+        Welcome, User <%= user.getUsername() %>!<br>
+         Email : <%= user.getEmail() %>
+<%
+    } else {
+        session.setAttribute("failureMessage", "Please Login");
+        response.sendRedirect(request.getContextPath() + "/login.jsp");
+        return;  // Ensure no further content is sent after redirect
+    }
+%>
+
 
     <div class="container3">
         <h1 class="text-center mb-4">Order Confirmation</h1>
@@ -34,7 +59,7 @@
         <div class="order-details">
         <%
         
-        Users user = (Users) session.getAttribute("user");
+        
         String order_id = (String) session.getAttribute("order_id");
          OrdersServiceImpl order_Service_impl = new OrdersServiceImpl(); 
          String order_date = order_Service_impl.getOrderDateByOrderId(order_id) ;

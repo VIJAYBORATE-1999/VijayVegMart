@@ -28,17 +28,17 @@
 <%@include file="../components/navbar.jsp" %>
 <br><br><br><br><br>
 <%
-Users user = (Users) session.getAttribute("user");
-if (user != null) {
+    Users user = (Users) session.getAttribute("user");
+if ((user != null) &&(user.getUsertype().equals("vendor"))) {
 %>
-    Welcome, Vendor <%= user.getUsername() %>!<br>
-    Vendor Email : <%= user.getEmail() %>
+        Welcome, Vendor <%= user.getUsername() %>!<br>
+        Vendor Email : <%= user.getEmail() %>
 <%
-}else {
-    session.setAttribute("failureMessage", "Please Login");
-    response.sendRedirect(request.getContextPath() + "/login.jsp");
-    return;  // Ensure no further content is sent after redirect
-}
+    } else {
+        session.setAttribute("failureMessage", "Please Login");
+        response.sendRedirect(request.getContextPath() + "/login.jsp");
+        return;  // Ensure no further content is sent after redirect
+    }
 %>
 
 
