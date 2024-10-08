@@ -56,7 +56,7 @@
 
         <div class="mb-3 d-flex justify-content-between position-relative">
             <label for="mobile" class="me-2 w-25 text-start">Mobile No:</label>
-            <input type="tel" name="mobile" required placeholder="Enter Your Mobile No" value="${sessionScope.mobile}" class="form-control form-control-sm w-75 border-0 py-2">
+            <input type="tel" name="mobile" maxlength="10" required placeholder="Enter Your Mobile No" value="${sessionScope.mobile}" class="form-control form-control-sm w-75 border-0 py-2">
         </div>
 
         <div class="mb-3 d-flex justify-content-between position-relative">
@@ -76,7 +76,7 @@
 
         <div class="mb-3 d-flex justify-content-between position-relative">
             <label for="pincode" class="me-2 w-25 text-start">Pincode:</label>
-            <input type="number" name="pincode" required placeholder="Enter Your Pincode" value="${sessionScope.pincode}" class="form-control form-control-sm w-75 border-0 py-2">
+            <input type="number"  min="10000" max="99999" oninput="this.value = this.value.slice(0,5)" name="pincode" required placeholder="Enter Your Pincode" value="${sessionScope.pincode}" class="form-control form-control-sm w-75 border-0 py-2">
         </div>
 
         <div class="mb-3 d-flex justify-content-between position-relative">
